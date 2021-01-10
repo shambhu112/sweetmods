@@ -1,0 +1,21 @@
+Package: sweetmods
+Title: Collection of Shiny modules that work well with shinyspring
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Niraj",
+           family = "Juneja",
+           role = c("aut", "cre"),
+           email = "shambhuone12@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: A set of coordinated shiny modules that are used by shinyspring 
+             to orchestrate a robust shiny application.Includes modules for
+             Uploading files , data visualization and exploratory data analysis 
+             as examples.
+License: MIT + file LICENSE
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
