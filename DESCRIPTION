@@ -1,19 +1,25 @@
 Package: sweetmods
 Title: Collection of Shiny modules that work well with shinyspring
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Niraj",
-           family = "Juneja",
-           role = c("aut", "cre"),
-           email = "shambhuone12@gmail.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Authors@R: person('Shambhu', 'Sharma', email = 'shambhuone12@gmail.com', role = c('cre', 'aut'))
 Description: A set of coordinated shiny modules that are used by shinyspring 
-             to orchestrate a robust shiny application.Includes modules for
+             to build a complete shiny application.Includes modules for
              Uploading files , data visualization and exploratory data analysis 
              as examples.
 License: MIT + file LICENSE
+Imports: 
+    config (>= 0.3),
+    cli,
+    dplyr,
+    tibble,
+    shiny ,
+    tidyr ,
+    snakecase,
+    R6 ,
+    tidyselect
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    here 
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
