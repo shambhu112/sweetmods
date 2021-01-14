@@ -1,7 +1,7 @@
 Package: sweetmods
 Title: Collection of Shiny modules that work well with shinyspring
-Version: 0.0.0.9000
-Authors@R: person('Shambhu', 'Sharma', email = 'shambhuone12@gmail.com', role = c('cre', 'aut'))
+Version: 0.0.0.9001
+Authors@R: person('Niraj', 'Juneja', email = 'shambhuone12@gmail.com', role = c('cre', 'aut'))
 Description: A set of coordinated shiny modules that are used by shinyspring 
              to build a complete shiny application.Includes modules for
              Uploading files , data visualization and exploratory data analysis 
@@ -16,10 +16,16 @@ Imports:
     tidyr ,
     snakecase,
     R6 ,
-    tidyselect
+    tidyselect ,
+    reactable ,
+    readr ,
+    shinyjs ,
+    utils
 Suggests: 
     testthat (>= 3.0.0),
-    here 
+    here ,
+    stringr ,
+    esquisse
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

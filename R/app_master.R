@@ -1,24 +1,24 @@
 #' R6 master class for storing information that is available across all modules.
 #'
+#' @description
 #' app_master is the master class used across the shiny app. It Stores all tibbles that are
-#' then used by various mods.  These tibbles are stored in reactiveValues rvals
-#' @docType class
-#' @format A \code{\link{R6Class}} generator object
+#' then used by various mods.  These tibbles are stored in \code{reactiveValues} \code{rvals}
+#'
+#' @name app_master
 #' @import shiny
 #' @importFrom R6 R6Class
 #' @export
-#'
 app_master <- R6::R6Class(
   "app_master",
   public = list(
     ### Public variables
+
     #' @field params initialization parameters
     params = NA,
     #' @field rvals reactiveValues instance that stores all datasets needed in app
     rvals = NULL ,
 
-    #' Standard R6 Initialize function
-    #' @noRd
+    #' @description Standard R6 Initialize function
     #'
     #' @param params the config yml driven params for initialization
     #' @return  a new `app_master` object
@@ -44,7 +44,7 @@ app_master <- R6::R6Class(
     #' Preload app_master with csv files provided in config `
     #'
     #' Note this creates new mdata overiding rvals
-    #'
+    #' @return self object
     preload_master_with_config = function(){
       files <- parse_preloads_in_config(value = self$params$file_preloads , sep = ";")
       ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads , sep = ";")

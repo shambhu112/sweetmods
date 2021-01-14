@@ -1,0 +1,4 @@
+default:
+  sweetmod_version: 0.0.0.9000
+  file_preloads : ../tests/testthat/CHART4_NM.csv ; ../tests/testthat/CHART2_MO_COUNTIES.csv
+  dataset_names_preloads : new_mexico ; missiori

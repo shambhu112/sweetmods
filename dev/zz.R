@@ -5,5 +5,7 @@ library(here)
 library(shinyspring)
 source(here("./R/app_master.R"))
 source(here("./R/sweetutil.R"))
+source(here("./R/esquisse_wrapper.R"))
+source(here("./R/file_upload_mod.R"))
 
 cli::cli_alert_success(" zz dev loaded ")
