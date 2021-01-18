@@ -1,11 +1,9 @@
 Package: sweetmods
-Title: Collection of Shiny modules that work well with shinyspring
-Version: 0.0.0.9001
+Title: Collection of Shiny modules that Work Well with the Shiny Spring framework
+Version: 0.0.1
 Authors@R: person('Niraj', 'Juneja', email = 'shambhuone12@gmail.com', role = c('cre', 'aut'))
-Description: A set of coordinated shiny modules that are used by shinyspring 
-             to build a complete shiny application.Includes modules for
-             Uploading files , data visualization and exploratory data analysis 
-             as examples.
+Description: A set of coordinated shiny modules that are used by shiny spring framework to build a complete shiny application.
+             Includes modules for Uploading files, Data visualization and exploratory data analysis.
 License: MIT + file LICENSE
 Imports: 
     config (>= 0.3),
