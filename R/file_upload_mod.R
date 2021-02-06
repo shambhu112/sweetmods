@@ -100,7 +100,8 @@ file_upload_server <- function(id , master){
         srnum = nrow(mdf()) + 1 ,
         filename = f$name ,
         ds_name = input$name_id ,
-        ds = ds
+        ds = ds ,
+        format = "csv"
       )
       #Update the DataFrame with new row
       new_df <- reactive({rbind(mdf() , row)})
@@ -176,10 +177,11 @@ dataset_tbl <- function(input, output, session, tbl_df) {
                        columns = list(
                          srnum = colDef(name = "Num"),
                          dataset_names = colDef(name = "Dataset Names"),
-                         filenames = colDef(name = "Source Filename"),
+                         connection = colDef(name = "Source Filename"),
                          datasets = colDef(show = FALSE),
                          original_cols = colDef(show = FALSE) ,
-                         snake_cols = colDef(show = FALSE)
+                         snake_cols = colDef(show = FALSE),
+                         format = colDef(show = FALSE)
                        )
   )
 }

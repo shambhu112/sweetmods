@@ -1,8 +1,8 @@
-#' R6 master class for storing information that is available across all modules.
+#' R6 master class (Controller) for your shiny application.
 #'
 #' @description
-#' app_master is the master class used across the shiny app. It Stores all tibbles that are
-#' then used by various mods.  These tibbles are stored in \code{reactiveValues} \code{rvals}
+#' app_master is the master class used across all modules of the the shiny app. It Stores all datasets needed in the applications
+#' as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 #'
 #' @name app_master
 #' @import shiny
@@ -18,6 +18,9 @@ app_master <- R6::R6Class(
     #' @field rvals reactiveValues instance that stores all datasets needed in app
     rvals = NULL ,
 
+    #' @field svals non-reactive static datasets needed in the application. Note you can only pre-load these
+    svals = NULL ,
+
     #' @description Standard R6 Initialize function
     #'
     #' @param params the config yml driven params for initialization
@@ -26,8 +29,8 @@ app_master <- R6::R6Class(
       cli::cli_alert_info("Object app_master initialized")
       self$params <- params
       options("scipen" = 100, "digits" = 4)
-      master_data <- tibble::tibble(srnum = numeric() , filenames = character() , dataset_names =  character() ,
-                          datasets  = list() , original_cols = list() , snake_cols = list())
+      master_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
+                          datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
       self$rvals <- shiny::reactiveValues(mdata = master_data)
     },
 
@@ -50,12 +53,13 @@ app_master <- R6::R6Class(
       ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads , sep = ";")
       stopifnot(length(ds_names) == length(files))
 
-      master_data <- tibble::tibble(srnum = numeric() , filenames = character() , dataset_names =  character() ,
-                                    datasets  = list() , original_cols = list() , snake_cols = list())
+      master_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
+                                    datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
 
       for(x in 1:length(files)){
+        cli::cli_alert_info("Trying to read file {files[x]}")
         df <- read.csv(file = files[x])
-        row <- create_row(x , files[x] , ds_names[x] , df )
+        row <- create_row(x , files[x] , ds_names[x] , df , "csv")
         master_data<-  rbind(master_data , row)
 
       }

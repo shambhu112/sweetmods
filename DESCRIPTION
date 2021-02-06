@@ -1,5 +1,5 @@
 Package: sweetmods
-Title: Collection of Shiny modules that Work Well with the Shiny Spring framework
+Title: Collection of Shiny Modules that Work Well with the Shiny Spring framework
 Version: 0.0.1
 Authors@R: person('Niraj', 'Juneja', email = 'shambhuone12@gmail.com', role = c('cre', 'aut'))
 Description: A set of coordinated shiny modules that are used by shiny spring framework to build a complete shiny application.
@@ -18,6 +18,7 @@ Imports:
     reactable ,
     readr ,
     shinyjs ,
+    SmartEDA ,
     utils
 Suggests: 
     testthat (>= 3.0.0),

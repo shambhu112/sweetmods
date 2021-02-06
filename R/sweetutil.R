@@ -22,16 +22,75 @@ parse_preloads_in_config <- function(value , sep = ";") {
 #' @param filename filename including path
 #' @param ds_name the unique name for the dataset you wand to refer it with to access it in the application
 #' @param ds the data.frame or tibble
+#' @param format the type of format csv , rds , parquet , tsc
 #' @export
-create_row <- function(srnum , filename , ds_name , ds ){
+create_row <- function(srnum , filename , ds_name , ds , format){
   colnames(ds) <- make.names(snakecase::to_any_case(colnames(ds)))
   row <- tibble::tibble(
     "srnum" = srnum,
-    "filenames" = filename,
+    "connection" = filename,
     "dataset_names" = ds_name,
     "datasets" = tidyr::nest(ds , data = everything()) ,
     "original_cols" = list(cname = colnames(ds)),
-    "snake_cols" = list(sname = make.names(snakecase::to_any_case(colnames(ds))))
+    "snake_cols" = list(sname = make.names(snakecase::to_any_case(colnames(ds)))),
+    "format" = format
   )
   row
 }
+
+
+#' Columns wrappers
+#'
+#' These are convenient wrappers around
+#' `column(12, ...)`, `column(6, ...)`, `column(4, ...)`...
+#'
+#' @noRd
+#'
+#' @importFrom shiny column
+col_12 <- function(...){
+  column(12, ...)
+}
+
+#' @importFrom shiny column
+col_10 <- function(...){
+  column(10, ...)
+}
+
+#' @importFrom shiny column
+col_8 <- function(...){
+  column(8, ...)
+}
+
+#' @importFrom shiny column
+col_6 <- function(...){
+  column(6, ...)
+}
+
+
+#' @importFrom shiny column
+col_4 <- function(...){
+  column(4, ...)
+}
+
+
+#' @importFrom shiny column
+col_3 <- function(...){
+  column(3, ...)
+}
+
+
+#' @importFrom shiny column
+col_2 <- function(...){
+  column(2, ...)
+}
+
+
+#' @importFrom shiny column
+col_1 <- function(...){
+  column(1, ...)
+}
+
+
+
+
+

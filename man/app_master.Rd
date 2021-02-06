@@ -2,10 +2,10 @@
 % Please edit documentation in R/app_master.R
 \name{app_master}
 \alias{app_master}
-\title{R6 master class for storing information that is available across all modules.}
+\title{R6 master class (Controller) for your shiny application.}
 \description{
-app_master is the master class used across the shiny app. It Stores all tibbles that are
-then used by various mods.  These tibbles are stored in \code{reactiveValues} \code{rvals}
+app_master is the master class used across all modules of the the shiny app. It Stores all datasets needed in the applications
+as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -13,6 +13,8 @@ then used by various mods.  These tibbles are stored in \code{reactiveValues} \c
 \item{\code{params}}{initialization parameters}
 
 \item{\code{rvals}}{reactiveValues instance that stores all datasets needed in app}
+
+\item{\code{svals}}{non-reactive static datasets needed in the application. Note you can only pre-load these}
 }
 \if{html}{\out{</div>}}
 }

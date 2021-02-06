@@ -4,7 +4,7 @@
 \alias{create_row}
 \title{creates the standardized row for app_master mdata}
 \usage{
-create_row(srnum, filename, ds_name, ds)
+create_row(srnum, filename, ds_name, ds, format)
 }
 \arguments{
 \item{srnum}{the serial number for the row. Index}
@@ -14,6 +14,8 @@ create_row(srnum, filename, ds_name, ds)
 \item{ds_name}{the unique name for the dataset you wand to refer it with to access it in the application}
 
 \item{ds}{the data.frame or tibble}
+
+\item{format}{the type of format csv , rds , parquet , tsc}
 }
 \description{
 create a row that goes into mdata of reactiveValues(rvals)
