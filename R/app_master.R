@@ -44,28 +44,66 @@ app_master <- R6::R6Class(
       invisible(self)
     },
 
+
+    #' Preload app_master with non reactive  datasets `
+    #'
+    #' Note the mdata value in reactiveValues (rvals) will be overwritten by what is provided
+    #'
+    #' @param master_data mdata in rvals will be raplced with the mmaster_data provided
+    preload_master_nrxdata = function(nrx_data){
+      self$svals <- list(sdata = nrx_data)
+      invisible(self)
+    },
+
     #' Preload app_master with csv files provided in config `
     #'
     #' Note this creates new mdata overiding rvals
     #' @return self object
     preload_master_with_config = function(){
-      files <- parse_preloads_in_config(value = self$params$file_preloads , sep = ";")
-      ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads , sep = ";")
-      stopifnot(length(ds_names) == length(files))
+      pr_rx_file <- self$params$file_preloads_rx
+      if(!is.null(pr_rx_file)){
+        files <- parse_preloads_in_config(value = self$params$file_preloads_rx , sep = ";")
+        ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads_rx , sep = ";")
+        stopifnot(length(ds_names) == length(files))
 
-      master_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
-                                    datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
+        master_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
+                                      datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
+        for(x in 1:length(files)){
+          cli::cli_alert_info("Trying to read file {files[x]}")
+          df <- read.csv(file = files[x])
+          row <- create_row(x , files[x] , ds_names[x] , df , "csv")
+          master_data<-  rbind(master_data , row)
 
-      for(x in 1:length(files)){
-        cli::cli_alert_info("Trying to read file {files[x]}")
-        df <- read.csv(file = files[x])
-        row <- create_row(x , files[x] , ds_names[x] , df , "csv")
-        master_data<-  rbind(master_data , row)
+        }
+        self$rvals <- shiny::reactiveValues(mdata = master_data)
+        cli::cli_alert_success(" master data loaded with names = {ds_names} ")
 
       }
-      self$rvals <- shiny::reactiveValues(mdata = master_data)
-      cli::cli_alert_success(" master data loaded with names = {ds_names} ")
-      invisible(self)
+
+      if(!is.null(self$params$file_preloads_nrx)){
+        files <- parse_preloads_in_config(value = self$params$file_preloads_nrx , sep = ";")
+        ds_names <- parse_preloads_in_config(value = self$params$file_preloads_nrx , sep = ";")
+        stopifnot(length(ds_names) == length(files))
+
+        nrx_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
+                                      datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
+        for(x in 1:length(files)){
+          cli::cli_alert_info("NRX Data : Trying to read file {files[x]}")
+          df <- read.csv(file = files[x])
+          row <- create_row(x , files[x] , ds_names[x] , df , "csv")
+          nrx_data <-  rbind(nrx_data , row)
+        }
+        self$svals <- list(sdata = nrx_data)
+        cli::cli_alert_success(" NRX Data loaded with names = {ds_names} ")
+
+    }
+    invisible(self)
+    },
+
+    #' access sdata easily
+    #' @return the sdata object which is a list. Non Reactive
+    sdata = function(){
+      self$svals$sdata
     },
 
     #' access mdata easily
@@ -79,6 +117,13 @@ app_master <- R6::R6Class(
     dataset_names = function(){
       self$rvals$mdata$dataset_names
     },
+
+    #' access nrx dataset names as list
+    #' @return the names of datasets
+    dataset_names_nrx = function(){
+      self$svals$sdata$dataset_names
+    },
+
     #' search for a tibble based on dataset_name
     #' @param dataset_name the name of the dataset to lookup
     #' @return the mapped dataset in tibble format
@@ -88,11 +133,28 @@ app_master <- R6::R6Class(
       self$rvals$mdata$datasets$data[[index]]
     },
 
+
+    #' search for a tibble based on dataset_name
+    #' @param dataset_name the name of the dataset to lookup
+    #' @return the mapped dataset in tibble format
+    data_by_name_nrx = function(dataset_name){
+      index <- which(self$svals$sdata$dataset_names == dataset_name)
+      stopifnot(length(index) == 1)
+      self$svals$sdata$datasets$data[[index]]
+    },
+
     #' search for a tibble based on index in mdata
     #' @param  index the row index of the dataset
     #' @return the mapped dataset in tibble format
     data_by_index = function(index){
       self$rvals$mdata$datasets$data[[index]]
+    } ,
+
+    #' search for a tibble based on index in sdata
+    #' @param  index the row index of the dataset
+    #' @return the mapped dataset in tibble format
+    data_by_index_nrx = function(index){
+      self$svals$sdata$datasets$data[[index]]
     }
 
   )

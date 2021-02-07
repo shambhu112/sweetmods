@@ -6,6 +6,7 @@
 #' @param sep the seperator , default is ;
 #' @export
 parse_preloads_in_config <- function(value , sep = ";") {
+  stopifnot(!is.null(value))
   nms <- strsplit(value , sep )
   nms <-  sapply(nms , function(x) {trimws(x , "both") })
   nms
