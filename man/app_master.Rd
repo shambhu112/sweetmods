@@ -23,11 +23,16 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \itemize{
 \item \href{#method-new}{\code{app_master$new()}}
 \item \href{#method-preload_master}{\code{app_master$preload_master()}}
+\item \href{#method-preload_master_nrxdata}{\code{app_master$preload_master_nrxdata()}}
 \item \href{#method-preload_master_with_config}{\code{app_master$preload_master_with_config()}}
+\item \href{#method-sdata}{\code{app_master$sdata()}}
 \item \href{#method-mdata}{\code{app_master$mdata()}}
 \item \href{#method-dataset_names}{\code{app_master$dataset_names()}}
+\item \href{#method-dataset_names_nrx}{\code{app_master$dataset_names_nrx()}}
 \item \href{#method-data_by_name}{\code{app_master$data_by_name()}}
+\item \href{#method-data_by_name_nrx}{\code{app_master$data_by_name_nrx()}}
 \item \href{#method-data_by_index}{\code{app_master$data_by_index()}}
+\item \href{#method-data_by_index_nrx}{\code{app_master$data_by_index_nrx()}}
 \item \href{#method-clone}{\code{app_master$clone()}}
 }
 }
@@ -66,6 +71,25 @@ Note the mdata value in reactiveValues (rvals) will be overwritten by what is pr
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{master_data}}{mdata in rvals will be raplced with the mmaster_data provided
+Preload app_master with non reactive  datasets `
+
+Note the mdata value in reactiveValues (rvals) will be overwritten by what is provided}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-preload_master_nrxdata"></a>}}
+\if{latex}{\out{\hypertarget{method-preload_master_nrxdata}{}}}
+\subsection{Method \code{preload_master_nrxdata()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$preload_master_nrxdata(nrx_data)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{master_data}}{mdata in rvals will be raplced with the mmaster_data provided
 Preload app_master with csv files provided in config `
 
 Note this creates new mdata overiding rvals}
@@ -83,6 +107,19 @@ Note this creates new mdata overiding rvals}
 
 \subsection{Returns}{
 self object
+access sdata easily
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-sdata"></a>}}
+\if{latex}{\out{\hypertarget{method-sdata}{}}}
+\subsection{Method \code{sdata()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$sdata()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the sdata object which is a list. Non Reactive
 access mdata easily
 }
 }
@@ -109,6 +146,19 @@ access dataset names as list
 
 \subsection{Returns}{
 the names of datasets
+access nrx dataset names as list
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-dataset_names_nrx"></a>}}
+\if{latex}{\out{\hypertarget{method-dataset_names_nrx}{}}}
+\subsection{Method \code{dataset_names_nrx()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$dataset_names_nrx()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the names of datasets
 search for a tibble based on dataset_name
 }
 }
@@ -129,6 +179,26 @@ search for a tibble based on dataset_name
 }
 \subsection{Returns}{
 the mapped dataset in tibble format
+search for a tibble based on dataset_name
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-data_by_name_nrx"></a>}}
+\if{latex}{\out{\hypertarget{method-data_by_name_nrx}{}}}
+\subsection{Method \code{data_by_name_nrx()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_name_nrx(dataset_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dataset_name}}{the name of the dataset to lookup}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the mapped dataset in tibble format
 search for a tibble based on index in mdata
 }
 }
@@ -138,6 +208,26 @@ search for a tibble based on index in mdata
 \subsection{Method \code{data_by_index()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_index(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{the row index of the dataset}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the mapped dataset in tibble format
+search for a tibble based on index in sdata
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-data_by_index_nrx"></a>}}
+\if{latex}{\out{\hypertarget{method-data_by_index_nrx}{}}}
+\subsection{Method \code{data_by_index_nrx()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_index_nrx(index)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
