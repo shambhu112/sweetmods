@@ -63,7 +63,7 @@ ui <- bs4Dash::dashboardPage(
       title = "Shiny Spring",
       color = "primary",
       href = "http://www.shinyspring.dev",
-      image = "https://lh6.googleusercontent.com/ib4GlfxE5b8ADpDcrL3Oyj9O6Y97EWGFV-ZQmcb9gvPVZbBjsnMkdl2Emobaz7ovaFn3yFnASbYlnb7HlFaSuLQ=w16383",
+      image = "https://lh4.googleusercontent.com/jWA-MrwW-1k4rIO-VyEBrwtczMJgbr9_Mv0IndhcPIXpizPrsSBO-8wvWcTf9Oc4C_4PovCc_PkeJ8X06QRcl0pk_WbDJW_n93aILY-hM8ATW09s",
       opacity = 0.8
     ),
     fixed = TRUE,
@@ -178,7 +178,7 @@ server <- function(input, output , session) {
 
   output$user <- renderUser({
     dashboardUser(
-      name = "Niraj",
+      name = "Shambhu",
       image = "https://upload.wikimedia.org/wikipedia/commons/1/12/User_icon_2.svg",
       title = "webscale",
       subtitle = "Admin",
@@ -194,7 +194,7 @@ server <- function(input, output , session) {
         )
       )
     )
-})
+  })
 
 }
 
