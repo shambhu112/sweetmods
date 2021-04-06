@@ -85,7 +85,7 @@ app_master <- R6::R6Class(
                       srnum = ds_count + i ,
                       filename = paste0("tar " , tars[i]) ,
                       ds_name = tars[i],
-                      ds =  tibble::as_tibble(targets::tar_load(tars[i])) ,
+                      ds =  load_tar_as_tibble(tars[i]) ,
                       format = "tar"
                      )
           self$add_master_data_row(row)

@@ -41,6 +41,20 @@ create_row <- function(srnum , filename , ds_name , ds , format){
 
 
 
+#' load a target and put it into a tibble.
+#' Note : we clear up the tar_load value before reutrnignt he dataframe to free up the memory
+#' @importFrom targets tar_load
+#' @export
+
+load_tar_as_tibble <- function(tar_name){
+  targets::tar_load(tar_name)
+  txt <- paste("ds <-  tibble::as_tibble(" , tar_name , ")" , sep = "")
+  eval(parse(text =txt))
+  txt <- paste( tar_name , " <- NULL " , sep = "")
+  eval(parse(text =txt))
+  ds
+}
+
 
 #' file reader
 #'
