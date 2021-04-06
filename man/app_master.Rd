@@ -12,9 +12,16 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \describe{
 \item{\code{params}}{initialization parameters}
 
-\item{\code{rvals}}{reactiveValues instance that stores all datasets needed in app}
+\item{\code{reactive_vals}}{reactiveValues instance that stores all reactive values needed in app}
 
-\item{\code{svals}}{non-reactive static datasets needed in the application. Note you can only pre-load these}
+\item{\code{static}}{values, non-reactive static datasets needed in the application. Note you can only pre-load these}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{static}}{values, non-reactive static datasets needed in the application. Note you can only pre-load these}
 }
 \if{html}{\out{</div>}}
 }
@@ -23,16 +30,11 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \itemize{
 \item \href{#method-new}{\code{app_master$new()}}
 \item \href{#method-preload_master}{\code{app_master$preload_master()}}
-\item \href{#method-preload_master_nrxdata}{\code{app_master$preload_master_nrxdata()}}
+\item \href{#method-add_master_data_row}{\code{app_master$add_master_data_row()}}
 \item \href{#method-preload_master_with_config}{\code{app_master$preload_master_with_config()}}
-\item \href{#method-sdata}{\code{app_master$sdata()}}
-\item \href{#method-mdata}{\code{app_master$mdata()}}
 \item \href{#method-dataset_names}{\code{app_master$dataset_names()}}
-\item \href{#method-dataset_names_nrx}{\code{app_master$dataset_names_nrx()}}
-\item \href{#method-data_by_name}{\code{app_master$data_by_name()}}
-\item \href{#method-data_by_name_nrx}{\code{app_master$data_by_name_nrx()}}
+\item \href{#method-dataset_by_name}{\code{app_master$dataset_by_name()}}
 \item \href{#method-data_by_index}{\code{app_master$data_by_index()}}
-\item \href{#method-data_by_index_nrx}{\code{app_master$data_by_index_nrx()}}
 \item \href{#method-clone}{\code{app_master$clone()}}
 }
 }
@@ -71,31 +73,21 @@ Note the mdata value in reactiveValues (rvals) will be overwritten by what is pr
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{master_data}}{mdata in rvals will be raplced with the mmaster_data provided
-Preload app_master with non reactive  datasets `
-
-Note the mdata value in reactiveValues (rvals) will be overwritten by what is provided}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-preload_master_nrxdata"></a>}}
-\if{latex}{\out{\hypertarget{method-preload_master_nrxdata}{}}}
-\subsection{Method \code{preload_master_nrxdata()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$preload_master_nrxdata(nrx_data)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{master_data}}{mdata in rvals will be raplced with the mmaster_data provided
 Preload app_master with csv files provided in config `
 
 Note this creates new mdata overiding rvals}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-add_master_data_row"></a>}}
+\if{latex}{\out{\hypertarget{method-add_master_data_row}{}}}
+\subsection{Method \code{add_master_data_row()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$add_master_data_row(row)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-preload_master_with_config"></a>}}
@@ -107,32 +99,6 @@ Note this creates new mdata overiding rvals}
 
 \subsection{Returns}{
 self object
-access sdata easily
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-sdata"></a>}}
-\if{latex}{\out{\hypertarget{method-sdata}{}}}
-\subsection{Method \code{sdata()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$sdata()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-the sdata object which is a list. Non Reactive
-access mdata easily
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mdata"></a>}}
-\if{latex}{\out{\hypertarget{method-mdata}{}}}
-\subsection{Method \code{mdata()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$mdata()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-the mdata object in reactiveValues
 access dataset names as list
 }
 }
@@ -146,48 +112,15 @@ access dataset names as list
 
 \subsection{Returns}{
 the names of datasets
-access nrx dataset names as list
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-dataset_names_nrx"></a>}}
-\if{latex}{\out{\hypertarget{method-dataset_names_nrx}{}}}
-\subsection{Method \code{dataset_names_nrx()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$dataset_names_nrx()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-the names of datasets
 search for a tibble based on dataset_name
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data_by_name"></a>}}
-\if{latex}{\out{\hypertarget{method-data_by_name}{}}}
-\subsection{Method \code{data_by_name()}}{
+\if{html}{\out{<a id="method-dataset_by_name"></a>}}
+\if{latex}{\out{\hypertarget{method-dataset_by_name}{}}}
+\subsection{Method \code{dataset_by_name()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_name(dataset_name)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dataset_name}}{the name of the dataset to lookup}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-the mapped dataset in tibble format
-search for a tibble based on dataset_name
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data_by_name_nrx"></a>}}
-\if{latex}{\out{\hypertarget{method-data_by_name_nrx}{}}}
-\subsection{Method \code{data_by_name_nrx()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_name_nrx(dataset_name)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{app_master$dataset_by_name(dataset_name)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -208,26 +141,6 @@ search for a tibble based on index in mdata
 \subsection{Method \code{data_by_index()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_index(index)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{index}}{the row index of the dataset}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-the mapped dataset in tibble format
-search for a tibble based on index in sdata
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-data_by_index_nrx"></a>}}
-\if{latex}{\out{\hypertarget{method-data_by_index_nrx}{}}}
-\subsection{Method \code{data_by_index_nrx()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$data_by_index_nrx(index)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -5,7 +5,6 @@
 #' @param id Internal parameters for {shiny}.
 #'
 #' @import shiny
-#' @import datamods
 #' @export
 sweet_datamod_ui <- function(id , control ){
   ns <- NS(id)
