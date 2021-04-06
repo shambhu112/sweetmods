@@ -80,16 +80,16 @@ app_master <- R6::R6Class(
 
       if(!is.null(tar_names)){
         tars <- parse_preloads_in_config(value = tar_names , sep = ";")
-        for (i  in length(tars)) {
+        for (i  in 1:length(tars)) {
           row <- create_row(
                       srnum = ds_count + i ,
                       filename = paste0("tar " , tars[i]) ,
                       ds_name = tars[i],
-                      ds =  targets::tar_load(tars[i]) ,
+                      ds =  tibble::as_tibble(targets::tar_load(tars[i])) ,
                       format = "tar"
                      )
+          self$add_master_data_row(row)
         }
-        self$add_master_data_row(row)
       }
       invisible(self)
     },
