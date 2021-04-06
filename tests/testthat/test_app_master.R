@@ -6,29 +6,38 @@ params <- config::get(file = "tests/testthat/config.yml")
 
 test_that("initiatialization tests" , {
   master <- app_master$new(params = params)
-  expect_true(is.reactivevalues(master$rvals) )
+  expect_false(is.reactivevalues(master$rvals) )
 })
 
 
-test_that("preload reactive with dataset" , {
+test_that("preloadwith dataset" , {
   master <- app_master$new(params = params)
   master$preload_master_with_config()
 })
 
+test_that("sweet util read file" , {
+  params <- config::get(file = "tests/testthat/config.yml")
+  files <- parse_preloads_in_config(value = params$file_preloads , sep = ";")
+  f <- read_files(files)
+  nm <- names(f)
+  # check CSV file
+  f1 <- as.data.frame(f[[nm[1]]])
+  expect_equal(nrow(f1) , 241)
+  #check feather file
+  f3 <- as.data.frame(f[[nm[3]]])
+  expect_equal(nrow(f3) , 201)
+  cn <- c("branch_physical_key")
 
-test_that("preload nrx with dataset" , {
+  # check is colname creation is good
+  expect_true( cn %in% colnames(f3))
+
+})
+
+test_that("preload with reactive data" , {
   master <- app_master$new(params = params)
+
   df <- read.csv(file = "CHART4_NM.csv")
   row <- create_row(1 , "charts_file.csv" , "new_mexico" , df , "csv")
-  master$preload_master_nrxdata(nrx_data = row)
-  names <- master$dataset_names_nrx()
-  testthat::expect_equal(length(names) , 1)
-  testthat::expect_equal(names , "new_mexico")
-
-  df <- master$data_by_name_nrx("new_mexico")
-  testthat::expect_type(df , "list")
-
-  df <- master$data_by_index_nrx(1)
-  testthat::expect_equal(nrow(df) , 241)
+  master$reactive_vals$mexico_data <- mtcars
 
 })

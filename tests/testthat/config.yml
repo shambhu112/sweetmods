@@ -1,9 +1,8 @@
 default:
   sweetmod_version: 0.0.0.9000
-# Reactive Datasets
-  file_preloads_rx : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv
-  dataset_names_preloads_rx : new_mexico ; missiori
-# Static Datasets
-  file_preloads_nrx : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv
-  dataset_names_preloads_nrx : mexico ; miss
+#  file_preloads : tests/testthat/CHART4_NM.csv ; tests/testthat/CHART2_MO_COUNTIES.csv ; tests/testthat/DC_sis_dist.feather
+  file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather
+  dataset_names_preloads : mexico ; misssouri ; dc_branches
+  tar_loads : a ; b
+  tar_names : a1 ; b1
 

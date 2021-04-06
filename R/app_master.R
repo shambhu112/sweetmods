@@ -15,11 +15,11 @@ app_master <- R6::R6Class(
 
     #' @field params initialization parameters
     params = NA,
-    #' @field rvals reactiveValues instance that stores all datasets needed in app
-    rvals = NULL ,
+    #' @field reactive_vals reactiveValues instance that stores all reactive values needed in app
+    reactive_vals = NULL ,
 
-    #' @field svals non-reactive static datasets needed in the application. Note you can only pre-load these
-    svals = NULL ,
+    #' @field static values, non-reactive static datasets needed in the application. Note you can only pre-load these
+    master_data = NULL ,
 
     #' @description Standard R6 Initialize function
     #'
@@ -29,9 +29,11 @@ app_master <- R6::R6Class(
       cli::cli_alert_info("Object app_master initialized")
       self$params <- params
       options("scipen" = 100, "digits" = 4)
-      master_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
-                          datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
-      self$rvals <- shiny::reactiveValues(mdata = master_data)
+      self$master_data <- tibble::tibble(srnum = numeric() , connection_str = character() , dataset_names =  character() ,
+                          datasets  = tibble::tibble() , original_cols = list() , snake_cols = list() , connection_type = character())
+
+
+      self$reactive_vals <- shiny::reactiveValues()
     },
 
     #' Preload app_master with master_data `
@@ -40,121 +42,63 @@ app_master <- R6::R6Class(
     #'
     #' @param master_data mdata in rvals will be raplced with the mmaster_data provided
     preload_master = function(master_data){
-      self$rvals <- shiny::reactiveValues(mdata = master_data)
+      self$master_data <- master_data
       invisible(self)
     },
 
-
-    #' Preload app_master with non reactive  datasets `
-    #'
-    #' Note the mdata value in reactiveValues (rvals) will be overwritten by what is provided
-    #'
-    #' @param master_data mdata in rvals will be raplced with the mmaster_data provided
-    preload_master_nrxdata = function(nrx_data){
-      self$svals <- list(sdata = nrx_data)
-      invisible(self)
+    add_master_data_row = function(row){
+      self$master_data <- dplyr::bind_rows(self$master_data , row)
     },
+
 
     #' Preload app_master with csv files provided in config `
     #'
     #' Note this creates new mdata overiding rvals
     #' @return self object
     preload_master_with_config = function(){
-      pr_rx_file <- self$params$file_preloads_rx
+      pr_rx_file <- self$params$file_preloads
+
       if(!is.null(pr_rx_file)){
-        files <- parse_preloads_in_config(value = self$params$file_preloads_rx , sep = ";")
-        ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads_rx , sep = ";")
+        files <- parse_preloads_in_config(value = self$params$file_preloads , sep = ";")
+        ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads , sep = ";")
         stopifnot(length(ds_names) == length(files))
 
-        master_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
-                                      datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
+        loaded_files <- read_files(files)
+        fnames <- names(loaded_files)
+
         for(x in 1:length(files)){
-          cli::cli_alert_info("Trying to read file {files[x]}")
-          df <- read.csv(file = files[x])
-          row <- create_row(x , files[x] , ds_names[x] , df , "csv")
-          master_data<-  rbind(master_data , row)
-
+          cli::cli_alert_info("Creating entry for  {files[x]}")
+          df <- as.data.frame(loaded_files[[fnames[x]]])
+          row <- create_row(x , files[x] , ds_names[x] , df , "TBD") #TODO fix file type
+          self$add_master_data_row(row)
         }
-        self$rvals <- shiny::reactiveValues(mdata = master_data)
         cli::cli_alert_success(" master data loaded with names = {ds_names} ")
-
       }
 
-      if(!is.null(self$params$file_preloads_nrx)){
-        files <- parse_preloads_in_config(value = self$params$file_preloads_nrx , sep = ";")
-        ds_names <- parse_preloads_in_config(value = self$params$file_preloads_nrx , sep = ";")
-        stopifnot(length(ds_names) == length(files))
-
-        nrx_data <- tibble::tibble(srnum = numeric() , connection = character() , dataset_names =  character() ,
-                                      datasets  = list() , original_cols = list() , snake_cols = list() , format = character())
-        for(x in 1:length(files)){
-          cli::cli_alert_info("NRX Data : Trying to read file {files[x]}")
-          df <- read.csv(file = files[x])
-          row <- create_row(x , files[x] , ds_names[x] , df , "csv")
-          nrx_data <-  rbind(nrx_data , row)
-        }
-        self$svals <- list(sdata = nrx_data)
-        cli::cli_alert_success(" NRX Data loaded with names = {ds_names} ")
-
-    }
-    invisible(self)
+      invisible(self)
     },
 
-    #' access sdata easily
-    #' @return the sdata object which is a list. Non Reactive
-    sdata = function(){
-      self$svals$sdata
-    },
-
-    #' access mdata easily
-    #' @return the mdata object in reactiveValues
-    mdata = function(){
-      self$rvals$mdata
-    },
 
     #' access dataset names as list
     #' @return the names of datasets
     dataset_names = function(){
-      self$rvals$mdata$dataset_names
-    },
-
-    #' access nrx dataset names as list
-    #' @return the names of datasets
-    dataset_names_nrx = function(){
-      self$svals$sdata$dataset_names
+      self$master_data$dataset_names
     },
 
     #' search for a tibble based on dataset_name
     #' @param dataset_name the name of the dataset to lookup
     #' @return the mapped dataset in tibble format
-    data_by_name = function(dataset_name){
-      index <- which(self$rvals$mdata$dataset_names == dataset_name)
-      stopifnot(length(index) == 1)
-      self$rvals$mdata$datasets$data[[index]]
-    },
-
-
-    #' search for a tibble based on dataset_name
-    #' @param dataset_name the name of the dataset to lookup
-    #' @return the mapped dataset in tibble format
-    data_by_name_nrx = function(dataset_name){
-      index <- which(self$svals$sdata$dataset_names == dataset_name)
-      stopifnot(length(index) == 1)
-      self$svals$sdata$datasets$data[[index]]
+    dataset_by_name = function(dataset_name){
+      index <- which(self$master_data$dataset_names == dataset_name)
+      stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
+      self$master_data$datasets[[index]]
     },
 
     #' search for a tibble based on index in mdata
     #' @param  index the row index of the dataset
     #' @return the mapped dataset in tibble format
     data_by_index = function(index){
-      self$rvals$mdata$datasets$data[[index]]
-    } ,
-
-    #' search for a tibble based on index in sdata
-    #' @param  index the row index of the dataset
-    #' @return the mapped dataset in tibble format
-    data_by_index_nrx = function(index){
-      self$svals$sdata$datasets$data[[index]]
+      self$master_data$datasets[[index]]
     }
 
   )

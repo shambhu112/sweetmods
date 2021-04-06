@@ -29,17 +29,45 @@ create_row <- function(srnum , filename , ds_name , ds , format){
   colnames(ds) <- make.names(snakecase::to_any_case(colnames(ds)))
   row <- tibble::tibble(
     "srnum" = srnum,
-    "connection" = filename,
+    "connection_str" = filename,
     "dataset_names" = ds_name,
     "datasets" = tidyr::nest(ds , data = everything()) ,
     "original_cols" = list(cname = colnames(ds)),
     "snake_cols" = list(sname = make.names(snakecase::to_any_case(colnames(ds)))),
-    "format" = format
+    "connection_type" = format
   )
   row
 }
 
 
+
+
+#' file reader
+#'
+#' read varios types of file based on extension
+#' @param files list of file paths to load
+#'
+#' @importFrom shiny column
+
+read_files <- function(files){
+ loaded <- sapply(files, function(x){
+      nm <- tolower(x)
+      if(endsWith(nm , ".csv"))
+        f <- vroom::vroom(x)
+      else if(end(nm , ".feather"))
+        f <- arrow::read_feather(x)
+      else if(endsWith(nm , ".rds"))
+        f <- readRDS(x)
+      else if(endsWith(nm , ".xls"))
+        f <- readxl::read_xls(x)
+      else if(endsWith(nm , ".xlsx"))
+        f <- readxl::read_xlsx(x)
+      else
+        stop(glue::glue("Unknown file extension in read {x}"))
+
+  })
+  loaded
+}
 
 
 #' Columns wrappers
