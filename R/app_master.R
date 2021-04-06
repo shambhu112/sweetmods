@@ -75,6 +75,22 @@ app_master <- R6::R6Class(
         cli::cli_alert_success(" master data loaded with names = {ds_names} ")
       }
 
+      ds_count <- nrow(self$master_data)
+      tar_names <- self$params$tar_loads
+
+      if(!is.null(tar_names)){
+        tars <- parse_preloads_in_config(value = tar_names , sep = ";")
+        for (i  in length(tars)) {
+          row <- create_row(
+                      srnum = ds_count + i ,
+                      filename = paste0("tar " , tars[i]) ,
+                      ds_name = tars[i],
+                      ds =  targets::tar_load(tars[i]) ,
+                      format = "tar"
+                     )
+        }
+        self$add_master_data_row(row)
+      }
       invisible(self)
     },
 
