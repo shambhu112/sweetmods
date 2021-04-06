@@ -107,7 +107,8 @@ app_master <- R6::R6Class(
     dataset_by_name = function(dataset_name){
       index <- which(self$master_data$dataset_names == dataset_name)
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
-      self$master_data$datasets[[index]]
+      ret <- as.data.frame(self$master_data$datasets[index,]$data)
+      ret
     },
 
     #' search for a tibble based on index in mdata

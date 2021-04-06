@@ -13,6 +13,13 @@ test_that("initiatialization tests" , {
 test_that("preloadwith dataset" , {
   master <- app_master$new(params = params)
   master$preload_master_with_config()
+  ds_names <- master$dataset_names()
+  expect_true("mexico" %in% ds_names)
+
+  mexico <- master$dataset_by_name("mexico")
+  expect_equal(241 , nrow(mexico))
+  expect_true("clean_plaintiff" %in% colnames(mexico))
+
 })
 
 test_that("sweet util read file" , {
