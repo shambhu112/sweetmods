@@ -16,6 +16,31 @@ test_that("preloadwith dataset" , {
   ds_names <- master$dataset_names()
   expect_true("mexico" %in% ds_names)
 
+  newdata <- mtcars
+  master$replace_dataset_by_name(dataset_name =  "mexico" , replace_with = newdata)
+  df <- master$dataset_by_name("mexico")
+  expect_true("mpg" %in% colnames(df))
+})
+
+
+test_that("remove dataset" , {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  ds_names <- master$dataset_names()
+  expect_true("misssouri" %in% ds_names)
+  master$remove_dataset(index = 2)
+  expect_equal(2 , nrow(master$master_data))
+})
+
+
+
+
+test_that("replace dataset" , {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  ds_names <- master$dataset_names()
+  expect_true("mexico" %in% ds_names)
+
   mexico <- master$dataset_by_name("mexico")
   expect_equal(241 , nrow(mexico))
   expect_true("clean_plaintiff" %in% colnames(mexico))

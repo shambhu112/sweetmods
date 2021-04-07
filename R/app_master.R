@@ -50,6 +50,16 @@ app_master <- R6::R6Class(
       self$master_data <- dplyr::bind_rows(self$master_data , row)
     },
 
+    remove_dataset = function(index){
+      self$master_data <- self$master_data[-index,]
+      self$master_data$srnum <- seq(1:nrow(self$master_data))
+    },
+
+    replace_dataset_by_name = function(dataset_name , replace_with){
+      index <- which(self$master_data$dataset_names == dataset_name)
+      stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
+      self$master_data$datasets[index,] <- tidyr::nest(replace_with , data = everything())
+    },
 
     #' Preload app_master with csv files provided in config `
     #'
