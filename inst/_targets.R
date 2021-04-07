@@ -1,0 +1,17 @@
+library(targets)
+library(vroom)
+
+options(tidyverse.quiet = TRUE)
+options(crayon.enabled = FALSE)
+tar_option_set(error = "workspace" , garbage_collection = TRUE)
+options(clustermq.scheduler = "multicore")
+
+list(
+  tar_target(
+    years,
+    list("2000" , "2001" , "2002" , "2003" , "2004" , "2005" , "2006" , "2007" , "2008" , "2009",
+         "2010" , "2011" , "2012" , "2013" , "2014",  "2015" , "2016" , "2017" , "2018" , "2019" , "2020")
+  ),
+  tar_target(test_mexico  ,vroom("tests/testthat/CHART4_NM.csv"))
+
+)
