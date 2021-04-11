@@ -144,7 +144,7 @@ file_upload_server <- function(id , master){
     shinyjs::onclick("preview_btn", {
       index <- selected()
       ds <- master$rvals$mdata$datasets[index,]$data[[1]]
-      colnames(ds) <- master$rvals$mdata$snake_cols[index]$sname
+      colnames(ds) <- master$rvals$mdata$pretty_cols[index]$sname
       cli::cli_alert_info(" ds for index = {index} with rows = {nrow(ds)}")
       output$preview_table <- reactable::renderReactable({
         reactable::reactable(utils::head(ds))
@@ -180,7 +180,7 @@ dataset_tbl <- function(input, output, session, tbl_df) {
                          connection = colDef(name = "Source Filename"),
                          datasets = colDef(show = FALSE),
                          original_cols = colDef(show = FALSE) ,
-                         snake_cols = colDef(show = FALSE),
+                         pretty_cols = colDef(show = FALSE),
                          format = colDef(show = FALSE)
                        )
   )

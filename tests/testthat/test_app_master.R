@@ -43,9 +43,27 @@ test_that("replace dataset" , {
 
   mexico <- master$dataset_by_name("mexico")
   expect_equal(241 , nrow(mexico))
-  expect_true("clean_plaintiff" %in% colnames(mexico))
+  expect_true("Clean.Plaintiff" %in% colnames(mexico))
 
 })
+
+
+test_that("pretty names" , {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  ds_names <- master$dataset_names()
+  expect_true("mexico" %in% ds_names)
+
+  cnames <- master$colnames_for_dataset("mexico")
+  expect_true("Clean Plaintiff" %in% cnames)
+
+
+  pnames <- master$prettynames_for_dataset("mexico")
+  expect_true("clean_plaintiff" %in% pnames)
+
+})
+
+
 
 test_that("sweet util read file" , {
   params <- config::get(file = "tests/testthat/config.yml")

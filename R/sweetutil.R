@@ -25,15 +25,18 @@ parse_preloads_in_config <- function(value , sep = ";") {
 #' @param ds the data.frame or tibble
 #' @param format the type of format csv , rds , parquet , tsc
 #' @export
-create_row <- function(srnum , filename , ds_name , ds , format){
-  colnames(ds) <- make.names(snakecase::to_any_case(colnames(ds)))
+create_row <- function(srnum , filename , ds_name , ds , format , pretty_cols = NULL){
+
+  if(is.null(pretty_cols))
+    pretty_cols <- make.names(snakecase::to_any_case(colnames(ds)))
+
   row <- tibble::tibble(
     "srnum" = srnum,
     "connection_str" = filename,
     "dataset_names" = ds_name,
     "datasets" = tidyr::nest(ds , data = everything()) ,
     "original_cols" = list(cname = colnames(ds)),
-    "snake_cols" = list(sname = make.names(snakecase::to_any_case(colnames(ds)))),
+    "pretty_cols" = list(pnames = pretty_cols),
     "connection_type" = format
   )
   row
@@ -60,7 +63,7 @@ load_tar_as_tibble <- function(tar_name){
 #' read varios types of file based on extension
 #' @param files list of file paths to load
 #'
-#' @importFrom shiny column
+#' @export
 
 read_files <- function(files){
  loaded <- sapply(files, function(x){

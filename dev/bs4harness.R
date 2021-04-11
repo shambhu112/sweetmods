@@ -7,7 +7,7 @@ library(shinyjs)
 library(leaflet)
 library(shinyWidgets)
 
-setwd("~/Rprojects/sweetmods/dev")
+#setwd("~/Rprojects/sweetmods/dev")
 
 thematic_shiny()
 

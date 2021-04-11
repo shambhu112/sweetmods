@@ -30,8 +30,7 @@ app_master <- R6::R6Class(
       self$params <- params
       options("scipen" = 100, "digits" = 4)
       self$master_data <- tibble::tibble(srnum = numeric() , connection_str = character() , dataset_names =  character() ,
-                          datasets  = tibble::tibble() , original_cols = list() , snake_cols = list() , connection_type = character())
-
+                          datasets  = tibble::tibble() , original_cols = list() , pretty_cols = list() , connection_type = character())
 
       self$reactive_vals <- shiny::reactiveValues()
     },
@@ -126,7 +125,28 @@ app_master <- R6::R6Class(
     #' @return the mapped dataset in tibble format
     data_by_index = function(index){
       self$master_data$datasets[[index]]
+    },
+
+    #' get colnames for a dataset
+    #' @param dataset_name the name of the dataset to lookup
+    #' @return characted list of colnames
+    colnames_for_dataset = function(dataset_name){
+      index <- which(self$master_data$dataset_names == dataset_name)
+      stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
+      ret <- self$master_data$original_cols[index]$cname
+      ret
+    } ,
+
+    #' get pretty colnames  for a dataset
+    #' @param dataset_name the name of the dataset to lookup
+    #' @return characted list of colnames
+    prettynames_for_dataset = function(dataset_name){
+      index <- which(self$master_data$dataset_names == dataset_name)
+      stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
+      ret <- self$master_data$pretty_cols[index]$pnames
+      ret
     }
+
 
   )
 )
