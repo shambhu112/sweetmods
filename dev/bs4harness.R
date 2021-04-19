@@ -5,12 +5,13 @@ library(shiny)
 library(bs4Dash)
 library(thematic)
 library(waiter)
-library(sweetmods)
 library(stringr)
 library(dplyr)
 library(ggplot2)
 library(viridis)
 library(hrbrthemes)
+library(esquisse)
+
 #library(sweetmods)
 
 
@@ -25,7 +26,7 @@ thematic_shiny()
 
 params <- config::get(file = "dev_config.yml")
 
-controller <- sweetmods::app_master$new(params)
+controller <- app_master$new(params)
 
 controller$preload_master_with_config()
 

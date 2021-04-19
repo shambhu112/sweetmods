@@ -54,7 +54,10 @@ esquisse_wrapper_server <- function(id , control){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    #data_r <- reactiveValues(data = iris, name = "iris")
+    names <- control$dataset_names()
+    #TODO : Fix situation when no datasets available
+
+    data_r <- reactiveValues(data = control$data_by_index(1), name = names(1))
 
     observe({
       data_r$data <- control$dataset_by_name(input$dataset_selection)
