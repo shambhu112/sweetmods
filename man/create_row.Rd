@@ -4,7 +4,7 @@
 \alias{create_row}
 \title{creates the standardized row for app_master mdata}
 \usage{
-create_row(srnum, filename, ds_name, ds, format)
+create_row(srnum, filename, ds_name, ds, format, pretty_cols = NULL)
 }
 \arguments{
 \item{srnum}{the serial number for the row. Index}

@@ -31,10 +31,14 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \item \href{#method-new}{\code{app_master$new()}}
 \item \href{#method-preload_master}{\code{app_master$preload_master()}}
 \item \href{#method-add_master_data_row}{\code{app_master$add_master_data_row()}}
+\item \href{#method-remove_dataset}{\code{app_master$remove_dataset()}}
+\item \href{#method-replace_dataset_by_name}{\code{app_master$replace_dataset_by_name()}}
 \item \href{#method-preload_master_with_config}{\code{app_master$preload_master_with_config()}}
 \item \href{#method-dataset_names}{\code{app_master$dataset_names()}}
 \item \href{#method-dataset_by_name}{\code{app_master$dataset_by_name()}}
 \item \href{#method-data_by_index}{\code{app_master$data_by_index()}}
+\item \href{#method-colnames_for_dataset}{\code{app_master$colnames_for_dataset()}}
+\item \href{#method-prettynames_for_dataset}{\code{app_master$prettynames_for_dataset()}}
 \item \href{#method-clone}{\code{app_master$clone()}}
 }
 }
@@ -86,6 +90,24 @@ Note this creates new mdata overiding rvals}
 \subsection{Method \code{add_master_data_row()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{app_master$add_master_data_row(row)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-remove_dataset"></a>}}
+\if{latex}{\out{\hypertarget{method-remove_dataset}{}}}
+\subsection{Method \code{remove_dataset()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$remove_dataset(index)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-replace_dataset_by_name"></a>}}
+\if{latex}{\out{\hypertarget{method-replace_dataset_by_name}{}}}
+\subsection{Method \code{replace_dataset_by_name()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$replace_dataset_by_name(dataset_name, replace_with)}\if{html}{\out{</div>}}
 }
 
 }
@@ -152,6 +174,46 @@ search for a tibble based on index in mdata
 }
 \subsection{Returns}{
 the mapped dataset in tibble format
+get colnames for a dataset
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-colnames_for_dataset"></a>}}
+\if{latex}{\out{\hypertarget{method-colnames_for_dataset}{}}}
+\subsection{Method \code{colnames_for_dataset()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$colnames_for_dataset(dataset_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dataset_name}}{the name of the dataset to lookup}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+characted list of colnames
+get pretty colnames  for a dataset
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-prettynames_for_dataset"></a>}}
+\if{latex}{\out{\hypertarget{method-prettynames_for_dataset}{}}}
+\subsection{Method \code{prettynames_for_dataset()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$prettynames_for_dataset(dataset_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dataset_name}}{the name of the dataset to lookup}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+characted list of colnames
 }
 }
 \if{html}{\out{<hr>}}

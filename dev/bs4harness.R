@@ -1,20 +1,33 @@
-library(bs4Dash)
+## This Shiny App created with Shinyspring - http://www.shinyspring.dev
+## template bs4Dash
+
 library(shiny)
+library(bs4Dash)
 library(thematic)
 library(waiter)
 library(sweetmods)
-library(shinyjs)
-library(leaflet)
-library(shinyWidgets)
+library(stringr)
+library(dplyr)
+library(ggplot2)
+library(viridis)
+library(hrbrthemes)
 
-#setwd("~/Rprojects/sweetmods/dev")
+
+
+##detach("package:semantic.dashboard", unload = TRUE)
+##detach("package:shiny.semantic", unload = TRUE)
+source("../R/app_master.R")
+source("../R/esquisse_wrapper.R")
+source("../R/sweetutil.R")
 
 thematic_shiny()
 
 params <- config::get(file = "dev_config.yml")
 
 controller <- sweetmods::app_master$new(params)
-#controller <- on_app_start(controller)
+
+controller$preload_master_with_config()
+
 
 
 demo_ui <- function(id, control) {
@@ -31,42 +44,34 @@ demo_server <- function(id, control) {
 }
 
 
-# toast options
-toastOpts <- list(
-  autohide = TRUE,
-  icon = "fas fa-home",
-  close = FALSE,
-  position = "bottomRight"
-)
-
-sweet_tab <- function(tab_name , module_name , module_function , control = "controller"){
+create_tab_module <- function(tab_name , module_name , module_function , control = "controller"){
   tabItem(
     tabName = tab_name,
     eval(parse(text = paste0(module_function , "(id = '" , module_name  ,"' , control = " , control, " )"  )))
   )
 }
 
-# Define UI for application that draws a histogram
-ui <- bs4Dash::dashboardPage(
-  #  preloader = list(
-  #    waiter = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
-  #    duration = 0
-  #  ),
 
-  dark = TRUE,
+## Define UI for application that draws a histogram
+ui <- bs4Dash::dashboardPage(
+  ##     preloader = list(
+  ##         waiter = list(html = tagList(spin_1(), "Loading ..."), color = "##343a40"),
+  ##         duration = 0
+  ##     ),
+
+  dark = FALSE,
   help = FALSE,
   fullscreen = TRUE,
   scrollToTop = TRUE,
-
   header = dashboardHeader(
     title = dashboardBrand(
-      title = "Shiny Spring",
+      title = "ShinySpring", ## @@app_title
       color = "primary",
-      href = "http://www.shinyspring.dev",
-      image = "https://lh4.googleusercontent.com/jWA-MrwW-1k4rIO-VyEBrwtczMJgbr9_Mv0IndhcPIXpizPrsSBO-8wvWcTf9Oc4C_4PovCc_PkeJ8X06QRcl0pk_WbDJW_n93aILY-hM8ATW09s",
+      href = "www.shinyspring.dev", ## @@header_href
+      image = "https://storage.googleapis.com/shiny-pics/spring_logo.png", ##@@header_image
       opacity = 0.8
     ),
-    fixed = TRUE,
+    fixed = TRUE, ## @@header_fixed
     rightUi = tagList(
       dropdownMenu(
         badgeStatus = "info",
@@ -79,124 +84,60 @@ ui <- bs4Dash::dashboardPage(
           time = "today",
           color = "lime"
         )
-      ),
-      userOutput("user")
+      )
+      ##    ,
+      ##    userOutput("user")
     ),
     leftUi = tagList(
-      # Close dropdownMenu
+      ## Close dropdownMenu
       tags$li(class = "dropdown",
-              tags$h3("Bank Branch Optimizer")
+              tags$h3("Sweet Mods Test") ## $$app_title_h3
       )
-    ) # close left UI
+    ) ## close left UI
   ),
   sidebar = dashboardSidebar(
     fixed = TRUE,
     skin = "light",
     status = "primary",
     id = "sidebar",
-    customArea = fluidRow(
-      actionButton(
-        inputId = "myAppButton",
-        label = NULL,
-        icon = icon("users"),
-        width = NULL,
-        status = "primary",
-        style = "margin: auto",
-        dashboardBadge(textOutput("btnVal"), color = "danger")
-      )
-    ),
-    sidebarUserPanel(
-      image = "https://image.flaticon.com/icons/svg/1149/1149168.svg",
-      name = "Welcome"
-    ),
+
+    ##    sidebarUserPanel(
+    ##      image = "https://image.flaticon.com/icons/svg/1149/1149168.svg", ## @@welcome_image
+    ##      name = "CORA" ## @@welcome_message
+    ##    ),
     sidebarMenu(
       id = "current_tab",
       flat = FALSE,
       compact = FALSE,
       childIndent = TRUE,
-      sidebarHeader("Banks"),
+      sidebarHeader("Data Exploration"),
       menuItem(
-        "Institutions",
-        tabName = "institutions_tab",
+        "Esquisse",
+        tabName = "esquisse_tab",
         icon = icon("university")
       ),
       menuItem(
-        "Branch Network",
-        tabName = "branches_tab",
+        "Menu2",
+        tabName = "menu2_tab",
         icon = icon("piggy-bank")
       )
-
     )
-  ), # Close of sidebar
+
+  ), ## Close of sidebar
   body = dashboardBody(
     tabItems(
-      # List all modules for tab here
-
-      sweet_tab(tab_name = "institutions_tab" ,module_name = "inst_mod_1" , module_function = "demo_ui" ) ,
-      sweet_tab(tab_name = "branches_tab" ,module_name = "branch_mod_1" , module_function = "demo_ui" )
-
-
+      create_tab_module(tab_name = "esquisse_tab" ,module_name = "esquisse_mod_1" , module_function = "esquisse_wrapper_ui" ) ,
+      create_tab_module(tab_name = "menu2_tab" ,module_name = "branch_mod_1" , module_function = "demo_ui" )
     )
-  ) , #close of body
-  controlbar = dashboardControlbar(
-    id = "controlbar",
-    skin = "light",
-    pinned = FALSE,
-    overlay = FALSE,
-    controlbarMenu(
-      id = "controlbarMenu",
-      type = "pills",
-      controlbarItem(
-        "Years",
-        column(
-          width = 12,
-          align = "center",
-          radioButtons(
-            inputId = "analytics_years",
-            label = "Subset Analysis for",
-            c(
-              "3 years" = "yrs_3",
-              "5 years" = "yrs_5",
-              "10 years" = "yrs_10",
-              "20 years" = "yrs_20"
-            )
-          )
-        )
-      ),
-      controlbarItem(
-        "Skin",
-        skinSelector()
-      )
-    )
-  )
+  ) ## close of body
 )
 
-# Define server logic required to draw a histogram
+## Define server logic required to draw a histogram
 server <- function(input, output , session) {
-  demo_server(id = "inst_mod_1" , control = controller)
+  esquisse_wrapper_server(id = "esquisse_mod_1" , control = controller)
   demo_server(id = "branch_mod_1" , control = controller)
-
-  output$user <- renderUser({
-    dashboardUser(
-      name = "Shambhu",
-      image = "https://upload.wikimedia.org/wikipedia/commons/1/12/User_icon_2.svg",
-      title = "webscale",
-      subtitle = "Admin",
-      footer = p("The footer", class = "text-center"),
-      fluidRow(
-        dashboardUserItem(
-          width = 6,
-          "Item 1"
-        ),
-        dashboardUserItem(
-          width = 6,
-          "Item 2"
-        )
-      )
-    )
-  })
 
 }
 
-# Run the application
+## Run the application
 shinyApp(ui = ui, server = server)

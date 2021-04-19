@@ -1,78 +1,72 @@
 
-utils::globalVariables(c("esquisserServer"))
+
+esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 
 #' esquisse_wrapper UI Function
 #'
 #' @description A shiny Module.
 #'
 #' @param id Internal parameters for \code{shiny}
-#'
+#' @param control
 #' @importFrom shiny NS tagList
 #' @export
-esquisse_wrapper_ui <- function(id){
+esquisse_wrapper_ui <- function(id , control){
   ns <- NS(id)
-  tagList(
-    fluidPage(
 
-      titlePanel("Visualize Loaded Datasets with Esquisse"),
-      fluidRow(
-        column(8,
-               shinyjs::useShinyjs(),
-               wellPanel(
-                 x <- uiOutput(ns('radios')),
-                 #  actionButton('submit', label = "Submit"),
+    fluidRow(
 
-               )
+      shinyjs::useShinyjs(),
+      selectizeInput(ns("dataset_selection"), "Select Dataset", choices =control$dataset_names()  ,
+                     multiple = FALSE, width = 400 , options = NULL ),
 
-        ),
-        column(4, offset = 4,
-               textOutput('text')
 
-        )
+      box(
+        title = "Visualize data with Esquisse",
+        width = 12,
+        status = "primary",
+        solidHeader = FALSE,
+        collapsible = FALSE,
+        maximizable = TRUE,
+        id = "esquuisse_tabs",
+          esquisse_ui(
+            id = ns("esquisse"),
+            header = FALSE # dont display gadget title
+           )
       )
-    ),
-    fluidRow(column(12 ,
-                    esquisse::esquisserUI(
-                      id = ns("esquisse"),
-                      header = FALSE, # dont display gadget title
-                      choose_data = FALSE, # dont display button to change data,
-                      container = esquisse::esquisseContainer(height = "700px")
-                    )
-    ))
+    )
 
-  )
 }
 
-#' esquisse wrapper Server Functions
-#'
-#' Calls esquisse module based on the selection made in radios input
-#' @param id standard shiny param
-#' @param master the reference the app_master R6Class
-#' @export
-esquisse_wrapper_server <- function(id , master){
+
+esquisse_wrapper_server <- function(id , control){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$radios <- renderUI({
+    data_r <- reactiveValues(data = iris, name = "iris")
 
-      d_choices <-master$dataset_names()
-      # The options are dynamically generated on the server
-      radioButtons(ns('radio_select'), 'Select Dataset to visualize', d_choices, selected = character(0) ,
-                   inline = TRUE)
+    observe({
+      data_r$data <- control$dataset_by_name(input$dataset_selection)
+      data_r$name <- input$dataset_selection
     })
 
+    results <- esquisse_server(
+      id = "esquisse",
+      data_rv = data_r
+    )
 
-    observeEvent(input$radio_select, {
-      cli::cli_alert_info("Radio selected ")
-      nm <- input$radio_select
-      df <- master$data_by_name(nm)
-      data_r <- reactiveValues(data = df, name = nm)
-      cli::cli_alert_info("Befoer Call Module {nm} ")
-      # browser()
-      callModule(module = esquisserServer, id = "esquisse", data = data_r)
-      #  browser()
-    })
+#    output$code <- renderPrint({
+#      results$code_plot
+#    })
+
+#    output$filters <- renderPrint({
+#      results$code_filters
+#    })
+
+#    output$data <- renderPrint({
+#      str(results$data)
+#    })
+
+
 
   })
 }
-

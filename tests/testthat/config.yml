@@ -4,3 +4,13 @@ default:
   file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather
   dataset_names_preloads : mexico ; misssouri ; dc_branches
 # tar_loads : a ; b
+
+  sweetmod.1.ref_name : esquisse
+
+  esquisse.ui : esquisse_wrapper_ui
+  esquisse.server : esquisse_wrapper_server
+  esquisse.menu_icon : university
+  esquisse.menu_title : Esquisse
+
+
+
