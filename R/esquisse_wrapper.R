@@ -15,11 +15,9 @@ esquisse_wrapper_ui <- function(id , control){
   esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 
     fluidRow(
-
       shinyjs::useShinyjs(),
       selectizeInput(ns("dataset_selection"), "Select Dataset", choices =control$dataset_names()  ,
                      multiple = FALSE, width = 400 , options = NULL ),
-
 
       box(
         title = "Visualize data with Esquisse",
