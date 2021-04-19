@@ -91,3 +91,11 @@ test_that("preload with reactive data" , {
   master$reactive_vals$mexico_data <- mtcars
 
 })
+
+test_that(" Test str_detect condition for config object notation" , {
+  t <- c("abc" , "abc_t" , "abc.t" , "abc." , ".abc" , "anc.t.y")
+  r <- stringr::str_detect(t , "\\D[.]\\D")
+  rcheck <- c(FALSE, FALSE ,  TRUE , FALSE ,  FALSE ,  TRUE)
+  testthat::expect_equal(sum(rcheck == r) , 6)
+})
+

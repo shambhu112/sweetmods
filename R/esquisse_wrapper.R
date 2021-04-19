@@ -1,6 +1,5 @@
 
 
-esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 
 #' esquisse_wrapper UI Function
 #'
@@ -8,10 +7,12 @@ esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 #'
 #' @param id Internal parameters for \code{shiny}
 #' @param control
+#' @importFrom esquisse esquisse_ui esquisseContainer
 #' @importFrom shiny NS tagList
 #' @export
 esquisse_wrapper_ui <- function(id , control){
   ns <- NS(id)
+  esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 
     fluidRow(
 
@@ -28,7 +29,7 @@ esquisse_wrapper_ui <- function(id , control){
         collapsible = FALSE,
         maximizable = TRUE,
         id = "esquuisse_tabs",
-          esquisse_ui(
+        esquisse::esquisse_ui(
             id = ns("esquisse"),
             header = FALSE # dont display gadget title
            )
@@ -38,18 +39,29 @@ esquisse_wrapper_ui <- function(id , control){
 }
 
 
+
+#' esquisse_wrapper Server Function
+#'
+#' @description A shiny Module.
+#'
+#' @param id Internal parameters for \code{shiny}
+#' @param control
+#' @importFrom esquisse esquisse_server
+#' @importFrom shiny NS tagList
+#' @export
+
 esquisse_wrapper_server <- function(id , control){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    data_r <- reactiveValues(data = iris, name = "iris")
+    #data_r <- reactiveValues(data = iris, name = "iris")
 
     observe({
       data_r$data <- control$dataset_by_name(input$dataset_selection)
       data_r$name <- input$dataset_selection
     })
 
-    results <- esquisse_server(
+    results <- esquisse::esquisse_server(
       id = "esquisse",
       data_rv = data_r
     )
