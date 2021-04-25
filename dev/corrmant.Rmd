@@ -1,0 +1,63 @@
+---
+title: "corrmant"
+author: "Niraj Juneja"
+date: "4/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(corrmorant)
+
+source("../R/app_master.R")
+
+
+params <- config::get(file = "dev_config.yml")
+
+controller <- app_master$new(params)
+
+controller$preload_master_with_config()
+
+d1 <- control$dataset_by_name("new_mexico")
+
+```
+
+New Mexico
+
+```{r}
+
+df <- d1
+
+p <- SmartEDA::ExpData(d1 , type = 2) %>% filter(Variable_Type == "numeric")
+
+vars <- c(p$Variable_Name)
+
+df <- select(df , all_of(vars))
+
+dd <- as.data.frame(cor(df))
+
+dd %>% mutate(
+  v = if_all( > .8)
+)
+
+p <- corrmorant(mtcars)
+
+class(p)
+
+nrow(dd)
+
+dd[2,]
+
+sapply(1:nrow(dd), function(x){
+  dd[x,]
+})
+
+if(nrow(p) > 6){
+  cor(p)
+}
+
+d <- select(d1 , )
+
+corrmorant::corrmorant(d1 ,style = "blue_red")
+
+```

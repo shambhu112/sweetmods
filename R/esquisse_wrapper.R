@@ -1,5 +1,24 @@
+#' load dependencies
+#'
+#' @description A shiny Module.
+#'
+#' @param control
+#' @export
+esquisse_wrapper_libraries <- function(control){
+ require(esquisse)
+ require(shinyjs)
+}
 
+#' on Load
+#'
+#' @description A shiny Module.
+#'
+#' @param control
+#' @param params for the module
+#' @export
+esquisse_wrapper_onLoad <- function(control , params = NULL){
 
+}
 
 #' esquisse_wrapper UI Function
 #'
@@ -10,7 +29,7 @@
 #' @importFrom esquisse esquisse_ui esquisseContainer
 #' @importFrom shiny NS tagList
 #' @export
-esquisse_wrapper_ui <- function(id , control){
+esquisse_wrapper_ui <- function(id , control , params = NULL){
   ns <- NS(id)
   esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 
@@ -47,8 +66,7 @@ esquisse_wrapper_ui <- function(id , control){
 #' @importFrom esquisse esquisse_server
 #' @importFrom shiny NS tagList
 #' @export
-
-esquisse_wrapper_server <- function(id , control){
+esquisse_wrapper_server <- function(id , control , params = NULL){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 

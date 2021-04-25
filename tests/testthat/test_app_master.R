@@ -1,6 +1,7 @@
 library(sweetmods)
 library(here)
 library(shiny)
+library(testthat)
 
 params <- config::get(file = "tests/testthat/config.yml")
 
@@ -22,6 +23,13 @@ test_that("preloadwith dataset" , {
   expect_true("mpg" %in% colnames(df))
 })
 
+test_that("check built in datasets" , {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  ds_names <- master$dataset_names()
+  a <- master$dataset_by_name("iris")
+  expect_equal(150 , nrow(a))
+})
 
 test_that("remove dataset" , {
   master <- app_master$new(params = params)
@@ -29,9 +37,8 @@ test_that("remove dataset" , {
   ds_names <- master$dataset_names()
   expect_true("misssouri" %in% ds_names)
   master$remove_dataset(index = 2)
-  expect_equal(2 , nrow(master$master_data))
+  expect_equal(4 , nrow(master$master_data))
 })
-
 
 
 

@@ -69,7 +69,7 @@ app_master <- R6::R6Class(
 
       if(!is.null(pr_rx_file)){
         files <- parse_preloads_in_config(value = self$params$file_preloads , sep = ";")
-        ds_names <- parse_preloads_in_config(value = self$params$dataset_names_preloads , sep = ";")
+        ds_names <- parse_preloads_in_config(value = self$params$file_preloads_ds_name , sep = ";")
         stopifnot(length(ds_names) == length(files))
 
         loaded_files <- read_files(files)
@@ -81,7 +81,7 @@ app_master <- R6::R6Class(
           row <- create_row(x , files[x] , ds_names[x] , df , "TBD") #TODO fix file type
           self$add_master_data_row(row)
         }
-        cli::cli_alert_success(" master data loaded with names = {ds_names} ")
+        cli::cli_h3(" master data loaded with names = {ds_names} ")
       }
 
       ds_count <- nrow(self$master_data)
@@ -100,6 +100,24 @@ app_master <- R6::R6Class(
           self$add_master_data_row(row)
         }
       }
+
+      builtin_nms <- self$params$builtin_datasets
+
+      if(!is.null(builtin_nms)){
+          built_inds <- parse_preloads_in_config(value = builtin_nms , sep = ";")
+          for(i in 1:length(built_inds)){
+          if(!exists(built_inds[i])) cli::cli_alert_danger(" The dataset {built_inds[i]} does not exists on system.")
+            row <- create_row(
+                 srnum = ds_count + i ,
+                filename = paste0("builtin " , built_inds[i]) ,
+                ds_name = built_inds[i],
+                ds =  load_built_ts_as_tibble(built_inds[i]) ,
+                format = "builtin"
+            )
+            self$add_master_data_row(row)
+          }
+      }
+
       invisible(self)
     },
 

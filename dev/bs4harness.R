@@ -21,6 +21,7 @@ library(esquisse)
 source("../R/app_master.R")
 source("../R/esquisse_wrapper.R")
 source("../R/sweetutil.R")
+source("../R/corrmorant_mod.R")
 
 thematic_shiny()
 
@@ -119,8 +120,8 @@ ui <- bs4Dash::dashboardPage(
         icon = icon("university")
       ),
       menuItem(
-        "Menu2",
-        tabName = "menu2_tab",
+        "Corelations",
+        tabName = "corrmant_tab",
         icon = icon("piggy-bank")
       )
     )
@@ -129,7 +130,7 @@ ui <- bs4Dash::dashboardPage(
   body = dashboardBody(
     tabItems(
       create_tab_module(tab_name = "esquisse_tab" ,module_name = "esquisse_mod_1" , module_function = "esquisse_wrapper_ui" ) ,
-      create_tab_module(tab_name = "menu2_tab" ,module_name = "branch_mod_1" , module_function = "demo_ui" )
+      create_tab_module(tab_name = "corrmant_tab" ,module_name = "corrmant_tab_1" , module_function = "corrmorant_mod_ui" )
     )
   ) ## close of body
 )
@@ -137,7 +138,7 @@ ui <- bs4Dash::dashboardPage(
 ## Define server logic required to draw a histogram
 server <- function(input, output , session) {
   esquisse_wrapper_server(id = "esquisse_mod_1" , control = controller)
-  demo_server(id = "branch_mod_1" , control = controller)
+  corrmorant_mod_server(id = "corrmant_tab_1" , control = controller)
 
 }
 

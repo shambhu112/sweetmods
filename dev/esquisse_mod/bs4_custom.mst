@@ -1,0 +1,105 @@
+## This Shiny App created with Shinyspring - http://www.shinyspring.dev
+## template : bs4Dash
+## app_type : minimal
+
+library(shiny)
+library(bs4Dash)
+library(thematic)
+library(waiter)
+library(stringr)
+library(dplyr)
+library(sweetmods)
+
+thematic_shiny()
+
+params <- config::get(file = "{{sweetmod_config}}") ## @@sweetmod_config
+controller <- app_master$new(params)
+{{#preload_dataset}}
+controller$preload_master_with_config()
+{{/preload_dataset}}
+
+demo_ui <- function(id, control) {
+  ns <- NS(id)
+  h4(paste0("Hello " , id))
+}
+
+demo_server <- function(id, control) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+  })
+}
+
+create_tab_module <- function(tab_name , module_name , module_function , control = "controller"){
+  tabItem(
+    tabName = tab_name,
+    eval(parse(text = paste0(module_function , "(id = '" , module_name  ,"' , control = " , control, " )"  )))
+  )
+}
+
+
+## Define UI
+ui <- bs4Dash::dashboardPage(
+
+  dark = {{dark_theme}} , ## {{dark_theme}},
+  help = FALSE,
+  fullscreen = TRUE,
+  scrollToTop = TRUE,
+  header = dashboardHeader(
+    title = dashboardBrand(
+      title = "{{app_title}}",
+      color = "{{title_color}}", ## @@title_color
+      href = "{{header_href}}", ## @@ header_href
+      image = "{{header_image}}", ## @@header_image
+      opacity = 0.8
+    ),
+    fixed = {{header_fixed}} , ## @@header_fixed
+    leftUi = tagList(
+      ## Title Text here
+      tags$li(class = "dropdown",
+              tags$h3("{{app_title_h3}}") ## @@app_title_h3
+      )
+    ) ## close left UI
+  ),
+  sidebar = dashboardSidebar(
+    fixed = {{side_bar_fixed}}, ## @@side_bar_fixed
+    skin = "light",
+    status = "primary",
+    id = "sidebar",
+
+    sidebarMenu(
+      id = "current_tab",
+      flat = FALSE,
+      compact = FALSE,
+      childIndent = TRUE,
+      sidebarHeader("{{side_bar_header}}"),
+
+# Whisker:  Menus - niraj
+      {{#menus}}
+        menuItem(
+          "{{title}}" ,
+          tabName = "{{name}}_tab",
+          icon = icon("{{icon}}")
+        ){{#comma}},{{/comma}}
+
+          {{/menus}}
+          )
+
+    ),  ## Close of sidebar
+  body = dashboardBody(
+    tabItems(
+      {{#menus}}
+   create_tab_module(tab_name = "{{name}}_tab" , module_name = "{{name}}" , module_function = "{{ui_function}}" ) {{#comma}},{{/comma}}
+      {{/menus}}
+    )
+  ) # Close of tab items
+)
+
+## Define server logic required to draw a histogram
+server <- function(input, output , session) {
+   {{#menus}}
+    {{server_function}}(id = "{{name}}" , control = controller)
+    {{/menus}}
+  }
+
+    ## Run the application
+    shinyApp(ui = ui, server = server)

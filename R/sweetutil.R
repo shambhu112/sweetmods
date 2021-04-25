@@ -43,6 +43,12 @@ create_row <- function(srnum , filename , ds_name , ds , format , pretty_cols = 
 }
 
 
+load_built_ts_as_tibble <- function(ds_name){
+  txt <- paste0("a <- data.frame(" , ds_name , ")")
+  eval(parse(text = txt ))
+  a
+}
+
 
 #' load a target and put it into a tibble.
 #' Note : we clear up the tar_load value before reutrnignt he dataframe to free up the memory
