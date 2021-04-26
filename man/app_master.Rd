@@ -14,14 +14,7 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 
 \item{\code{reactive_vals}}{reactiveValues instance that stores all reactive values needed in app}
 
-\item{\code{static}}{values, non-reactive static datasets needed in the application. Note you can only pre-load these}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{static}}{values, non-reactive static datasets needed in the application. Note you can only pre-load these}
+\item{\code{master_data}}{static values, non-reactive static datasets needed in the application. Note you can pre-load these}
 }
 \if{html}{\out{</div>}}
 }
@@ -63,8 +56,6 @@ Standard R6 Initialize function
 \subsection{Returns}{
 a new \code{app_master} object
 Preload app_master with master_data `
-
-Note the mdata value in reactiveValues (rvals) will be overwritten by what is provided
 }
 }
 \if{html}{\out{<hr>}}
@@ -79,9 +70,7 @@ Note the mdata value in reactiveValues (rvals) will be overwritten by what is pr
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{master_data}}{mdata in rvals will be raplced with the mmaster_data provided
-Preload app_master with csv files provided in config `
-
-Note this creates new mdata overiding rvals}
+Add a row to app_master `}
 }
 \if{html}{\out{</div>}}
 }
@@ -94,6 +83,15 @@ Note this creates new mdata overiding rvals}
 \if{html}{\out{<div class="r">}}\preformatted{app_master$add_master_data_row(row)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{row}}{new row object created with create_row
+removes the indexed row from app_master `
+Note: the indexes are reindexed from 1 to nrow(master_data) after removal}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-remove_dataset"></a>}}
@@ -103,6 +101,14 @@ Note this creates new mdata overiding rvals}
 \if{html}{\out{<div class="r">}}\preformatted{app_master$remove_dataset(index)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{the rowindex
+replaces dataset with new row at the same index}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-replace_dataset_by_name"></a>}}
@@ -112,6 +118,18 @@ Note this creates new mdata overiding rvals}
 \if{html}{\out{<div class="r">}}\preformatted{app_master$replace_dataset_by_name(dataset_name, replace_with)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dataset_name}}{the ds_name}
+
+\item{\code{replace_with}}{the row created with create_row
+Preload app_master with csv files provided in config `
+
+Note this creates new mdata overiding rvals}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-preload_master_with_config"></a>}}

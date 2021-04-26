@@ -3,10 +3,11 @@
 #'
 #' @description A shiny Module.
 #'
-#' @param control
+#' @param control the app_master controller
 #' @param params for the module
+#' @param  params the params from config file
 #' @export
-esquisse_wrapper_onLoad <- function(control , params = NULL){
+esquisse_wrapper_onLoad <- function(control , params){
   require(esquisse)
   require(shinyjs)
 }
@@ -16,7 +17,8 @@ esquisse_wrapper_onLoad <- function(control , params = NULL){
 #' @description A shiny Module.
 #'
 #' @param id Internal parameters for \code{shiny}
-#' @param control
+#' @param the app_master controller
+#' @param  params the params from config file
 #' @importFrom shiny NS tagList
 #' @export
 esquisse_wrapper_ui <- function(id , control , params ){
@@ -52,7 +54,8 @@ esquisse_wrapper_ui <- function(id , control , params ){
 #' @description A shiny Module.
 #'
 #' @param id Internal parameters for \code{shiny}
-#' @param control
+#' @param control the app_master controller
+#' @param  params the params from config file
 #' @importFrom shiny NS tagList
 #' @export
 esquisse_wrapper_server <- function(id , control , params ){

@@ -37,7 +37,7 @@ create_tab_module <- function(tab_name , module_name , module_function , control
 
 ## Define UI
 ui <- bs4Dash::dashboardPage(
-
+  preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#3c8dbc"),
   dark = FALSE , ## FALSE,
   help = FALSE,
   fullscreen = TRUE,
@@ -90,7 +90,7 @@ ui <- bs4Dash::dashboardPage(
   body = dashboardBody(
     tabItems(
    create_tab_module(tab_name = "esquiee_mod_tab" , module_name = "esquiee_mod" , module_function = "esquisse_wrapper_ui" ) ,
-   create_tab_module(tab_name = "credits_mod_tab" , module_name = "credits_mod" , module_function = "demo_ui" ) 
+   create_tab_module(tab_name = "credits_mod_tab" , module_name = "credits_mod" , module_function = "demo_ui" )
     )
   ) # Close of tab items
 )

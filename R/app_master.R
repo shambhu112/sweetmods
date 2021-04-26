@@ -11,14 +11,12 @@
 app_master <- R6::R6Class(
   "app_master",
   public = list(
-    ### Public variables
-
     #' @field params initialization parameters
     params = NA,
     #' @field reactive_vals reactiveValues instance that stores all reactive values needed in app
     reactive_vals = NULL ,
 
-    #' @field static values, non-reactive static datasets needed in the application. Note you can only pre-load these
+    #' @field master_data static values, non-reactive static datasets needed in the application. Note you can pre-load these
     master_data = NULL ,
 
     #' @description Standard R6 Initialize function
@@ -37,7 +35,6 @@ app_master <- R6::R6Class(
 
     #' Preload app_master with master_data `
     #'
-    #' Note the mdata value in reactiveValues (rvals) will be overwritten by what is provided
     #'
     #' @param master_data mdata in rvals will be raplced with the mmaster_data provided
     preload_master = function(master_data){
@@ -45,15 +42,24 @@ app_master <- R6::R6Class(
       invisible(self)
     },
 
+    #' Add a row to app_master `
+    #'
+    #' @param row  new row object created with create_row
     add_master_data_row = function(row){
       self$master_data <- dplyr::bind_rows(self$master_data , row)
     },
 
+    #' removes the indexed row from app_master `
+    #' Note: the indexes are reindexed from 1 to nrow(master_data) after removal
+    #' @param index the rowindex
     remove_dataset = function(index){
       self$master_data <- self$master_data[-index,]
       self$master_data$srnum <- seq(1:nrow(self$master_data))
     },
 
+    #' replaces dataset with new row at the same index
+    #' @param dataset_name the ds_name
+    #' @param replace_with the row created with create_row
     replace_dataset_by_name = function(dataset_name , replace_with){
       index <- which(self$master_data$dataset_names == dataset_name)
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message

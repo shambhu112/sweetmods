@@ -8,6 +8,10 @@ esquisse_wrapper_ui(id, control, params)
 }
 \arguments{
 \item{id}{Internal parameters for \code{shiny}}
+
+\item{params}{the params from config file}
+
+\item{the}{app_master controller}
 }
 \description{
 A shiny Module.

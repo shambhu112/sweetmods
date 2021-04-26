@@ -8,6 +8,8 @@ dummy_mod_ui(id, control, params)
 }
 \arguments{
 \item{id}{Internal parameters for \code{shiny}}
+
+\item{control}{the app_master controller object}
 }
 \description{
 A shiny Module.

@@ -46,11 +46,12 @@
 
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
+  intro_mod.package: sweetmods
   intro_mod.ui_function: rmd_mod_ui
   intro_mod.server_function: rmd_mod_server
-  intro_mod.onload_function: rmd_mod_onload
+  intro_mod.onload_function: rmd_mod_onLoad
   intro_mod.rmd_file: intro.Rmd
-  intro_mod.knit: TRUE
+  intro_mod.knit: FALSE
 
   core_mod.package: sweetmods
   core_mod.ui_function: dummy_mod_ui

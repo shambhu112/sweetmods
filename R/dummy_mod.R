@@ -17,8 +17,7 @@ dummy_mod_onLoad <- function(control , params){
 #' @description A shiny Module.
 #'
 #' @param id Internal parameters for \code{shiny}
-#' @param control
-#' @importFrom shiny NS tagList
+#' @param control the app_master controller object
 #' @export
 
 dummy_mod_ui <- function(id , control , params){
@@ -36,7 +35,7 @@ dummy_mod_ui <- function(id , control , params){
 #' @description A shiny Module.
 #'
 #' @param id Internal parameters for \code{shiny}
-#' @param control
+#' @param control the app_master controller object
 #' @export
 
 dummy_mod_server <- function(id , control , params){

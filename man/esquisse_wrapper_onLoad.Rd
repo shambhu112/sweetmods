@@ -4,10 +4,12 @@
 \alias{esquisse_wrapper_onLoad}
 \title{on Load}
 \usage{
-esquisse_wrapper_onLoad(control, params = NULL)
+esquisse_wrapper_onLoad(control, params)
 }
 \arguments{
-\item{params}{for the module}
+\item{control}{the app_master controller}
+
+\item{params}{the params from config file}
 }
 \description{
 A shiny Module.
