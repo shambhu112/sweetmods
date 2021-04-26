@@ -4,7 +4,7 @@
 \alias{esquisse_wrapper_server}
 \title{esquisse_wrapper Server Function}
 \usage{
-esquisse_wrapper_server(id, control, params = NULL)
+esquisse_wrapper_server(id, control, params)
 }
 \arguments{
 \item{id}{Internal parameters for \code{shiny}}

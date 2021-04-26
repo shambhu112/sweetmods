@@ -39,6 +39,8 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \item \href{#method-data_by_index}{\code{app_master$data_by_index()}}
 \item \href{#method-colnames_for_dataset}{\code{app_master$colnames_for_dataset()}}
 \item \href{#method-prettynames_for_dataset}{\code{app_master$prettynames_for_dataset()}}
+\item \href{#method-mods_names}{\code{app_master$mods_names()}}
+\item \href{#method-params_for_mod}{\code{app_master$params_for_mod()}}
 \item \href{#method-clone}{\code{app_master$clone()}}
 }
 }
@@ -214,6 +216,39 @@ get pretty colnames  for a dataset
 }
 \subsection{Returns}{
 characted list of colnames
+get mod names from config files
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mods_names"></a>}}
+\if{latex}{\out{\hypertarget{method-mods_names}{}}}
+\subsection{Method \code{mods_names()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$mods_names()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+characted list of mod_names
+get sub params for a given mod_name
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-params_for_mod"></a>}}
+\if{latex}{\out{\hypertarget{method-params_for_mod}{}}}
+\subsection{Method \code{params_for_mod()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$params_for_mod(mod_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod_name}}{the mod_name}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+list ofparams
 }
 }
 \if{html}{\out{<hr>}}

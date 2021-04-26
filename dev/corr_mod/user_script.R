@@ -26,5 +26,6 @@ file.edit("bs4_custom.mst")
 params <- config::get(file = "config.yml") # load params
 shinyspring::create_shinyapp(params , target_file = "myapp.R" , template_file = "bs4_custom.mst")
 
+params
 
 

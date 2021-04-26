@@ -42,7 +42,10 @@ create_row <- function(srnum , filename , ds_name , ds , format , pretty_cols = 
   row
 }
 
-
+#' load a builtin datasource as tibble
+#' @param  ds_name
+#' @return data frame for the built in dataset
+#' @export
 load_built_ts_as_tibble <- function(ds_name){
   txt <- paste0("a <- data.frame(" , ds_name , ")")
   eval(parse(text = txt ))
@@ -53,14 +56,13 @@ load_built_ts_as_tibble <- function(ds_name){
 #' load a target and put it into a tibble.
 #' Note : we clear up the tar_load value before reutrnignt he dataframe to free up the memory
 #' @export
-
 load_tar_as_tibble <- function(tar_name){
   targets::tar_load(tar_name)
   txt <- paste("ds <-  tibble::as_tibble(" , tar_name , ")" , sep = "")
   eval(parse(text =txt))
   txt <- paste( tar_name , " <- NULL " , sep = "")
   eval(parse(text =txt))
-  ds
+#  ds
 }
 
 
@@ -70,13 +72,12 @@ load_tar_as_tibble <- function(tar_name){
 #' @param files list of file paths to load
 #'
 #' @export
-
 read_files <- function(files){
  loaded <- sapply(files, function(x){
       nm <- tolower(x)
       if(endsWith(nm , ".csv"))
         f <- vroom::vroom(x)
-      else if(end(nm , ".feather"))
+      else if(endsWith(nm , ".feather"))
         f <- arrow::read_feather(x)
       else if(endsWith(nm , ".rds"))
         f <- readRDS(x)

@@ -11,7 +11,7 @@ shinyspring::create_shinyapp(params = params )
 shiny::runApp()
 
 ## Step 4 : Create Module for your app
-shinyspring::create_module("my_custom_mod")
+shinyspring::create_module("rmd_mod")
 
 
 ## Advanced Options ----

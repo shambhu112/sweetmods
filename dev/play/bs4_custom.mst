@@ -12,27 +12,36 @@ library(sweetmods)
 
 thematic_shiny()
 
-params <- config::get(file = "{{sweetmod_config}}") ## {{sweetmod_config}}
+params <- config::get(file = "{{sweetmod_config}}") ## @@sweetmod_config
 controller <- app_master$new(params)
-#controller$preload_master_with_config()
+{{#preload_dataset}}
+controller$preload_master_with_config()
+{{/preload_dataset}}
+mod_names <- controller$mods_names()
 
-demo_ui <- function(id, control) {
-  ns <- NS(id)
-  h4(paste0("Hello " , id))
-}
+# call on_load function on all modules
+onl <- sapply(mod_names, function(x){
+  p <- controller$params_for_mod(x)
+  package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
+  if("onload_function" %in% names(p)){
+    onload_f <- paste0(package_prefix , p$onload_function , "(controller ,params = p)")
+    eval(parse(text= onload_f))
+    cli::cli_alert_info("Executed onload for {x} : {onload_f}")
+  }
+})
+onl <- NULL
 
-demo_server <- function(id, control) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
-  })
-}
-
-create_tab_module <- function(tab_name , module_name , module_function , control = "controller"){
-  tabItem(
-    tabName = tab_name,
-    eval(parse(text = paste0(module_function , "(id = '" , module_name  ,"' , control = " , control, " )"  )))
+# Function to create the tab item and call the ui_function in module
+create_tab_module <- function(tab_module){
+  p <- controller$params_for_mod(tab_module)
+  ui_function <-  p$ui_function
+  package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
+ tabItem(
+    tabName = tab_module,
+    eval(parse(text = paste0(package_prefix , ui_function , "(id = '" , tab_module  ,"' , control = controller ,params = p)"  )))
   )
 }
+
 
 
 ## Define UI
@@ -45,16 +54,16 @@ ui <- bs4Dash::dashboardPage(
   header = dashboardHeader(
     title = dashboardBrand(
       title = "{{app_title}}",
-      color = "{{title_color}}", ## {{title_color}}
-      href = "{{header_href}}", ## @ {{header_href}}
-      image = "{{header_image}}", ## {{header_image}}
-      opacity = 0.8
+      color = "{{title_color}}", ## @@title_color
+      href = "{{header_href}}", ## @@ header_href
+      image = "{{header_image}}", ## @@header_image
+      opacity = {{header_opacity}}
     ),
-    fixed = {{header_fixed}} , ## {{header_fixed}}
+    fixed = {{header_fixed}} , ## @@header_fixed
     leftUi = tagList(
       ## Title Text here
       tags$li(class = "dropdown",
-              tags$h3("{{app_title_h3}}") ## $$app_title_h3
+              tags$h3("{{app_title_h3}}") ## @@app_title_h3
       )
     ) ## close left UI
   ),
@@ -75,25 +84,18 @@ ui <- bs4Dash::dashboardPage(
       {{#menus}}
         menuItem(
           "{{title}}" ,
-          tabName = "{{name}}_tab",
+          tabName = "{{name}}",
           icon = icon("{{icon}}")
         ){{#comma}},{{/comma}}
-
           {{/menus}}
           )
-
     ),  ## Close of sidebar
   body = dashboardBody(
     tabItems(
-
-
       {{#menus}}
-        create_tab_module(tab_name = "{{name}}_tab" ,
-                          module_name = "{{name}}" ,
-                          module_function = "{{ui_function}}" ) {{#comma}},{{/comma}}
-                            {{/menus}}
-                            )
-
+      create_tab_module(tab_module = "{{name}}") {{#comma}},{{/comma}}
+      {{/menus}}
+      )
     ) # Close of tab items
 )
 
@@ -101,11 +103,16 @@ ui <- bs4Dash::dashboardPage(
 
 ## Define server logic required to draw a histogram
 server <- function(input, output , session) {
-
-   {{#menus}}
-    {{server_function}}(id = "{{name}}" , control = controller)
-    {{/menus}}
-
+  mods <- controller$mods_names()
+  for(i in 1:length(mods)){
+    id <- mods[i]
+    p <- controller$params_for_mod(id)
+    index <- which(names(controller$params) == paste0(id , ".server_function"))
+  if(length(index) > 0 ){
+      server_function <- controller$params[index]
+      eval(parse(text= paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")))
+     }
+  }
   }
 
     ## Run the application

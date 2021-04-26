@@ -15,19 +15,19 @@ Imports:
     snakecase,
     R6 ,
     tidyselect ,
-    reactable ,
     readr ,
-    shinyjs ,
-    SmartEDA ,
-    utils ,
     vroom ,
-    arrow ,
-    esquisse
+    shinyjs
 Suggests: 
     testthat (>= 3.0.0),
     here ,
     corrmorant , 
-    stringr 
+    reactable ,
+    stringr ,
+    SmartEDA ,
+    utils ,
+    esquisse ,
+    arrow 
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

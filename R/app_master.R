@@ -94,7 +94,7 @@ app_master <- R6::R6Class(
                       srnum = ds_count + i ,
                       filename = paste0("tar " , tars[i]) ,
                       ds_name = tars[i],
-                      ds =  load_tar_as_tibble(tars[i]) ,
+                      ds =  sweetmods::load_tar_as_tibble(tars[i]) ,
                       format = "tar"
                      )
           self$add_master_data_row(row)
@@ -111,7 +111,7 @@ app_master <- R6::R6Class(
                  srnum = ds_count + i ,
                 filename = paste0("builtin " , built_inds[i]) ,
                 ds_name = built_inds[i],
-                ds =  load_built_ts_as_tibble(built_inds[i]) ,
+                ds =  sweetmods::load_built_ts_as_tibble(built_inds[i]) ,
                 format = "builtin"
             )
             self$add_master_data_row(row)
@@ -163,8 +163,39 @@ app_master <- R6::R6Class(
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
       ret <- self$master_data$pretty_cols[index]$pnames
       ret
+    } ,
+
+    #' get mod names from config files
+    #' @return characted list of mod_names
+    mods_names = function(){
+      params <- self$params
+      r <- stringr::str_detect(names(params) , "\\D[.]\\D")
+      l <- names(params[which(r)])
+      sp <- stringr::str_split(string = l , pattern = "[.]")
+      mods <- sapply(sp, function(x){
+              unlist(x)[1]
+      })
+      mods <- unique(mods)
+      mods
+    } ,
+
+    #' get sub params for a given mod_name
+    #' @param mod_name the mod_name
+    #' @return list ofparams
+    params_for_mod = function(mod_name){
+      master_params <- self$params
+      pre <- paste0(mod_name , ".\\D")
+      r <- stringr::str_detect(names(master_params) , pattern = pre )
+      l <- names(master_params[which(r)])
+      sp <- stringr::str_split(string = l , pattern = "[.]")
+      sub_params <-sapply(sp, function(x){
+        unlist(x)[2]
+      })
+      values <- master_params[which(r)]
+      ret <- vector(mode = "list", length = length(sub_params))
+      ret <- values
+      names(ret) <- sub_params
+      ret
     }
-
-
   )
 )

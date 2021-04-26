@@ -1,18 +1,26 @@
 default:
   sweetmod_version: 0.0.0.9000
+  preload_dataset: true
 #  file_preloads : tests/testthat/CHART4_NM.csv ; tests/testthat/CHART2_MO_COUNTIES.csv ; tests/testthat/DC_sis_dist.feather
   file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather
   file_preloads_ds_name : mexico ; misssouri ; dc_branches
 # tar_loads : a ; b
   builtin_datasets : iris ; mtcars
 
+  core_mod.package: sweetmods
+  core_mod.ui_function: dummy_mod_ui
+  core_mod.server_function: dummy_mod_server
+  core_mod.onload_function: dummy_mod_onLoad
+  core_mod.param1: param 1
+  core_mod.param2: param 2
 
-  sweetmod.1.ref_name : esquisse
+  esquiee_mod.package: sweetmods
+  esquiee_mod.ui_function: esquisse_wrapper_ui
+  esquiee_mod.server_function: esquisse_wrapper_server
+  esquiee_mod.onload_function: esquisse_wrapper_onLoad
+  esquiee_mod.param1: param 1
+  esquiee_mod.param2: param 2
 
-  esquisse.ui : esquisse_wrapper_ui
-  esquisse.server : esquisse_wrapper_server
-  esquisse.menu_icon : university
-  esquisse.menu_title : Esquisse
 
 
 

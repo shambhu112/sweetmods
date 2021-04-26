@@ -46,25 +46,23 @@
 
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
-  intro_mod.package: sweetmods
-  intro_mod.ui_function: dummy_mod_ui
-  intro_mod.server_function: dummy_mod_server
-  intro_mod.onload_function: dummy_mod_onLoad
-  intro_mod.message: Hello this is Intro Mod
+  intro_mod.ui_function: rmd_mod_ui
+  intro_mod.server_function: rmd_mod_server
+  intro_mod.onload_function: rmd_mod_onload
+  intro_mod.rmd_file: intro.Rmd
+  intro_mod.knit: TRUE
 
   core_mod.package: sweetmods
   core_mod.ui_function: dummy_mod_ui
   core_mod.server_function: dummy_mod_server
   core_mod.onload_function: dummy_mod_onLoad
-  core_mod.param1: param 1
+  core_mod.message: Hello
   core_mod.param2: param 2
 
   esquiee_mod.package: sweetmods
-  esquiee_mod.ui_function: esquisse_wrapper_ui
-  esquiee_mod.server_function: esquisse_wrapper_server
-  esquiee_mod.onload_function: esquisse_wrapper_onLoad
-  esquiee_mod.param1: param 1
-  esquiee_mod.param2: param 2
+  esquiee_mod.ui_function: dummy_mod_ui
+  esquiee_mod.server_function: dummy_mod_server
+  esquiee_mod.onload_function: dummy_mod_onLoad
 
   credits_mod.package: sweetmods
   credits_mod.ui_function: dummy_mod_ui

@@ -4,7 +4,7 @@
 \alias{esquisse_wrapper_ui}
 \title{esquisse_wrapper UI Function}
 \usage{
-esquisse_wrapper_ui(id, control, params = NULL)
+esquisse_wrapper_ui(id, control, params)
 }
 \arguments{
 \item{id}{Internal parameters for \code{shiny}}

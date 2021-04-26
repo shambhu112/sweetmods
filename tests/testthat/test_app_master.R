@@ -99,6 +99,15 @@ test_that("preload with reactive data" , {
 
 })
 
+test_that("modnames and get params for modnames", {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  mod_names <- master$mods_names()
+  expect_true("core_mod" %in%  mod_names)
+  params <- master$params_for_mod("core_mod")
+  expect_true("ui_function" %in% names(params))
+})
+
 test_that(" Test str_detect condition for config object notation" , {
   t <- c("abc" , "abc_t" , "abc.t" , "abc." , ".abc" , "anc.t.y")
   r <- stringr::str_detect(t , "\\D[.]\\D")

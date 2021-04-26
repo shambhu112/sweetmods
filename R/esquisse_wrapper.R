@@ -1,13 +1,3 @@
-#' load dependencies
-#'
-#' @description A shiny Module.
-#'
-#' @param control
-#' @export
-esquisse_wrapper_libraries <- function(control){
- require(esquisse)
- require(shinyjs)
-}
 
 #' on Load
 #'
@@ -17,7 +7,8 @@ esquisse_wrapper_libraries <- function(control){
 #' @param params for the module
 #' @export
 esquisse_wrapper_onLoad <- function(control , params = NULL){
-
+  require(esquisse)
+  require(shinyjs)
 }
 
 #' esquisse_wrapper UI Function
@@ -26,10 +17,9 @@ esquisse_wrapper_onLoad <- function(control , params = NULL){
 #'
 #' @param id Internal parameters for \code{shiny}
 #' @param control
-#' @importFrom esquisse esquisse_ui esquisseContainer
 #' @importFrom shiny NS tagList
 #' @export
-esquisse_wrapper_ui <- function(id , control , params = NULL){
+esquisse_wrapper_ui <- function(id , control , params ){
   ns <- NS(id)
   esquisse::esquisseContainer(width = "100%", height = "700px", fixed = FALSE)
 
@@ -38,7 +28,7 @@ esquisse_wrapper_ui <- function(id , control , params = NULL){
       selectizeInput(ns("dataset_selection"), "Select Dataset", choices =control$dataset_names()  ,
                      multiple = FALSE, width = 400 , options = NULL ),
 
-      box(
+      bs4Dash::box(
         title = "Visualize data with Esquisse",
         width = 12,
         status = "primary",
@@ -63,18 +53,17 @@ esquisse_wrapper_ui <- function(id , control , params = NULL){
 #'
 #' @param id Internal parameters for \code{shiny}
 #' @param control
-#' @importFrom esquisse esquisse_server
 #' @importFrom shiny NS tagList
 #' @export
-esquisse_wrapper_server <- function(id , control , params = NULL){
+esquisse_wrapper_server <- function(id , control , params ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     names <- control$dataset_names()
     #TODO : Fix situation when no datasets available
-
+    if(nrow(control$master_data) == 0 )
+         return(NULL)
     data_r <- reactiveValues(data = control$data_by_index(1), name = names(1))
-
     observe({
       data_r$data <- control$dataset_by_name(input$dataset_selection)
       data_r$name <- input$dataset_selection
