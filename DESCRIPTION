@@ -20,7 +20,6 @@ Imports:
     shinyjs
 Suggests: 
     testthat (>= 3.0.0),
-    here ,
     corrmorant , 
     reactable ,
     stringr ,

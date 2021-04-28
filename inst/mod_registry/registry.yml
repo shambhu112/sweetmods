@@ -1,0 +1,13 @@
+sweetmod.1.ref_name: rmd_mod
+sweetmod.2.ref_name: esquisse_mod
+
+rmd_mod.package: sweetmods
+rmd_mod.ui_function: rmd_mod_ui
+rmd_mod.server_function: rmd_mod_server
+rmd_mod.onload_function: rmd_mod_onLoad
+
+
+esquisse_mod.package: sweetmods
+esquisse_mod.ui_function: rmd_mod_ui
+esquisse_mod.server_function: rmd_mod_server
+esquisse_mod.onload_function: esquisse_wrapper_onLoad
