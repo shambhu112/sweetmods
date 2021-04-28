@@ -35,8 +35,9 @@ test_that("remove dataset" , {
   master$preload_master_with_config()
   ds_names <- master$dataset_names()
   expect_true("misssouri" %in% ds_names)
+  o_row_count <- nrow(master$master_data)
   master$remove_dataset(index = 2)
-  expect_equal(4 , nrow(master$master_data))
+  expect_equal(o_row_count - 1 , nrow(master$master_data))
 })
 
 
@@ -53,6 +54,18 @@ test_that("replace dataset" , {
 
 })
 
+
+test_that(" Test file formats" , {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  # check RDS format
+  lend <- master$dataset_by_name("lending_club")
+  expect_true("annual_inc" %in% colnames(lend))
+
+  # check feather format
+  lend <- master$dataset_by_name("lending_club_2")
+  expect_true("annual_inc" %in% colnames(lend))
+})
 
 test_that("pretty names" , {
   master <- app_master$new(params = params)
@@ -105,4 +118,5 @@ test_that(" Test str_detect condition for config object notation" , {
   rcheck <- c(FALSE, FALSE ,  TRUE , FALSE ,  FALSE ,  TRUE)
   testthat::expect_equal(sum(rcheck == r) , 6)
 })
+
 
