@@ -2,8 +2,8 @@ default:
   sweetmod_version: 0.0.0.9000
   preload_dataset: true
 #  file_preloads : tests/testthat/CHART4_NM.csv ; tests/testthat/CHART2_MO_COUNTIES.csv ; tests/testthat/DC_sis_dist.feather
-  file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather ; lending_club.rds ; lending_club.feather
-  file_preloads_ds_name : mexico ; misssouri ; dc_branches ; lending_club ; lending_club_2
+  file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ;  lending_club.rds ; lending_club.feather
+  file_preloads_ds_name : mexico ; misssouri ;  lending_club ; lending_club_2
 # tar_loads : a ; b
   builtin_datasets : iris ; mtcars
 

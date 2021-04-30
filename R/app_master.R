@@ -78,8 +78,8 @@ app_master <- R6::R6Class(
         ds_names <- parse_preloads_in_config(value = self$params$file_preloads_ds_name , sep = ";")
         stopifnot(length(ds_names) == length(files))
 
-        loaded_files <- read_files(files)
-        fnames <- names(loaded_files)
+        loaded_files <- files %>% purrr::map(read_file)
+        #fnames <- names(loaded_files)
 
         for(x in 1:length(files)){
           cli::cli_alert_info("Creating entry for  {files[x]}")

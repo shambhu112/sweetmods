@@ -69,27 +69,25 @@ load_tar_as_tibble <- function(tar_name){
 #' file reader
 #'
 #' read varios types of file based on extension
-#' @param files list of file paths to load
+#' @param file name file path to load
 #'
 #' @export
-read_files <- function(files){
- loaded <- sapply(files, function(x){
-      nm <- tolower(x)
-      if(endsWith(nm , ".csv"))
-        f <- vroom::vroom(x)
-      else if(endsWith(nm , ".feather"))
-        f <- arrow::read_feather(x)
-      else if(endsWith(nm , ".rds"))
-        f <- readr::read_rds(x)      #TODO Write Test
-      else if(endsWith(nm , ".xls"))
-        f <- readxl::read_xls(x)  #TODO Write Test
-      else if(endsWith(nm , ".xlsx"))
-        f <- readxl::read_xlsx(x)  #TODO Write Test
-      else
-        stop(glue::glue("Unknown file extension in read {x}"))
-
-  })
-  loaded
+read_file <- function(fname){
+  x <- fname
+  nm <- tolower(x)
+  if(endsWith(nm , ".csv"))
+    f <- vroom::vroom(x)
+  else if(endsWith(nm , ".feather"))
+    f <- arrow::read_feather(x)
+  else if(endsWith(nm , ".rds"))
+    f <- readr::read_rds(x)      #TODO Write Test
+  else if(endsWith(nm , ".xls"))
+    f <- readxl::read_xls(x)  #TODO Write Test
+  else if(endsWith(nm , ".xlsx"))
+    f <- readxl::read_xlsx(x)  #TODO Write Test
+  else
+    stop(glue::glue("Unknown file extension in read {x}"))
+  f
 }
 
 
