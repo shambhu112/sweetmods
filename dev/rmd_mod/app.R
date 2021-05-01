@@ -15,11 +15,12 @@ thematic_shiny()
 params <- config::get(file = "config.yml") ## @@sweetmod_config
 controller <- app_master$new(params)
 controller$preload_master_with_config()
-mod_names <- controller$mods_names()
+registry <- sweetmods::mod_registry$new(params)
+mod_names <- registry$mods_names()
 
 # call on_load function on all modules
 onl <- sapply(mod_names, function(x){
-  p <- controller$params_for_mod(x)
+  p <- registry$params_for_mod(x)
   package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
   if("onload_function" %in% names(p)){
     onload_f <- paste0(package_prefix , p$onload_function , "(controller ,params = p)")
@@ -31,7 +32,7 @@ onl <- NULL
 
 # Function to create the tab item and call the ui_function in module
 create_tab_module <- function(tab_module){
-  p <- controller$params_for_mod(tab_module)
+  p <- registry$params_for_mod(tab_module)
   ui_function <-  p$ui_function
   package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
  tabItem(
@@ -51,7 +52,7 @@ ui <- bs4Dash::dashboardPage(
   scrollToTop = TRUE,
   header = dashboardHeader(
     title = dashboardBrand(
-      title = "Sample App",
+      title = "RMD Mod",
       color = "primary", ## @@title_color
       href = "https://www.shinyspring.dev", ## @@ header_href
       image = "https://storage.googleapis.com/shiny-pics/spring_logo.png", ## @@header_image
@@ -61,7 +62,7 @@ ui <- bs4Dash::dashboardPage(
     leftUi = tagList(
       ## Title Text here
       tags$li(class = "dropdown",
-              tags$h3("Bs4 Dash Minimalistic") ## @@app_title_h3
+              tags$h3("RMD mod test") ## @@app_title_h3
       )
     ) ## close left UI
   ),
@@ -115,10 +116,10 @@ ui <- bs4Dash::dashboardPage(
 
 ## Define server logic required to draw a histogram
 server <- function(input, output , session) {
-  mods <- controller$mods_names()
+  mods <- registry$mods_names()
   for(i in 1:length(mods)){
     id <- mods[i]
-    p <- controller$params_for_mod(id)
+    p <- registry$params_for_mod(id)
     index <- which(names(controller$params) == paste0(id , ".server_function"))
   if(length(index) > 0 ){
       server_function <- controller$params[index]

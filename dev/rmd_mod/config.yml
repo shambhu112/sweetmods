@@ -21,7 +21,7 @@
 # tar_loads : dataset1 ; dataset2
 
 # Dashboard UI information : You should customize
-  app_title: Sample App
+  app_title: RMD Mod
   footer_left: Built on Shiny Spring
   footer_right: version 1.0  #app_name
   sidebar_expand_onhover: FALSE
@@ -30,7 +30,7 @@
   header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
   header_fixed: 'TRUE'
   title_color: primary
-  app_title_h3: Bs4 Dash Minimalistic
+  app_title_h3: RMD mod test
   side_bar_fixed: TRUE
   side_bar_header: Sample App
   header_opacity: 0.8
@@ -44,33 +44,31 @@
     { title: Credits , name: credits_mod , icon: heart , comma: false }
   ]
 
-
 # Sweetmods configurations : : You should customize - documentation here $TODO
-  intro_mod.package: sweetmods
-  intro_mod.ui_function: rmd_mod_ui
-  intro_mod.server_function: rmd_mod_server
-  intro_mod.onload_function: rmd_mod_onLoad
-  intro_mod.rmd_file: intro.Rmd
-  intro_mod.knit: FALSE
+  intro_mod.ref_name: rmd_mod
+  intro_mod.rmd_files: intro.Rmd
+  intro_mod.box_title: Introduction
+  intro_mod.knit: false
+
+  credits_mod.ref_name: rmd_mod
+  credits_mod.rmd_files: credits_core.rmd ; credits_extended.rmd ; credits_chart.rmd
+  credits_mod.box_title: Credits
+  credits_mod.tab_titles: Core Credits ; Extended Credits ; Visualization
+  credits_mod.knit: false
 
   core_mod.package: sweetmods
   core_mod.ui_function: dummy_mod_ui
   core_mod.server_function: dummy_mod_server
   core_mod.onload_function: dummy_mod_onLoad
-  core_mod.message: Hello
+  core_mod.param1: param 1
   core_mod.param2: param 2
 
   esquiee_mod.package: sweetmods
-  esquiee_mod.ui_function: dummy_mod_ui
-  esquiee_mod.server_function: dummy_mod_server
-  esquiee_mod.onload_function: dummy_mod_onLoad
-
-  credits_mod.package: sweetmods
-  credits_mod.ui_function: dummy_mod_ui
-  credits_mod.server_function: dummy_mod_server
-  credits_mod.onload_function: dummy_mod_onLoad
-  credits_mod.param1: param 1
-  credits_mod.param2: param 2
+  esquiee_mod.ui_function: esquisse_wrapper_ui
+  esquiee_mod.server_function: esquisse_wrapper_server
+  esquiee_mod.onload_function: esquisse_wrapper_onLoad
+  esquiee_mod.param1: param 1
+  esquiee_mod.param2: param 2
 
  dev:
   code_gen_location: dev/play

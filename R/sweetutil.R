@@ -6,13 +6,16 @@
 #' @param sep the seperator , default is ;
 #' @export
 parse_preloads_in_config <- function(value , sep = ";") {
-  stopifnot(!is.null(value))
   nms <- strsplit(value , sep )
   nms <-  sapply(nms , function(x) {trimws(x , "both") })
   nms
 }
-
-
+#' Push Error Message
+#' @param message the error message in glue format
+#' @export
+m_err <- function(message){
+  cli::cli_alert_danger(message)
+}
 
 #' creates the standardized row for app_master mdata
 #'
