@@ -8,8 +8,8 @@
 "7","rmd_mod","rmd_files",TRUE,NA,NA
 "8","rmd_mod","box_title",TRUE,NA,NA
 "9","rmd_mod","tab_titles",FALSE,NA,NA
-"10","esquisse_mod","ref_name",TRUE,NA,NA
-"11","esquisse_mod","package",TRUE,NA,NA
+"10","esquisse_mod","ref_name",TRUE,NA,"esquisse_mod"
+"11","esquisse_mod","package",TRUE,NA,"sweetmods"
 "12","esquisse_mod","ui_function",TRUE,NA,"esquisse_wrapper_ui"
 "13","esquisse_mod","server_function",TRUE,NA,"esquisse_wrapper_server"
 "14","esquisse_mod","onload_function",TRUE,NA,"esquisse_wrapper_onLoad"
