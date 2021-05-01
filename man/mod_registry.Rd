@@ -11,8 +11,11 @@ mod_registry is the call you cn
 \describe{
 \item{\code{mod_names}}{initialization parameters}
 
-\item{\code{master_params}}{initialization parameters
-get mod names from config files}
+\item{\code{master_params}}{initialization parameters}
+
+\item{\code{mod_params}}{initialization parameters}
+
+\item{\code{registry}}{get mod names from config files}
 }
 \if{html}{\out{</div>}}
 }

@@ -14,5 +14,14 @@ test_that("initiatialization tests" , {
   reg <- mod_registry$new(params = params)
   p <- reg$params_for_mod("core_mod")
   expect_true("ui_function" %in% names(p))
+})
+
+test_that("mod config" , {
+  reg <- mod_registry$new(params = params)
+  names <- reg$mod_names
+  sapply(names, function(x){
+    p <- reg$params_for_mod(x)
+    expect_true("ui_function" %in% names(p))
+  })
 
 })

@@ -8,11 +8,19 @@
 #' @export
 mod_registry <- R6::R6Class(
   "mod_registry",
+
   public = list(
     #' @field mod_names initialization parameters
     mod_names = NULL,
     #' @field master_params initialization parameters
     master_params = NULL,
+    #' @field mod_params initialization parameters
+    mod_params = NULL,
+    #' @field registry_file
+   registry_filename = NULL,
+    #' @field registry
+    registry = NULL,
+
     initialize = function(params) {
       r <- stringr::str_detect(names(params), "\\D[.]\\D")
       l <- names(params[which(r)])
@@ -20,8 +28,13 @@ mod_registry <- R6::R6Class(
       mods <- sapply(sp, function(x) {
         unlist(x)[1]
       })
+
+      self$registry_filename <- system.file("mod_registry/mod_registry.csv" , package = "sweetmods")
       self$mod_names <- unique(mods)
       self$master_params <- params
+      self$mod_params <- masterprams_to_mod_params(master_params = params ,
+                                              registry_file = self$registry_filename  ,
+                                              mod_names = self$mod_names )
   },
 
     #' get mod names from config files
@@ -35,19 +48,8 @@ mod_registry <- R6::R6Class(
     #' @param mod_name the mod_name
     #' @return list ofparams
     params_for_mod = function(mod_name) {
-      master_params <- self$master_params
-      pre <- paste0(mod_name, ".\\D")
-      r <- stringr::str_detect(names(master_params), pattern = pre)
-      l <- names(master_params[which(r)])
-      sp <- stringr::str_split(string = l, pattern = "[.]")
-      sub_params <- sapply(sp, function(x) {
-        unlist(x)[2]
-      })
-      values <- master_params[which(r)]
-      ret <- vector(mode = "list", length = length(sub_params))
-      ret <- values
-      names(ret) <- sub_params
-      ret
+      index <-which(names(self$mod_params) == mod_name)
+      self$mod_params[[index]]
     },
 
     print = function(...) {

@@ -90,6 +90,66 @@ read_file <- function(fname){
     stop(glue::glue("Unknown file extension in read {x}"))
   f
 }
+#  Converts Mod References in MasterParams to mod params
+#' @param master_params the master_params
+#' @param registry_file the registry file locaton
+#' @param mod_names the mod names
+#' @return list with new mod params
+masterprams_to_mod_params <- function(master_params , registry_file ,mod_names){
+  params <- master_params
+  m_registry <- readr::read_csv(registry_file)
+
+  mi <- sapply(mod_names, function(x){
+    ymlon_to_params(x , params)
+  })
+
+
+  mi2 <- sapply(1:length(mi), function(x){
+    # names(mi[x])
+    ref_name <- mi[[x]]$ref_name
+    if(is.null(ref_name))
+      return(mi[[x]])
+
+    props <- dplyr::filter(m_registry , mod_name == ref_name)
+    pnames <- unlist(list(props$property , names(mi[[x]])) )
+    pnames <- unique(pnames)
+
+    xv <- sapply(pnames, function(xx){
+      v <- props[props$property == xx & props$mandatory == "TRUE",]$value
+      index <- which(names(mi[[x]]) == xx)
+      if(length(index) >0 )
+        v <- as.character(mi[[x]][index])
+      v
+    })
+    xv <- as.list(xv)
+    xv
+  })
+  names(mi2) <- names(mi)
+  mi2
+
+}
+
+
+#  Converts YML object notation to config. i.e converts mod_name.param: 5 to param:5 from a master yml file
+#' used to get sub params for a given mod_name
+#' @param mod_name the mod_name
+#' @param  the master param
+#' @return list of params
+ymlon_to_params <- function(obj_name ,master_params){
+  pre <- paste0(obj_name, ".\\D")
+  r <- stringr::str_detect(names(master_params), pattern = pre)
+  l <- names(master_params[which(r)])
+  sp <- stringr::str_split(string = l, pattern = "[.]")
+  sub_params <- sapply(sp, function(x) {
+    unlist(x)[2]
+  })
+  values <- master_params[which(r)]
+  ret <- vector(mode = "list", length = length(sub_params))
+  ret <- values
+  names(ret) <- sub_params
+  ret
+}
+
 
 
 #' Columns wrappers

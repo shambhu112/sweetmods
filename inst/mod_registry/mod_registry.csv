@@ -1,0 +1,15 @@
+mod_name,property,mandatory,check_condition,value
+rmd_mod,ref_name,TRUE,,rmd_mod
+rmd_mod,package,TRUE,,sweetmods
+rmd_mod,ui_function,TRUE,,rmd_mod_ui
+rmd_mod,server_function,TRUE,,rmd_mod_server
+rmd_mod,onload_function,TRUE,,rmd_mod_onLoad
+rmd_mod,knit,FALSE,,
+rmd_mod,rmd_files,TRUE,,
+rmd_mod,box_title,TRUE,,
+rmd_mod,tab_titles,FALSE,,
+esquisse_mod,ref_name,TRUE,,esquisse_mod
+esquisse_mod,package,TRUE,,sweetmods
+esquisse_mod,ui_function,TRUE,,esquisse_wrapper_ui
+esquisse_mod,server_function,TRUE,,esquisse_wrapper_server
+esquisse_mod,onload_function,TRUE,,esquisse_wrapper_onLoad

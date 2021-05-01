@@ -7,6 +7,7 @@ default:
 # tar_loads : a ; b
   builtin_datasets : iris ; mtcars
 
+  core_mod.ref_name: dummy_mod
   core_mod.package: sweetmods
   core_mod.ui_function: dummy_mod_ui
   core_mod.server_function: dummy_mod_server
@@ -14,13 +15,20 @@ default:
   core_mod.param1: param 1
   core_mod.param2: param 2
 
-  esquiee_mod.package: sweetmods
-  esquiee_mod.ui_function: esquisse_wrapper_ui
-  esquiee_mod.server_function: esquisse_wrapper_server
-  esquiee_mod.onload_function: esquisse_wrapper_onLoad
-  esquiee_mod.param1: param 1
-  esquiee_mod.param2: param 2
+  explore_tab.ref_name: esquisse_mod
+#  esquiee_mod.package: sweetmods
+#  esquiee_mod.ui_function: esquisse_wrapper_ui
+#  esquiee_mod.server_function: esquisse_wrapper_server
+#  esquiee_mod.onload_function: esquisse_wrapper_onLoad
+  explore_tab.param1: param 1
+  explore_tab.param2: param 2
 
+  intro_mod.ref_name: rmd_mod
+  intro_mod.knit: false
+  intro_mod.rmd_files: intro.rmd
+  intro_mod.box_title: Users Guid
 
-
+  bank_mod.ui_function: bank_mod_ui
+  bank_mod.server_function: bank_mod_server
+  bank_mod.onload_function: bank_mod_onload
 
