@@ -92,13 +92,11 @@ read_file <- function(fname){
 }
 #  Converts Mod References in MasterParams to mod params
 #' @param master_params the master_params
-#' @param registry_file the registry file locaton
+#' @param registry_df the registry df
 #' @param mod_names the mod names
 #' @return list with new mod params
-masterprams_to_mod_params <- function(master_params , registry_file ,mod_names){
+masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
   params <- master_params
-  m_registry <- readr::read_csv(registry_file)
-
   mi <- sapply(mod_names, function(x){
     ymlon_to_params(x , params)
   })
@@ -109,8 +107,8 @@ masterprams_to_mod_params <- function(master_params , registry_file ,mod_names){
     ref_name <- mi[[x]]$ref_name
     if(is.null(ref_name))
       return(mi[[x]])
-
-    props <- dplyr::filter(m_registry , mod_name == ref_name)
+    mod_name <- NULL # TODO : this is done to avoid a note in r package check
+    props <- dplyr::filter(registry_df , mod_name == ref_name)
     pnames <- unlist(list(props$property , names(mi[[x]])) )
     pnames <- unique(pnames)
 
@@ -132,8 +130,8 @@ masterprams_to_mod_params <- function(master_params , registry_file ,mod_names){
 
 #  Converts YML object notation to config. i.e converts mod_name.param: 5 to param:5 from a master yml file
 #' used to get sub params for a given mod_name
-#' @param mod_name the mod_name
-#' @param  the master param
+#' @param obj_name the mod_name
+#' @param master_params the master param
 #' @return list of params
 ymlon_to_params <- function(obj_name ,master_params){
   pre <- paste0(obj_name, ".\\D")

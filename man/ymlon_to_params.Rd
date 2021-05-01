@@ -7,9 +7,9 @@
 ymlon_to_params(obj_name, master_params)
 }
 \arguments{
-\item{mod_name}{the mod_name}
+\item{obj_name}{the mod_name}
 
-\item{the}{master param}
+\item{master_params}{the master param}
 }
 \value{
 list of params

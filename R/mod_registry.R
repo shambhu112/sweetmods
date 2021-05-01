@@ -16,8 +16,6 @@ mod_registry <- R6::R6Class(
     master_params = NULL,
     #' @field mod_params initialization parameters
     mod_params = NULL,
-    #' @field registry_file
-   registry_filename = NULL,
     #' @field registry
     registry = NULL,
 
@@ -29,11 +27,12 @@ mod_registry <- R6::R6Class(
         unlist(x)[1]
       })
 
-      self$registry_filename <- system.file("mod_registry/mod_registry.csv" , package = "sweetmods")
+      registry_filename <- system.file("mod_registry/mod_registry.csv" , package = "sweetmods")
+      self$registry <- readr::read_csv(registry_filename)
       self$mod_names <- unique(mods)
       self$master_params <- params
-      self$mod_params <- masterprams_to_mod_params(master_params = params ,
-                                              registry_file = self$registry_filename  ,
+      self$mod_params <- masterparams_to_mod_params(master_params = params ,
+                                                   registry_df = self$registry  ,
                                               mod_names = self$mod_names )
   },
 
