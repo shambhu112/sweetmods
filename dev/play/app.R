@@ -12,12 +12,12 @@ library(sweetmods)
 
 thematic_shiny()
 
+
+
 params <- config::get(file = "config.yml") ## @@sweetmod_config
 controller <- app_master$new(params)
 controller$preload_master_with_config()
 registry <- sweetmods::mod_registry$new(params)
-
-
 mod_names <- registry$mods_names()
 
 # call on_load function on all modules
@@ -64,7 +64,7 @@ ui <- bs4Dash::dashboardPage(
     leftUi = tagList(
       ## Title Text here
       tags$li(class = "dropdown",
-              tags$h3("Bs4 Dash Minimalistic") ## @@app_title_h3
+              tags$h3("BS4 Dash Minimalistic") ## @@app_title_h3
       )
     ) ## close left UI
   ),
@@ -84,32 +84,32 @@ ui <- bs4Dash::dashboardPage(
 # Whisker:  Menus
         menuItem(
           "Introduction" ,
-          tabName = "intro_mod",
+          tabName = "intro_tab",
           icon = icon("university")
         ),
         menuItem(
           "Core Analysis" ,
-          tabName = "core_mod",
+          tabName = "core_tab",
           icon = icon("indent")
         ),
         menuItem(
           "Data Exploration" ,
-          tabName = "esquiee_mod",
+          tabName = "explore_tab",
           icon = icon("chart-bar")
         ),
         menuItem(
           "Credits" ,
-          tabName = "credits_mod",
+          tabName = "credits_tab",
           icon = icon("heart")
         )
           )
     ),  ## Close of sidebar
   body = dashboardBody(
     tabItems(
-      create_tab_module(tab_module = "intro_mod") ,
-      create_tab_module(tab_module = "core_mod") ,
-      create_tab_module(tab_module = "esquiee_mod") ,
-      create_tab_module(tab_module = "credits_mod")
+      create_tab_module(tab_module = "intro_tab") ,
+      create_tab_module(tab_module = "core_tab") ,
+      create_tab_module(tab_module = "explore_tab") ,
+      create_tab_module(tab_module = "credits_tab") 
       )
     ) # Close of tab items
 )

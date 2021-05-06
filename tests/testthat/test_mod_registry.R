@@ -42,3 +42,15 @@ test_that("masterparams_to_mod_params tests" , {
 
   expect_false("bank_mod" %in% names(p))
 })
+
+
+test_that("appr initial scripot " , {
+  params <- config::get(file = "config.yml") ## @@sweetmod_config
+  controller <- app_master$new(params)
+  controller$preload_master_with_config()
+  registry <- sweetmods::mod_registry$new(params)
+  mod_names <- registry$mods_names()
+
+  expect_true("core_mod" %in% mod_names)
+})
+
