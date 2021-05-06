@@ -45,12 +45,12 @@
   ]
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
-  intro_mod.ref_name: rmd_mod
+  intro_mod.mod_name: rmd_mod
   intro_mod.rmd_files: intro.Rmd
   intro_mod.box_title: Introduction
   intro_mod.knit: false
 
-  credits_mod.ref_name: rmd_mod
+  credits_mod.mod_name: rmd_mod
   credits_mod.rmd_files: credits_core.rmd ; credits_extended.rmd ; credits_chart.rmd
   credits_mod.box_title: Credits
   credits_mod.tab_titles: Core Credits ; Extended Credits ; Visualization

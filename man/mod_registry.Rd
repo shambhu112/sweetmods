@@ -25,6 +25,7 @@ mod_registry is the call you cn
 \item \href{#method-new}{\code{mod_registry$new()}}
 \item \href{#method-mods_names}{\code{mod_registry$mods_names()}}
 \item \href{#method-params_for_mod}{\code{mod_registry$params_for_mod()}}
+\item \href{#method-validate_params}{\code{mod_registry$validate_params()}}
 \item \href{#method-print}{\code{mod_registry$print()}}
 \item \href{#method-clone}{\code{mod_registry$clone()}}
 }
@@ -69,6 +70,15 @@ get sub params for a given mod_name
 \subsection{Returns}{
 list ofparams
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-validate_params"></a>}}
+\if{latex}{\out{\hypertarget{method-validate_params}{}}}
+\subsection{Method \code{validate_params()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mod_registry$validate_params()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}

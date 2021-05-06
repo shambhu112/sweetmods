@@ -23,18 +23,33 @@ mod_registry <- R6::R6Class(
       r <- stringr::str_detect(names(params), "\\D[.]\\D")
       l <- names(params[which(r)])
       sp <- stringr::str_split(string = l, pattern = "[.]")
-      mods <- sapply(sp, function(x) {
-        unlist(x)[1]
+    #  all_mods <- sapply(sp, function(x) {
+    #    unlist(x)[1]
+    #  })
+    # all_mods <- unique(all_mods)
+
+    # Using only mods that have mod_name as a property
+      registry_mods <- sapply(sp, function(x){
+         pvalue <- x[2]
+         pname <- x[1]
+         ret <- NULL
+         if(pvalue == "mod_name")
+            ret <- pname
       })
+
+      registry_mods <- unlist(unique(registry_mods))
 
       registry_filename <- system.file("mod_registry/mod_registry.csv" , package = "sweetmods")
       self$registry <- readr::read_csv(registry_filename)
-      self$mod_names <- unique(mods)
+      self$mod_names <- registry_mods
       self$master_params <- params
-      self$mod_params <- masterparams_to_mod_params(master_params = params ,
-                                                   registry_df = self$registry  ,
-                                              mod_names = self$mod_names )
-  },
+      self$validate_params()
+      self$mod_params <- masterparams_to_mod_params(master_params = self$master_params ,
+                                                    registry_df = self$registry  ,
+                                                    mod_names = self$mod_names )
+
+    },
+
 
     #' get mod names from config files
     #' @return characted list of mod_names
@@ -49,6 +64,11 @@ mod_registry <- R6::R6Class(
     params_for_mod = function(mod_name) {
       index <-which(names(self$mod_params) == mod_name)
       self$mod_params[[index]]
+    },
+
+    #`Validate the Config File
+    validate_params = function(){
+
     },
 
     print = function(...) {

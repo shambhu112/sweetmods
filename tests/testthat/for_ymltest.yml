@@ -16,14 +16,13 @@ default:
   core_mod.param2: param 2
 
   explore_tab.mod_name: esquisse_mod
-  explore_tab.param1: param 1
-  explore_tab.param2: param 2
 
   intro_mod.mod_name: rmd_mod
   intro_mod.knit: false
   intro_mod.rmd_files: intro.rmd
   intro_mod.box_title: Users Guid
 
+# Case of no ref name
   bank_mod.ui_function: bank_mod_ui
   bank_mod.server_function: bank_mod_server
   bank_mod.onload_function: bank_mod_onload

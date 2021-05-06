@@ -50,7 +50,8 @@
   intro_mod.ui_function: dummy_mod_ui
   intro_mod.server_function: dummy_mod_server
   intro_mod.onload_function: dummy_mod_onLoad
-  intro_mod.message: Hello this is Intro Mod
+  intro_mod.param1: param 1
+  intro_mod.param2: param 2
 
   core_mod.package: sweetmods
   core_mod.ui_function: dummy_mod_ui

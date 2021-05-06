@@ -25,3 +25,20 @@ test_that("mod config" , {
   })
 
 })
+
+test_that("ymlon_to_params tests" , {
+  params <- config::get(file = "tests/testthat/for_ymltest.yml")
+  p <- ymlon_to_params(obj_name = "core_mod" ,master_params = params)
+  expect_true("mod_name" %in% names(p))
+})
+
+test_that("masterparams_to_mod_params tests" , {
+  params <- config::get(file = "tests/testthat/for_ymltest.yml")
+  registry_filename <- system.file("mod_registry/mod_registry.csv" , package = "sweetmods")
+  registry <- readr::read_csv(registry_filename)
+
+  p <- masterparams_to_mod_params(master_params = params , registry_df = registry ,
+                                  mod_names = c("core_mod" , "intro_mod" , "explore_tab"))
+
+  expect_false("bank_mod" %in% names(p))
+})

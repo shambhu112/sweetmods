@@ -106,12 +106,12 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
 
 
   mi2 <- sapply(1:length(mi), function(x){
-    # names(mi[x])
-    ref_name <- mi[[x]]$ref_name
-    if(is.null(ref_name))
+
+    mname <- mi[[x]]$mod_name
+    if(is.null(mname))
       return(mi[[x]])
     mod_name <- NULL # TODO : this is done to avoid a note in r package check
-    props <- dplyr::filter(registry_df , mod_name == ref_name)
+    props <- dplyr::filter(registry_df , mod_name == mname)
     pnames <- unlist(list(props$property , names(mi[[x]])) )
     pnames <- unique(pnames)
 
