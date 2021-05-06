@@ -130,6 +130,11 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
 
 }
 
+#TODO: Note there is a bug in this method when we have a case like
+# intro_tab.mod_name: dummy_mod
+# core_tab.mod_name: dummy_mod
+# For this method to function properly there needs to be at-least one different type of param
+
 
 #  Converts YML object notation to config. i.e converts mod_name.param: 5 to param:5 from a master yml file
 #' used to get sub params for a given mod_name
