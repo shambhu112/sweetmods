@@ -64,8 +64,6 @@
 
   credits_tab.mod_name: dummy_mod
 
-
-
  dev:
   code_gen_location: dev/play
 
