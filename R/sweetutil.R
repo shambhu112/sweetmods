@@ -145,7 +145,7 @@ ymlon_to_params <- function(obj_name ,master_params){
     unlist(x)[2]
   })
   values <- master_params[which(r)]
-  ret <- vector(mode = "list", length = length(sub_params))
+#  ret <- vector(mode = "list", length = length(sub_params))
   ret <- values
   names(ret) <- sub_params
   ret
