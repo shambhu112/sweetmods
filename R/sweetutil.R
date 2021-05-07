@@ -58,14 +58,20 @@ load_built_ts_as_tibble <- function(ds_name){
 
 #' load a target and put it into a tibble.
 #' Note : we clear up the tar_load value before reutrnignt he dataframe to free up the memory
+#' @param tar_name the name of the target
+#' @param  raw_mode (optional) if set in params tar_raw_mode = TRUE then tar_read is used instead of tar_load
 #' @export
-load_tar_as_tibble <- function(tar_name){
+load_tar_as_tibble <- function(tar_name , raw_mode = FALSE){
   ds <- NULL
-  targets::tar_load(tar_name)
-  txt <- paste("ds <-  tibble::as_tibble(" , tar_name , ")" , sep = "")
-  eval(parse(text =txt))
-  txt <- paste( tar_name , " <- NULL " , sep = "")
-  eval(parse(text =txt))
+  if(raw_mode){
+    ds <- tar_read_raw(tar_name )
+  } else {
+    targets::tar_load(tar_name)
+    txt <- paste("ds <-  tibble::as_tibble(" , tar_name , ")" , sep = "")
+    eval(parse(text =txt))
+    txt <- paste( tar_name , " <- NULL " , sep = "")
+    eval(parse(text =txt))
+  }
   ds
 }
 

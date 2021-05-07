@@ -49,18 +49,12 @@
 
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
-
-  explore_tab.mod_name: esquisse_mod
-
   intro_tab.mod_name: dummy_mod
-  intro_tab.message: This is a placeholder module. Replace this with your custom module
+  intro_tab.message: This is a Dummy Mod replace this with your custom mod
 
   core_tab.mod_name: dummy_mod
 
-#  core_tab.mod_name: bank_mod
-#  core_tab.ui_function: bank_mod_ui
-#  core_tab.server_function: bank_mod_server
-#  core_tab.onload_function: bank_mod_onload
+  explore_tab.mod_name: esquisse_mod
 
   credits_tab.mod_name: dummy_mod
 

@@ -109,7 +109,7 @@ ui <- bs4Dash::dashboardPage(
       create_tab_module(tab_module = "intro_tab") ,
       create_tab_module(tab_module = "core_tab") ,
       create_tab_module(tab_module = "explore_tab") ,
-      create_tab_module(tab_module = "credits_tab") 
+      create_tab_module(tab_module = "credits_tab")
       )
     ) # Close of tab items
 )

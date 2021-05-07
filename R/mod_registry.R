@@ -79,3 +79,15 @@ mod_registry <- R6::R6Class(
       invisible(self)
     }
 ))
+
+
+params_base_minimum_check <- function(mods , reg){
+  #check for mandatory functions
+
+
+
+}
+
+check_tab_menu_to_mod_names <- function (reg){
+
+}

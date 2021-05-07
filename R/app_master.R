@@ -93,7 +93,7 @@ app_master <- R6::R6Class(
 
       ds_count <- nrow(self$master_data)
       tar_names <- self$params$tar_loads
-
+      raw_mode <- ifelse(length(self$params$tar_load_rawmode) > 0 , as.logical(self$params$tar_load_rawmode) , FALSE)
       if(!is.null(tar_names)){
         tars <- parse_preloads_in_config(value = tar_names , sep = ";")
         for (i  in 1:length(tars)) {
@@ -101,7 +101,7 @@ app_master <- R6::R6Class(
                       srnum = ds_count + i ,
                       filename = paste0("tar " , tars[i]) ,
                       ds_name = tars[i],
-                      ds =  sweetmods::load_tar_as_tibble(tars[i]) ,
+                      ds =  sweetmods::load_tar_as_tibble(tars[i] , raw_mode) ,
                       format = "tar"
                      )
           self$add_master_data_row(row)
