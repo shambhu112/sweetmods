@@ -64,7 +64,7 @@ load_built_ts_as_tibble <- function(ds_name){
 load_tar_as_tibble <- function(tar_name , raw_mode = FALSE){
   ds <- NULL
   if(raw_mode){
-    ds <- tar_read_raw(tar_name )
+    ds <- targets::tar_read_raw(tar_name )
   } else {
     targets::tar_load(tar_name)
     txt <- paste("ds <-  tibble::as_tibble(" , tar_name , ")" , sep = "")

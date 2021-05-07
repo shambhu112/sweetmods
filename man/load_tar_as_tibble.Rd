@@ -5,7 +5,12 @@
 \title{load a target and put it into a tibble.
 Note : we clear up the tar_load value before reutrnignt he dataframe to free up the memory}
 \usage{
-load_tar_as_tibble(tar_name)
+load_tar_as_tibble(tar_name, raw_mode = FALSE)
+}
+\arguments{
+\item{tar_name}{the name of the target}
+
+\item{raw_mode}{(optional) if set in params tar_raw_mode = TRUE then tar_read is used instead of tar_load}
 }
 \description{
 load a target and put it into a tibble.
