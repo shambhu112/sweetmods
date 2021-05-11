@@ -38,8 +38,8 @@ corr_mod_ui <- function(id , control , params ){
       id = "selection_box",
       fluidRow(
         column(4 ,
-               bs4Dash::blockQuote(HTML("<strong> Select Columns </strong> that you want to include in your corelation analysis.Columns with Missing Values will not work hence they are not selected in the list below.
-        Post selection you can binarize data. <strong> Binarize </strong> can take some time depending on the size of dataset. ") ,
+               bs4Dash::blockQuote(HTML("<strong> Select Columns </strong> that you want to include in your corelation analysis.Columns with Numerics are used for Corelation analysis.
+               Hence showing only numerics. Post selection you can then created the <strong> Network Graph</strong> or the <strong> Corelation Matrix </strong> in tabs below") ,
                                    color = "teal")
         ),
         column(8 ,
@@ -98,6 +98,8 @@ corr_mod_server <- function(id , control , params){
       return(NULL)
 
     row_threshhold <- params$thresh_hold_rows
+
+    cli::cli_alert_info(" Row threshhol {row_threshhold} is null : {is.null(row_threshhold)}")
 
     names <- control$dataset_names()
     dq_v <- lapply(names , function(x){

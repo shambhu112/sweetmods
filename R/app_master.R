@@ -142,9 +142,8 @@ app_master <- R6::R6Class(
     dataset_by_name = function(dataset_name , max_rows = NULL){
       index <- which(self$master_data$dataset_names == dataset_name)
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
-
       ret <- as.data.frame(self$master_data$datasets[index,]$data)
-      if(!is.null(max_rows) && max_rows < nrow(ret)){
+      if(!is.null(max_rows) && as.numeric(max_rows) < nrow(ret)){
         ret <- dplyr::sample_n(ret , size = max_rows )
       }
       ret

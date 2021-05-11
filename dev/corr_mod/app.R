@@ -57,7 +57,7 @@ ui <- bs4Dash::dashboardPage(
 # Whisker:  Menus
         bs4Dash::menuItem(
           "Corelation" ,
-          tabName = "corelation_tab",
+          tabName = "corr_tab",
           icon = icon("indent")
         ),
         bs4Dash::menuItem(
@@ -79,7 +79,7 @@ ui <- bs4Dash::dashboardPage(
     ),  ## Close of sidebar
   body = bs4Dash::dashboardBody(
     tabItems(
-      create_tab_module(tab_module = "corelation_tab" , registry , controller) ,
+      create_tab_module(tab_module = "corr_tab" , registry , controller) ,
       create_tab_module(tab_module = "core_tab" , registry , controller) ,
       create_tab_module(tab_module = "explore_tab" , registry , controller) ,
       create_tab_module(tab_module = "credits_tab" , registry , controller) 
