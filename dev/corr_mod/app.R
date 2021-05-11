@@ -11,6 +11,9 @@ controller$preload_master_with_config()
 registry <- sweetmods::mod_registry$new(params)
 
 
+registry$print()
+
+
 # Note: This function is to be implemented by app developer in the file on_startup.R
 prep_on_start(controller , registry)
 
@@ -57,7 +60,7 @@ ui <- bs4Dash::dashboardPage(
 # Whisker:  Menus
         bs4Dash::menuItem(
           "Corelation" ,
-          tabName = "corr_tab",
+          tabName = "corelation_tab",
           icon = icon("indent")
         ),
         bs4Dash::menuItem(
@@ -79,10 +82,10 @@ ui <- bs4Dash::dashboardPage(
     ),  ## Close of sidebar
   body = bs4Dash::dashboardBody(
     tabItems(
-      create_tab_module(tab_module = "corr_tab" , registry , controller) ,
+      create_tab_module(tab_module = "corelation_tab" , registry , controller) ,
       create_tab_module(tab_module = "core_tab" , registry , controller) ,
       create_tab_module(tab_module = "explore_tab" , registry , controller) ,
-      create_tab_module(tab_module = "credits_tab" , registry , controller) 
+      create_tab_module(tab_module = "credits_tab" , registry , controller)
       )
     ) # Close of tab items
 )
@@ -95,11 +98,9 @@ server <- function(input, output , session) {
   for(i in 1:length(mods)){
     id <- mods[i]
     p <- registry$params_for_mod(id)
-    index <- which(names(controller$params) == paste0(id , ".server_function"))
-  if(length(index) > 0 ){
-      server_function <- controller$params[index]
-      eval(parse(text= paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")))
-     }
+    server_function <- registry$mod_params[[id]]$server_function
+    txt <- paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")
+    eval(parse(text = txt))
   }
   }
 

@@ -58,7 +58,6 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names) {
       lapply(1:nrow(dq), function(i) {
         ids <- paste0(data_r$name, "_", i)
         cb <- create_pretty_checkbox_with_tippy(id = ids, dq[i, ], missing_threshhold = 0.0, ns)
-        cli::cli_alert_info("Created {id}")
         cb
       })
     })

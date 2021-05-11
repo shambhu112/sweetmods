@@ -39,7 +39,7 @@ corr_mod_ui <- function(id , control , params ){
       fluidRow(
         column(4 ,
                bs4Dash::blockQuote(HTML("<strong> Select Columns </strong> that you want to include in your corelation analysis.Columns with Numerics are used for Corelation analysis.
-               Hence showing only numerics. Post selection you can then created the <strong> Network Graph</strong> or the <strong> Corelation Matrix </strong> in tabs below") ,
+               Hence showing only numerics. selection you can then created the <strong> Network Graph</strong> or the <strong> Corelation Matrix </strong> in tabs below") ,
                                    color = "teal")
         ),
         column(8 ,
@@ -98,7 +98,6 @@ corr_mod_server <- function(id , control , params){
       return(NULL)
 
     row_threshhold <- params$thresh_hold_rows
-
     cli::cli_alert_info(" Row threshhol {row_threshhold} is null : {is.null(row_threshhold)}")
 
     names <- control$dataset_names()
@@ -129,7 +128,6 @@ corr_mod_server <- function(id , control , params){
 
     observeEvent(input$binarize_btn, {
       print(" binarize clickeds")
-      cli::cli_alert_info(" ds name {selections()$ds_name}  selections {selections()$col_selections}")
     #  cols <- which(selections()$col_selections)
     #  d <- control$dataset_by_name(selections()$ds_name , row_threshhold)
     #  d <- d[,cols]

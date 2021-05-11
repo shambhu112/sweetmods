@@ -43,7 +43,7 @@
 # Menus : You should customize - documentation here $TODO link
 # Note: the ui_function and server_function are from sweetmods or your custom modules
   menus: [
-    { title: Corelation , name: corr_tab , icon: indent , comma: true },
+    { title: Corelation , name: corelation_tab , icon: indent , comma: true },
     { title: Core Analysis , name: core_tab , icon: lean_pub , comma: true },
     { title: Data Exploration , name: explore_tab , icon: chart-bar , comma: true },
     { title: Credits , name: credits_tab , icon: heart , comma: false }
@@ -56,12 +56,6 @@
 
   corelation_tab.mod_name: corr_mod
   corelation_tab.thresh_hold_rows: 1000
-
-  corr_tab.mod_name: a_mod
-  corr_tab.ui_function: corr_mod_ui
-  corr_tab.server_function: corr_mod_server
-  corr_tab.onload_function: corr_mod_onLoad
-  corr_tab.thresh_hold_rows: 100
 
 
 

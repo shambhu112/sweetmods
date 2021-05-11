@@ -44,7 +44,11 @@ create_tab_module <- function(tab_module , registry , controller){
   package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
   tabItem(
     tabName = tab_module,
-    eval(parse(text = paste0(package_prefix , ui_function , "(id = '" , tab_module  ,"' , control = controller ,params = p)"  )))
+    eval({
+      txt = paste0(package_prefix , ui_function , "(id = '" , tab_module  ,"' , control = controller ,params = p)"  )
+      cli::cli_alert_info(txt)
+      parse(text = txt)
+      })
   )
 }
 
