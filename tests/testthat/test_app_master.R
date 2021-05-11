@@ -22,6 +22,16 @@ test_that("preloadwith dataset" , {
   expect_true("mpg" %in% colnames(df))
 })
 
+test_that("dataset by naem with limit on size" , {
+  master <- app_master$new(params = params)
+  master$preload_master_with_config()
+  ds_names <- master$dataset_names()
+  m <- master$dataset_by_name(dataset_name = "mexico" , max_rows = 100)
+  expect_true(100 ==  nrow(m))
+})
+
+
+
 test_that("check built in datasets" , {
   master <- app_master$new(params = params)
   master$preload_master_with_config()

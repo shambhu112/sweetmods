@@ -2,37 +2,20 @@
 ## template : bs4Dash
 ## app_type : minimal
 
-library(shiny)
-library(bs4Dash)
-library(thematic)
-library(waiter)
-library(stringr)
-library(dplyr)
-library(sweetmods)
+source("on_startup.R")
 
-thematic_shiny()
 
 params <- config::get(file = "config.yml") ## @@sweetmod_config
 controller <- app_master$new(params)
+controller$preload_master_with_config()
+registry <- sweetmods::mod_registry$new(params)
 
 
-demo_ui <- function(id, control) {
-  ns <- NS(id)
-  h4(paste0("Hello " , id))
-}
+# Note: This function is to be implemented by app developer in the file on_startup.R
+prep_on_start(controller , registry)
 
-demo_server <- function(id, control) {
-  moduleServer(id, function(input, output, session) {
-    ns <- session$ns
-  })
-}
-
-create_tab_module <- function(tab_name , module_name , module_function , control = "controller"){
-  tabItem(
-    tabName = tab_name,
-    eval(parse(text = paste0(module_function , "(id = '" , module_name  ,"' , control = " , control, " )"  )))
-  )
-}
+# call on_load function on all modules
+on_load_for_mods(controller , registry)
 
 
 ## Define UI
@@ -42,9 +25,9 @@ ui <- bs4Dash::dashboardPage(
   help = FALSE,
   fullscreen = TRUE,
   scrollToTop = TRUE,
-  header = dashboardHeader(
-    title = dashboardBrand(
-      title = "Sample App",
+  header = bs4Dash::dashboardHeader(
+    title = bs4Dash::dashboardBrand(
+      title = "Corelation Mod",
       color = "primary", ## @@title_color
       href = "https://www.shinyspring.dev", ## @@ header_href
       image = "https://storage.googleapis.com/shiny-pics/spring_logo.png", ## @@header_image
@@ -54,69 +37,53 @@ ui <- bs4Dash::dashboardPage(
     leftUi = tagList(
       ## Title Text here
       tags$li(class = "dropdown",
-              tags$h3("Bs4 Dash Minimalistic") ## @@app_title_h3
+              tags$h3("Viualization Corelations") ## @@app_title_h3
       )
     ) ## close left UI
   ),
-  sidebar = dashboardSidebar(
+  sidebar = bs4Dash::dashboardSidebar(
     fixed = TRUE, ## @@side_bar_fixed
     skin = "light",
     status = "primary",
     id = "sidebar",
 
-    sidebarMenu(
+    bs4Dash::sidebarMenu(
       id = "current_tab",
       flat = FALSE,
       compact = FALSE,
       childIndent = TRUE,
-      sidebarHeader("Sample App"),
+      sidebarHeader("Corr Mod"),
 
 # Whisker:  Menus
-        menuItem(
-          "Introduction" ,
-          tabName = "bank_mod_tab",
-          icon = icon("university")
-        ),
-
-        menuItem(
-          "Core Analysis" ,
-          tabName = "branch_mod_tab",
+        bs4Dash::menuItem(
+          "Corelation" ,
+          tabName = "corelation_tab",
           icon = icon("indent")
         ),
-
-        menuItem(
+        bs4Dash::menuItem(
+          "Core Analysis" ,
+          tabName = "core_tab",
+          icon = icon("lean_pub")
+        ),
+        bs4Dash::menuItem(
           "Data Exploration" ,
-          tabName = "esquiee_mod_tab",
+          tabName = "explore_tab",
           icon = icon("chart-bar")
         ),
-
-        menuItem(
+        bs4Dash::menuItem(
           "Credits" ,
-          tabName = "credits_mod_tab",
+          tabName = "credits_tab",
           icon = icon("heart")
         )
-
           )
-
     ),  ## Close of sidebar
-  body = dashboardBody(
+  body = bs4Dash::dashboardBody(
     tabItems(
-
-
-        create_tab_module(tab_name = "bank_mod_tab" ,
-                          module_name = "bank_mod" ,
-                          module_function = "demo_ui" ) ,
-        create_tab_module(tab_name = "branch_mod_tab" ,
-                          module_name = "branch_mod" ,
-                          module_function = "demo_ui" ) ,
-        create_tab_module(tab_name = "esquiee_mod_tab" ,
-                          module_name = "esquiee_mod" ,
-                          module_function = "demo_ui" ) ,
-        create_tab_module(tab_name = "credits_mod_tab" ,
-                          module_name = "credits_mod" ,
-                          module_function = "demo_ui" ) 
-                            )
-
+      create_tab_module(tab_module = "corelation_tab" , registry , controller) ,
+      create_tab_module(tab_module = "core_tab" , registry , controller) ,
+      create_tab_module(tab_module = "explore_tab" , registry , controller) ,
+      create_tab_module(tab_module = "credits_tab" , registry , controller) 
+      )
     ) # Close of tab items
 )
 
@@ -124,12 +91,16 @@ ui <- bs4Dash::dashboardPage(
 
 ## Define server logic required to draw a histogram
 server <- function(input, output , session) {
-
-    demo_server(id = "bank_mod" , control = controller)
-    demo_server(id = "branch_mod" , control = controller)
-    demo_server(id = "esquiee_mod" , control = controller)
-    demo_server(id = "credits_mod" , control = controller)
-
+  mods <- registry$mods_names()
+  for(i in 1:length(mods)){
+    id <- mods[i]
+    p <- registry$params_for_mod(id)
+    index <- which(names(controller$params) == paste0(id , ".server_function"))
+  if(length(index) > 0 ){
+      server_function <- controller$params[index]
+      eval(parse(text= paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")))
+     }
+  }
   }
 
     ## Run the application

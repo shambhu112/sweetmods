@@ -122,7 +122,7 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
     pnames <- unique(pnames)
 
     xv <- sapply(pnames, function(xx){
-      v <- props[props$property == xx & props$mandatory == "TRUE",]$value
+      v <- props[props$property == xx & props$category == "package_defined",]$value
       index <- which(names(mi[[x]]) == xx)
       if(length(index) >0 )
         v <- as.character(mi[[x]][index])

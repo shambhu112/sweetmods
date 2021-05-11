@@ -75,6 +75,8 @@ mod_registry <- R6::R6Class(
       cli::cli_ol("Mod Names")
       sapply(self$mod_names, function(x) {
         cli::cli_li(" {x}")
+        ps <- self$params_for_mod(x)
+        cli::cli_ol("{ps}")
       })
       invisible(self)
     }

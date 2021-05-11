@@ -137,11 +137,16 @@ app_master <- R6::R6Class(
 
     #' search for a tibble based on dataset_name
     #' @param dataset_name the name of the dataset to lookup
+    #' @param max_rows (optional) if max_rows is set then sample max_rows from dataset.
     #' @return the mapped dataset in tibble format
-    dataset_by_name = function(dataset_name){
+    dataset_by_name = function(dataset_name , max_rows = NULL){
       index <- which(self$master_data$dataset_names == dataset_name)
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
+
       ret <- as.data.frame(self$master_data$datasets[index,]$data)
+      if(!is.null(max_rows) && max_rows < nrow(ret)){
+        ret <- dplyr::sample_n(ret , size = max_rows )
+      }
       ret
     },
 
