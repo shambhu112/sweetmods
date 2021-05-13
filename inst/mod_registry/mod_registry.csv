@@ -5,9 +5,9 @@ rmd_mod,ui_function,package_defined,NA,rmd_mod_ui
 rmd_mod,server_function,package_defined,NA,rmd_mod_server
 rmd_mod,onload_function,package_defined,NA,rmd_mod_onLoad
 rmd_mod,dependencies_function,package_defined,NA,rmd_mod_create_files
-rmd_mod,knit,optional,NA,NA
-rmd_mod,rmd_files,mandatory,NA,NA
-rmd_mod,box_title,mandatory,NA,NA
+rmd_mod,knit,optional,NA,NULL
+rmd_mod,rmd_files,mandatory,NA,NULL
+rmd_mod,box_title,mandatory,NA,NULL
 esquisse_mod,mod_name,package_defined,NA,esquisse_mod
 esquisse_mod,package,package_defined,NA,sweetmods
 esquisse_mod,ui_function,package_defined,NA,esquisse_wrapper_ui
@@ -23,4 +23,4 @@ corr_mod,package,package_defined,NA,sweetmods
 corr_mod,ui_function,package_defined,NA,corr_mod_ui
 corr_mod,server_function,package_defined,NA,corr_mod_server
 corr_mod,onload_function,package_defined,NA,corr_mod_onLoad
-corr_mod,thresh_hold_rows,optional,NA,NA
+corr_mod,max_rows,mandatory,NA,10000

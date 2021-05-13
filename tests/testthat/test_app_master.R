@@ -28,6 +28,10 @@ test_that("dataset by naem with limit on size" , {
   ds_names <- master$dataset_names()
   m <- master$dataset_by_name(dataset_name = "mexico" , max_rows = 100)
   expect_true(100 ==  nrow(m))
+
+  m <- master$dataset_by_name(dataset_name = "mexico" )
+  expect_true(241 ==  nrow(m))
+
 })
 
 

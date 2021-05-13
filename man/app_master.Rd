@@ -160,7 +160,7 @@ search for a tibble based on dataset_name
 \if{latex}{\out{\hypertarget{method-dataset_by_name}{}}}
 \subsection{Method \code{dataset_by_name()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$dataset_by_name(dataset_name, max_rows = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{app_master$dataset_by_name(dataset_name, max_rows = Inf)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

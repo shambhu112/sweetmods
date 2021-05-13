@@ -11,9 +11,6 @@ controller$preload_master_with_config()
 registry <- sweetmods::mod_registry$new(params)
 
 
-registry$print()
-
-
 # Note: This function is to be implemented by app developer in the file on_startup.R
 prep_on_start(controller , registry)
 
@@ -85,7 +82,7 @@ ui <- bs4Dash::dashboardPage(
       create_tab_module(tab_module = "corelation_tab" , registry , controller) ,
       create_tab_module(tab_module = "core_tab" , registry , controller) ,
       create_tab_module(tab_module = "explore_tab" , registry , controller) ,
-      create_tab_module(tab_module = "credits_tab" , registry , controller)
+      create_tab_module(tab_module = "credits_tab" , registry , controller) 
       )
     ) # Close of tab items
 )
@@ -99,8 +96,7 @@ server <- function(input, output , session) {
     id <- mods[i]
     p <- registry$params_for_mod(id)
     server_function <- registry$mod_params[[id]]$server_function
-    txt <- paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")
-    eval(parse(text = txt))
+    eval(parse(text= paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")))
   }
   }
 

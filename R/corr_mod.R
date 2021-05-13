@@ -97,8 +97,8 @@ corr_mod_server <- function(id , control , params){
     if(nrow(control$master_data) == 0 )
       return(NULL)
 
-    row_threshhold <- params$thresh_hold_rows
-    cli::cli_alert_info(" Row threshhol {row_threshhold} is null : {is.null(row_threshhold)}")
+    row_threshhold <- params$max_rows
+    #cli::cli_alert_info(" Row threshhol {row_threshhold} is null : {is.null(row_threshhold)}")
 
     names <- control$dataset_names()
     dq_v <- lapply(names , function(x){

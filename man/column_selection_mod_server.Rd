@@ -4,7 +4,13 @@
 \alias{column_selection_mod_server}
 \title{server_function for column_selection_mod}
 \usage{
-column_selection_mod_server(id, control, dq_v, dataset_names)
+column_selection_mod_server(
+  id,
+  control,
+  dq_v,
+  dataset_names,
+  filter_types = c("everything")
+)
 }
 \arguments{
 \item{id}{the id}

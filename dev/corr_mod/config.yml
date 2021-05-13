@@ -55,8 +55,8 @@
   intro_tab.message: This is a Dummy Mod replace this with your custom mod
 
   corelation_tab.mod_name: corr_mod
-  corelation_tab.thresh_hold_rows: 1000
-
+  corelation_tab.max_rows: 1000
+  corelation_tab.ma2: !expr Inf
 
 
   core_tab.mod_name: dummy_mod
