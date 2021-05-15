@@ -26,6 +26,10 @@
   ds.air_quality.type: built_in
   ds.air_quality.connection: airquality
 
+  ds.bank.type: custom
+  ds.bank.connection: custom_load()
+  ds.bank.subset: 2000
+
 
 # Note you can preload files and targets also by adjusting the following commeted items
 

@@ -98,19 +98,6 @@ test_that("pretty names" , {
 
 
 
-test_that("preload with reactive data" , {
-
-  master <- app_master$new(params = params)
-
-  #TODO implement this.Is this needed ?
-#  df <- read.csv(file = "CHART4_NM.csv")
-#  row <- new_row(1 , df , "new_mexico" , )
-#  row <- create_row(1 , "charts_file.csv" , "new_mexico" , df , "csv")
-#  master$reactive_vals$mexico_data <- mtcars
-
-})
-
-
 test_that(" Test str_detect condition for config object notation" , {
   t <- c("abc" , "abc_t" , "abc.t" , "abc." , ".abc" , "anc.t.y")
   r <- stringr::str_detect(t , "\\D[.]\\D")

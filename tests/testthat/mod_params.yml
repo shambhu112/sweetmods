@@ -1,0 +1,8 @@
+ default:
+  sweetmod_version: 0.0.0.9000
+
+  core_mod.mod_name: dummy_mod
+  core_mod.subset: 1000
+
+  explore_tab.mod_name: esquisse_mod
+  intro_mod.mod_name: rmd_mod

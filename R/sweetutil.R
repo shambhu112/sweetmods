@@ -17,34 +17,32 @@ m_err <- function(message){
   cli::cli_alert_danger(message)
 }
 
+#' Push Info Message
+#' @param message the error message in glue format
+#' @export
+
+m_info <- function(message){
+  cli::cli_alert_info(message)
+}
+
+#' Push Success Message
+#' @param message the error message in glue format
+#' @export
+
+m_success <- function(message){
+  cli::cli_alert_success(message)
+}
+
+
 #' creates the standardized row for app_master mdata
 #'
 #' create a row that goes into mdata of reactiveValues(rvals)
-#' @importFrom tibble tibble
-#' @importFrom tidyselect everything
 #' @param srnum the serial number for the row. Index
-#' @param filename filename including path
+#' @param ds the dataset
 #' @param ds_name the unique name for the dataset you wand to refer it with to access it in the application
-#' @param ds the data.frame or tibble
-#' @param format the type of format csv , rds , parquet , tsc
+#' @param ds_params the config file params for file
+#' @return row the row
 #' @export
-#create_row <- function(srnum , filename , ds_name , ds , format , pretty_cols = NULL){
-
-#  if(is.null(pretty_cols))
-#    pretty_cols <- make.names(snakecase::to_any_case(colnames(ds)))
-
-#  row <- tibble::tibble(
-#    "srnum" = srnum,
-#    "connection_str" = filename,
-#    "dataset_names" = ds_name,
-#    "datasets" = tidyr::nest(ds , data = everything()) ,
-#    "original_cols" = list(cname = colnames(ds)),
-#    "pretty_cols" = list(pnames = pretty_cols),
-#    "connection_type" = format
-#  )
-#  row
-#}
-
 new_row <- function(sr_num , ds , ds_name ,ds_params){
 
    pretty_nms <- ifelse(is.null(ds_params$pretty_name) , snakecase::to_snake_case(colnames(ds)) , ds_params$pretty_name)
@@ -103,29 +101,6 @@ load_tar_as_tibble <- function(tar_name , raw_mode = FALSE){
 }
 
 
-#' file reader
-#'
-#' read varios types of file based on extension
-#' @param file name file path to load
-#'
-#' @export
-read_file <- function(fname){
-  x <- fname
-  nm <- tolower(x)
-  if(endsWith(nm , ".csv"))
-    f <- vroom::vroom(x)
-  else if(endsWith(nm , ".feather"))
-    f <- arrow::read_feather(x)
-  else if(endsWith(nm , ".rds"))
-    f <- readr::read_rds(x)      #TODO Write Test
-  else if(endsWith(nm , ".xls"))
-    f <- readxl::read_xls(x)  #TODO Write Test
-  else if(endsWith(nm , ".xlsx"))
-    f <- readxl::read_xlsx(x)  #TODO Write Test
-  else
-    stop(glue::glue("Unknown file extension in read {x}"))
-  f
-}
 #  Converts Mod References in MasterParams to mod params
 #' @param master_params the master_params
 #' @param registry_df the registry df
@@ -136,7 +111,7 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
   mi <- sapply(mod_names, function(x){
     ymlon_to_params(x , params)
   })
-
+  names(mi) <- mod_names
 
   mi2 <- sapply(1:length(mi), function(x){
 
@@ -158,7 +133,6 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
     xv <- as.list(xv)
     xv
   })
-  mi2 <- as.list(mi2)
   names(mi2) <- names(mi)
   mi2
 

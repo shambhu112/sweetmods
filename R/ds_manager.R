@@ -1,4 +1,8 @@
 
+
+is.defined = function(x)!is.null(x)
+
+
 #' Loads a Row based on file type
 #' @param name the name of dataset
 #' @param ds_params the params specific to the ds
@@ -14,12 +18,13 @@ load_row <- function(name , ds_params , controller){
    if(identical(type , "arrow")) the_ds <- arrow_file(name , ds_params , controller)
    if(identical(type , "feather"))the_ds <- feather_file(name , ds_params , controller)
    if(identical(type , "built_in")) the_ds <- built_in_file(name , ds_params , controller)
+   if(identical(type , "custom")) the_ds <- custom_file(name , ds_params , controller)
 
-  if(is.null(the_ds))  cli::cli_alert_danger("Dataset load for type {type} not implemented")
+   if(is.null(the_ds))  m_err("Error : Dataset load for type {type} not implemented or previous call returned null")
 
-  size <- nrow(controller$master_data)
-  row <- new_row(sr_num = size +1 , ds = the_ds , ds_name = name , ds_params = ds_params)
-  row
+   size <- nrow(controller$master_data)
+   row <- new_row(sr_num = size +1 , ds = the_ds , ds_name = name , ds_params = ds_params)
+   row
 
 }
 
@@ -78,5 +83,16 @@ built_in_file <- function(name , ds_params , controller){
   ds
 }
 
-is.defined = function(x)!is.null(x)
+custom_file <- function(name , ds_params , controller){
+  ds <- eval(parse(text = ds_params$connection))
+
+  if(is.defined(ds_params$subset)){
+    ds <- dplyr::sample_n(ds , as.integer(ds_params$subset))
+  }
+  cli::cli_alert_success(" Custom ds {name} loaded ")
+  ds_params$connection <- "removed to save memory"
+  ds
+
+}
+
 

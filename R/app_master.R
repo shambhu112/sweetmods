@@ -27,7 +27,7 @@ app_master <- R6::R6Class(
     #' @param params the config yml driven params for initialization
     #' @return  a new `app_master` object
     initialize = function(params) {
-      cli::cli_alert_info("Object app_master initialized")
+      m_info("Object app_master initialized")
       self$params <- params
       options("scipen" = 100, "digits" = 4)
       self$master_data <- tibble::tibble(srnum = numeric() , connection_str = character() , dataset_names =  character() ,

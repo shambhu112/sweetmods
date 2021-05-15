@@ -7,15 +7,16 @@
 new_row(sr_num, ds, ds_name, ds_params)
 }
 \arguments{
-\item{ds}{the data.frame or tibble}
+\item{ds}{the dataset}
 
 \item{ds_name}{the unique name for the dataset you wand to refer it with to access it in the application}
 
+\item{ds_params}{the config file params for file}
+
 \item{srnum}{the serial number for the row. Index}
-
-\item{filename}{filename including path}
-
-\item{format}{the type of format csv , rds , parquet , tsc}
+}
+\value{
+row the row
 }
 \description{
 create a row that goes into mdata of reactiveValues(rvals)

@@ -15,6 +15,12 @@ library(bs4Dash)
 
 # ... add more dependencies that neede to be laoded on startup
 
+custom_load <- function(){
+  read.csv("~/datasets/salesdata/sales_data_sample.csv")
+}
+
+
+
 prep_on_start <- function(control , registry){
 
 }
