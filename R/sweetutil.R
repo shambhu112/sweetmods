@@ -158,6 +158,7 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
     xv <- as.list(xv)
     xv
   })
+  mi2 <- as.list(mi2)
   names(mi2) <- names(mi)
   mi2
 

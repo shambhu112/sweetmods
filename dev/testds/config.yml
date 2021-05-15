@@ -16,22 +16,18 @@
   builtin_datasets: iris ; mtcars
   source_file_onstartup: on_startup.R
 
-# datsets
-  datasets:  a ; b ; c
-  ds.a.type: csv
-  ds.a.connection: ~/home/test/a.csv
-  ds.a.subset: 10000
-  ds.a.pretty_name: col1 ; col2 ; col_name3
-  ds.b.type: file1.csv
-  ds.b.load: TRUE
-  ds.c.type: tar
-  ds.c.connection: tar_name
+# datsets : This is the approach to pre-load datasets
+  ds.iris.type: built_in
+  ds.iris.connection: iris
+
+  ds.mtcars.type: built_in
+  ds.mtcars.connection: mtcars
+
+  ds.air_quality.type: built_in
+  ds.air_quality.connection: airquality
 
 
 # Note you can preload files and targets also by adjusting the following commeted items
-# file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather
-# file_preloads_ds_name : mexico ; misssouri ; dc_branches
-# tar_loads : dataset1 ; dataset2
 
 # Dashboard UI information : You should customize
   app_title: Sample App

@@ -77,8 +77,6 @@ app_master <- R6::R6Class(
       })
       ds_names <- unique(ds_names)
 
-      x <- ds_names[1]
-
       ds_params <- sapply(ds_names, function(x){
         pat <- paste0("ds." , x , ".\\D")
         sindex <- which(stringr::str_detect(names(params) , pattern = pat ))
@@ -87,10 +85,15 @@ app_master <- R6::R6Class(
           p <- stringr::str_split(x2 , pattern = "[.]")
           param_nm <- p[[1]][3]
         })
-
+        sub_ds_props <- as.list(sub_ds_props)
         names(sub_config) <- sub_ds_props
         sub_config
       })
+
+
+       if("matrix" %in% class(ds_params)){
+         ds_params <- as.list(as.data.frame(ds_params))
+       }
 
       self$ds_config <- ds_params
     },
