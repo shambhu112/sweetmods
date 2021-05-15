@@ -19,6 +19,9 @@ app_master <- R6::R6Class(
     #' @field master_data static values, non-reactive static datasets needed in the application. Note you can pre-load these
     master_data = NULL ,
 
+    #' @field  dataset configuration extracted from master config
+    ds_config = NULL ,
+
     #' @description Standard R6 Initialize function
     #'
     #' @param params the config yml driven params for initialization
@@ -30,16 +33,8 @@ app_master <- R6::R6Class(
       self$master_data <- tibble::tibble(srnum = numeric() , connection_str = character() , dataset_names =  character() ,
                           datasets  = tibble::tibble() , original_cols = list() , pretty_cols = list() , connection_type = character())
 
+      self$load_ds_config(params)
       self$reactive_vals <- shiny::reactiveValues()
-    },
-
-    #' Preload app_master with master_data `
-    #'
-    #'
-    #' @param master_data mdata in rvals will be raplced with the mmaster_data provided
-    preload_master = function(master_data){
-      self$master_data <- master_data
-      invisible(self)
     },
 
     #' Add a row to app_master `
@@ -65,66 +60,55 @@ app_master <- R6::R6Class(
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
       self$master_data$datasets[index,] <- tidyr::nest(replace_with , data = everything())
     },
+    #' load dataset config in a consumable fashion
+    #' @param params the params
+   load_ds_config = function(params){
+#     index <- which(stringr::str_detect(names(params) , pattern = "ds.\\D"))
+      index <- which(stringr::str_detect(names(params) , pattern = "^ds."))
+
+      if(length(index) == 0 ) return(NULL)
+
+      prop <- names(params)[index]
+
+      t <- stringr::str_split(prop , pattern = "[.]")
+
+      ds_names <- sapply(1:length(t), function(x){
+        t[[x]][[2]]
+      })
+      ds_names <- unique(ds_names)
+
+      x <- ds_names[1]
+
+      ds_params <- sapply(ds_names, function(x){
+        pat <- paste0("ds." , x , ".\\D")
+        sindex <- which(stringr::str_detect(names(params) , pattern = pat ))
+        sub_config <- params[sindex]
+        sub_ds_props <- sapply(names(sub_config), function(x2){
+          p <- stringr::str_split(x2 , pattern = "[.]")
+          param_nm <- p[[1]][3]
+        })
+
+        names(sub_config) <- sub_ds_props
+        sub_config
+      })
+
+      self$ds_config <- ds_params
+    },
 
     #' Preload app_master with csv files provided in config `
     #'
     #' Note this creates new mdata overiding rvals
     #' @return self object
     preload_master_with_config = function(){
-      pr_rx_file <- self$params$file_preloads
+      config <- self$ds_config
 
-      if(!is.null(pr_rx_file)){
-        files <- parse_preloads_in_config(value = self$params$file_preloads , sep = ";")
-        ds_names <- parse_preloads_in_config(value = self$params$file_preloads_ds_name , sep = ";")
-        stopifnot(length(ds_names) == length(files))
-
-        loaded_files <- files %>% purrr::map(read_file)
-        #fnames <- names(loaded_files)
-
-        for(x in 1:length(files)){
-          cli::cli_alert_info("Creating entry for  {files[x]}")
-        #  df <- as.data.frame(loaded_files[[fnames[x]]])
-          df <- as.data.frame(loaded_files[[x]])
-          row <- create_row(x , files[x] , ds_names[x] , df , "TBD") #TODO fix file type
-          self$add_master_data_row(row)
-        }
-        cli::cli_h3(" master data loaded with names = {ds_names} ")
+      # TODO  : consider parallel options here
+      for(x in names(config)){
+        ds_nm <- x
+        ds_params <- config[[ds_nm]]
+        row <- load_row(name = ds_nm, ds_params = ds_params , controller = self)
+        self$add_master_data_row(row)
       }
-
-      ds_count <- nrow(self$master_data)
-      tar_names <- self$params$tar_loads
-      raw_mode <- ifelse(length(self$params$tar_load_rawmode) > 0 , as.logical(self$params$tar_load_rawmode) , FALSE)
-      if(!is.null(tar_names)){
-        tars <- parse_preloads_in_config(value = tar_names , sep = ";")
-        for (i  in 1:length(tars)) {
-          row <- create_row(
-                      srnum = ds_count + i ,
-                      filename = paste0("tar " , tars[i]) ,
-                      ds_name = tars[i],
-                      ds =  sweetmods::load_tar_as_tibble(tars[i] , raw_mode) ,
-                      format = "tar"
-                     )
-          self$add_master_data_row(row)
-        }
-      }
-
-      builtin_nms <- self$params$builtin_datasets
-
-      if(!is.null(builtin_nms)){
-          built_inds <- parse_preloads_in_config(value = builtin_nms , sep = ";")
-          for(i in 1:length(built_inds)){
-          if(!exists(built_inds[i])) cli::cli_alert_danger(" The dataset {built_inds[i]} does not exists on system.")
-            row <- create_row(
-                 srnum = ds_count + i ,
-                filename = paste0("builtin " , built_inds[i]) ,
-                ds_name = built_inds[i],
-                ds =  sweetmods::load_built_ts_as_tibble(built_inds[i]) ,
-                format = "builtin"
-            )
-            self$add_master_data_row(row)
-          }
-      }
-
       invisible(self)
     },
 

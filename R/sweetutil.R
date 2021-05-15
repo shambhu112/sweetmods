@@ -28,21 +28,48 @@ m_err <- function(message){
 #' @param ds the data.frame or tibble
 #' @param format the type of format csv , rds , parquet , tsc
 #' @export
-create_row <- function(srnum , filename , ds_name , ds , format , pretty_cols = NULL){
+#create_row <- function(srnum , filename , ds_name , ds , format , pretty_cols = NULL){
 
-  if(is.null(pretty_cols))
-    pretty_cols <- make.names(snakecase::to_any_case(colnames(ds)))
+#  if(is.null(pretty_cols))
+#    pretty_cols <- make.names(snakecase::to_any_case(colnames(ds)))
 
-  row <- tibble::tibble(
-    "srnum" = srnum,
-    "connection_str" = filename,
-    "dataset_names" = ds_name,
-    "datasets" = tidyr::nest(ds , data = everything()) ,
-    "original_cols" = list(cname = colnames(ds)),
-    "pretty_cols" = list(pnames = pretty_cols),
-    "connection_type" = format
-  )
-  row
+#  row <- tibble::tibble(
+#    "srnum" = srnum,
+#    "connection_str" = filename,
+#    "dataset_names" = ds_name,
+#    "datasets" = tidyr::nest(ds , data = everything()) ,
+#    "original_cols" = list(cname = colnames(ds)),
+#    "pretty_cols" = list(pnames = pretty_cols),
+#    "connection_type" = format
+#  )
+#  row
+#}
+
+new_row <- function(sr_num , ds , ds_name ,ds_params){
+
+   pretty_nms <- ifelse(is.null(ds_params$pretty_name) , snakecase::to_snake_case(colnames(ds)) , ds_params$pretty_name)
+
+  #TODO:build a strategy for doing EDA with Lazy Load
+  # eda1 <- SmartEDA::ExpData(ds , type = 1)
+  # eda2 <- SmartEDA::ExpData(ds , type = 2)
+
+   row <- tibble::tibble(
+      "srnum" = sr_num,
+      "connection_str" = ds_params$connection,
+      "dataset_names" = ds_name,
+      "datasets" = tidyr::nest(ds , data = everything()) ,
+      "original_cols" = list(cname = colnames(ds)),
+      "pretty_cols" = list(pnames = pretty_nms),
+      "connection_type" = ds_params$type ,
+      "row_count" = nrow(ds) ,
+      "col_count" = ncol(ds) ,
+   #   "memory_size" = pryr::object_size(ds),
+      "dq_summary" = NULL  ,
+      "dq_detail" = NULL
+    )
+   row
+
+
 }
 
 #' load a builtin datasource as tibble

@@ -26,11 +26,10 @@ test_that("dataset by naem with limit on size" , {
   master <- app_master$new(params = params)
   master$preload_master_with_config()
   ds_names <- master$dataset_names()
-  m <- master$dataset_by_name(dataset_name = "mexico" , max_rows = 100)
-  expect_true(100 ==  nrow(m))
-
+  m <- master$dataset_by_name(dataset_name = "mexico" , max_rows = 50)
+  expect_true(50 ==  nrow(m))
   m <- master$dataset_by_name(dataset_name = "mexico" )
-  expect_true(241 ==  nrow(m))
+  expect_true(100 ==  nrow(m))
 
 })
 
@@ -63,7 +62,7 @@ test_that("replace dataset" , {
   expect_true("mexico" %in% ds_names)
 
   mexico <- master$dataset_by_name("mexico")
-  expect_equal(241 , nrow(mexico))
+  expect_equal(100 , nrow(mexico))
   expect_true("Clean.Plaintiff" %in% colnames(mexico))
 
 })
@@ -100,11 +99,14 @@ test_that("pretty names" , {
 
 
 test_that("preload with reactive data" , {
+
   master <- app_master$new(params = params)
 
-  df <- read.csv(file = "CHART4_NM.csv")
-  row <- create_row(1 , "charts_file.csv" , "new_mexico" , df , "csv")
-  master$reactive_vals$mexico_data <- mtcars
+  #TODO implement this.Is this needed ?
+#  df <- read.csv(file = "CHART4_NM.csv")
+#  row <- new_row(1 , df , "new_mexico" , )
+#  row <- create_row(1 , "charts_file.csv" , "new_mexico" , df , "csv")
+#  master$reactive_vals$mexico_data <- mtcars
 
 })
 

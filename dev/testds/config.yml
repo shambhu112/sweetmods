@@ -1,0 +1,76 @@
+# bs4_minimal_mst : Minimalistic bs4_dash configuration.
+# Adjust as per your needs
+# Notes :
+#     1) this yml maps to template here https://github.com/shambhu112/shinyspring/blob/main/inst/bs4/bs4_minimal.mst
+#     2) For advanced users you cna modify template above use it to create your shiny app
+
+ default:
+## DO NOT Change the following
+  dashboard_template: bs4_dash
+  template_file: !expr system.file("bs4/bs4_minimal.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+
+# Adjust as per your App but defaults work well.
+  sweetmod_config : config.yml
+  code_gen_location: '.'
+  preload_dataset: true
+  builtin_datasets: iris ; mtcars
+  source_file_onstartup: on_startup.R
+
+# datsets
+  datasets:  a ; b ; c
+  ds.a.type: csv
+  ds.a.connection: ~/home/test/a.csv
+  ds.a.subset: 10000
+  ds.a.pretty_name: col1 ; col2 ; col_name3
+  ds.b.type: file1.csv
+  ds.b.load: TRUE
+  ds.c.type: tar
+  ds.c.connection: tar_name
+
+
+# Note you can preload files and targets also by adjusting the following commeted items
+# file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather
+# file_preloads_ds_name : mexico ; misssouri ; dc_branches
+# tar_loads : dataset1 ; dataset2
+
+# Dashboard UI information : You should customize
+  app_title: Sample App
+  footer_left: Built on Shiny Spring
+  footer_right: version 1.0  #app_name
+  sidebar_expand_onhover: FALSE
+  dark_theme: FALSE
+  header_href: https://www.shinyspring.dev
+  header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
+  header_fixed: 'TRUE'
+  title_color: primary
+  app_title_h3: BS4 Dash Minimalistic
+  side_bar_fixed: TRUE
+  side_bar_header: Sample App
+  header_opacity: 0.8
+
+# Authentication : Use Shinymanager based auth or not
+  basic_auth: FALSE
+
+# Menus : You should customize - documentation here $TODO link
+# Note: the ui_function and server_function are from sweetmods or your custom modules
+  menus: [
+    { title: Introduction , name: intro_tab , icon: university , comma: true },
+    { title: Core Analysis , name: core_tab , icon: indent , comma: true },
+    { title: Data Exploration , name: explore_tab , icon: chart-bar , comma: true },
+    { title: Credits , name: credits_tab , icon: heart , comma: false }
+  ]
+
+
+# Sweetmods configurations : : You should customize - documentation here $TODO
+  intro_tab.mod_name: dummy_mod
+  intro_tab.message: This is a Dummy Mod replace this with your custom mod
+
+  core_tab.mod_name: dummy_mod
+
+  explore_tab.mod_name: esquisse_mod
+
+  credits_tab.mod_name: dummy_mod
+
+ dev:
+  code_gen_location: dev/play
+

@@ -15,6 +15,15 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \item{\code{reactive_vals}}{reactiveValues instance that stores all reactive values needed in app}
 
 \item{\code{master_data}}{static values, non-reactive static datasets needed in the application. Note you can pre-load these}
+
+\item{\code{dataset}}{configuration extracted from master config}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{dataset}}{configuration extracted from master config}
 }
 \if{html}{\out{</div>}}
 }
@@ -22,10 +31,10 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{app_master$new()}}
-\item \href{#method-preload_master}{\code{app_master$preload_master()}}
 \item \href{#method-add_master_data_row}{\code{app_master$add_master_data_row()}}
 \item \href{#method-remove_dataset}{\code{app_master$remove_dataset()}}
 \item \href{#method-replace_dataset_by_name}{\code{app_master$replace_dataset_by_name()}}
+\item \href{#method-load_ds_config}{\code{app_master$load_ds_config()}}
 \item \href{#method-preload_master_with_config}{\code{app_master$preload_master_with_config()}}
 \item \href{#method-dataset_names}{\code{app_master$dataset_names()}}
 \item \href{#method-dataset_by_name}{\code{app_master$dataset_by_name()}}
@@ -53,24 +62,7 @@ Standard R6 Initialize function
 }
 \subsection{Returns}{
 a new \code{app_master} object
-Preload app_master with master_data `
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-preload_master"></a>}}
-\if{latex}{\out{\hypertarget{method-preload_master}{}}}
-\subsection{Method \code{preload_master()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{app_master$preload_master(master_data)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{master_data}}{mdata in rvals will be raplced with the mmaster_data provided
-Add a row to app_master `}
-}
-\if{html}{\out{</div>}}
+Add a row to app_master `
 }
 }
 \if{html}{\out{<hr>}}
@@ -122,6 +114,23 @@ replaces dataset with new row at the same index}
 \item{\code{dataset_name}}{the ds_name}
 
 \item{\code{replace_with}}{the row created with create_row
+load dataset config in a consumable fashion}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-load_ds_config"></a>}}
+\if{latex}{\out{\hypertarget{method-load_ds_config}{}}}
+\subsection{Method \code{load_ds_config()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$load_ds_config(params)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{params}}{the params
 Preload app_master with csv files provided in config `
 
 Note this creates new mdata overiding rvals}
