@@ -196,12 +196,9 @@ corr_mod_server <- function(id , control , params){
       cols <- which(sel)
       d <- control$dataset_by_name(selections()$ds_name , row_threshhold)
       d <- d[,cols]
-      d <- corrr::correlate(d[,cols])
+      d <- corrr::correlate(d)
       d <- corrr::rearrange(d)
       d <- corrr::shave(d)
-
-      print("in corr_dup")
-
 
       output$corrr_matrix_plot <- renderPlot({
         plot(corrr::rplot(d , legend = TRUE , shape = 16 ,print_cor = TRUE  ))
