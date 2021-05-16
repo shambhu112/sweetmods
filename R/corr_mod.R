@@ -76,13 +76,13 @@ corr_mod_ui <- function(id , control , params ){
         plotOutput(ns("corrr_matrix_plot"))
       ) ,
       tabPanel(
-        "Corrmant",
+        "Corrmorant",
         fluidRow(
           column(3 ,
                  bs4Dash::actionButton(inputId = ns("corrrmant_btn") , label = "Show Matrix" , status = "primary" ),
-                 bs4Dash::blockQuote(HTML("Note : Corrmant Charts take some additional time to plot.  Please select <strong> less that 10 columns </strong> ") ,
+                 bs4Dash::blockQuote(HTML("Note : corrmorant Charts take some additional time to plot.  Please select <strong> less that 10 columns </strong> ") ,
                             color = "warning") ,
-                 bs4Dash::blockQuote(HTML('For more details on Corrmant chart <a href="https://github.com/r-link/corrmorant" target="_blank"
+                 bs4Dash::blockQuote(HTML('For more details on corrmorant package <a href="https://github.com/r-link/corrmorant" target="_blank"
                                  rel="noopener noreferrer">Click Here</a> ') ,
                             color = "info")
 
