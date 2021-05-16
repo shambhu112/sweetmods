@@ -11,6 +11,8 @@ corr_mod_onLoad <- function(control , params){
   library(gt)
   library(SmartEDA)
   library(tippy)
+  library(corrmorant)
+  library(corrr)
 }
 
 #' ui_function for corr_mod
