@@ -37,7 +37,7 @@ ui <- bs4Dash::dashboardPage(
     leftUi = tagList(
       ## Title Text here
       tags$li(class = "dropdown",
-              tags$h3("Viualization Corelations") ## @@app_title_h3
+              tags$h3("Corelation Analysis") ## @@app_title_h3
       )
     ) ## close left UI
   ),
@@ -52,18 +52,13 @@ ui <- bs4Dash::dashboardPage(
       flat = FALSE,
       compact = FALSE,
       childIndent = TRUE,
-      sidebarHeader("Corr Mod"),
+      sidebarHeader("Sample App"),
 
 # Whisker:  Menus
         bs4Dash::menuItem(
-          "Corelation" ,
-          tabName = "corelation_tab",
+          "Corelation Analysis" ,
+          tabName = "corr_tab",
           icon = icon("indent")
-        ),
-        bs4Dash::menuItem(
-          "Core Analysis" ,
-          tabName = "core_tab",
-          icon = icon("lean_pub")
         ),
         bs4Dash::menuItem(
           "Data Exploration" ,
@@ -79,8 +74,7 @@ ui <- bs4Dash::dashboardPage(
     ),  ## Close of sidebar
   body = bs4Dash::dashboardBody(
     tabItems(
-      create_tab_module(tab_module = "corelation_tab" , registry , controller) ,
-      create_tab_module(tab_module = "core_tab" , registry , controller) ,
+      create_tab_module(tab_module = "corr_tab" , registry , controller) ,
       create_tab_module(tab_module = "explore_tab" , registry , controller) ,
       create_tab_module(tab_module = "credits_tab" , registry , controller) 
       )

@@ -19,7 +19,17 @@ test_that("test masterparams_to_mod_params" , {
                                         registry_df  ,
                                         mod_names  )
 
+ expect_true("dummy_mod" == mparams$core_mod$mod_name)
 
-   expect_true("dummy_mod" == mparams$core_mod$mod_name)
+})
 
+
+test_that("test new_row" , {
+  sr_num <- 1
+  ds <- iris
+  ds_name <- "iris"
+  ds_params <- list(type = "built_in" , connection = "iris")
+  row <- new_row(sr_num , ds , ds_name  , ds_params )
+  pnames <- row$pretty_cols
+  expect_true("sepal_length" %in% pnames$pnames)
 })

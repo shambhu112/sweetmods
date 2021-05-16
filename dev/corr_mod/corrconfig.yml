@@ -8,6 +8,9 @@
 ## DO NOT Change the following
   dashboard_template: bs4_dash
   template_file: !expr system.file("bs4/bs4_minimal.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+  dummy_test.mod_name: dummy_mod
+  dummy_test.weird_param: dummy
+
 
 # Adjust as per your App but defaults work well.
   sweetmod_config : config.yml
@@ -16,11 +19,18 @@
   builtin_datasets: iris ; mtcars
   source_file_onstartup: on_startup.R
 
+# datsets : This is the approach to pre-load datasets
+  ds.iris.type: built_in
+  ds.iris.connection: iris
+
+  ds.mtcars.type: built_in
+  ds.mtcars.connection: mtcars
+
+  ds.air_quality.type: built_in
+  ds.air_quality.connection: airquality
+
 
 # Note you can preload files and targets also by adjusting the following commeted items
-# file_preloads : CHART4_NM.csv ; CHART2_MO_COUNTIES.csv ; DC_sis_dist.feather
-# file_preloads_ds_name : mexico ; misssouri ; dc_branches
-# tar_loads : dataset1 ; dataset2
 
 # Dashboard UI information : You should customize
   app_title: Corelation Mod
@@ -32,9 +42,9 @@
   header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
   header_fixed: 'TRUE'
   title_color: primary
-  app_title_h3: Viualization Corelations
+  app_title_h3: Corelation Analysis
   side_bar_fixed: TRUE
-  side_bar_header: Corr Mod
+  side_bar_header: Sample App
   header_opacity: 0.8
 
 # Authentication : Use Shinymanager based auth or not
@@ -43,23 +53,18 @@
 # Menus : You should customize - documentation here $TODO link
 # Note: the ui_function and server_function are from sweetmods or your custom modules
   menus: [
-    { title: Corelation , name: corelation_tab , icon: indent , comma: true },
-    { title: Core Analysis , name: core_tab , icon: lean_pub , comma: true },
+    { title: Corelation Analysis , name: corr_tab , icon: indent , comma: true },
     { title: Data Exploration , name: explore_tab , icon: chart-bar , comma: true },
     { title: Credits , name: credits_tab , icon: heart , comma: false }
   ]
 
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
-  intro_tab.mod_name: dummy_mod
-  intro_tab.message: This is a Dummy Mod replace this with your custom mod
-
-  corelation_tab.mod_name: corr_mod
-  corelation_tab.max_rows: 1000
-  corelation_tab.ma2: !expr Inf
-
-
-  core_tab.mod_name: dummy_mod
+  corr_tab.mod_name: corr_dup_mod
+  corr_tab.ui_function: corr_mod_ui
+  corr_tab.server_function: corr_mod_server
+  corr_tab.onload_function: corr_mod_onLoad
+  corr_tab.max_rows: 10000
 
   explore_tab.mod_name: esquisse_mod
 

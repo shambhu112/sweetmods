@@ -17,6 +17,8 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \item{\code{master_data}}{static values, non-reactive static datasets needed in the application. Note you can pre-load these}
 
 \item{\code{dataset}}{configuration extracted from master config}
+
+\item{\code{dq_master}}{Stores Data Quality Information for each dataset}
 }
 \if{html}{\out{</div>}}
 }
@@ -31,6 +33,8 @@ as tibbles. These tibbles are stored in \code{reactiveValues} \code{rvals}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{app_master$new()}}
+\item \href{#method-get_dq_summary}{\code{app_master$get_dq_summary()}}
+\item \href{#method-get_dq_detail}{\code{app_master$get_dq_detail()}}
 \item \href{#method-add_master_data_row}{\code{app_master$add_master_data_row()}}
 \item \href{#method-remove_dataset}{\code{app_master$remove_dataset()}}
 \item \href{#method-replace_dataset_by_name}{\code{app_master$replace_dataset_by_name()}}
@@ -57,6 +61,46 @@ Standard R6 Initialize function
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{params}}{the config yml driven params for initialization}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a new \code{app_master} object
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_dq_summary"></a>}}
+\if{latex}{\out{\hypertarget{method-get_dq_summary}{}}}
+\subsection{Method \code{get_dq_summary()}}{
+Gets SmartEDA::ExpData(type = 1) dataframe in lazy maner
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$get_dq_summary(ds_name, max_rows = Inf)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ds_name}}{the ds_name}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a new \code{app_master} object
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_dq_detail"></a>}}
+\if{latex}{\out{\hypertarget{method-get_dq_detail}{}}}
+\subsection{Method \code{get_dq_detail()}}{
+Gets SmartEDA::ExpData(type = 2) dataframe in lazy manner
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{app_master$get_dq_detail(ds_name, max_rows = Inf)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ds_name}}{the ds_name}
 }
 \if{html}{\out{</div>}}
 }

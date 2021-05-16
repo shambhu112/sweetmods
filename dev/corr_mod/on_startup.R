@@ -27,7 +27,6 @@ on_load_for_mods <- function(control , registry){
     package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
     if("onload_function" %in% names(p)){
       onload_f <- paste0(package_prefix , p$onload_function , "(control ,params = p)")
-      cli::cli_alert_info("on load : {onload_f}")
       eval(parse(text= onload_f))
       cli::cli_alert_info("Executed onload for {x} : {onload_f}")
     }
@@ -44,11 +43,7 @@ create_tab_module <- function(tab_module , registry , controller){
   package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
   tabItem(
     tabName = tab_module,
-    eval({
-      txt = paste0(package_prefix , ui_function , "(id = '" , tab_module  ,"' , control = controller ,params = p)"  )
-      cli::cli_alert_info(txt)
-      parse(text = txt)
-      })
+    eval(parse(text = paste0(package_prefix , ui_function , "(id = '" , tab_module  ,"' , control = controller ,params = p)"  )))
   )
 }
 

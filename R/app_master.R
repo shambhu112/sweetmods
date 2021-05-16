@@ -22,6 +22,9 @@ app_master <- R6::R6Class(
     #' @field  dataset configuration extracted from master config
     ds_config = NULL ,
 
+    #' @field dq_master Stores Data Quality Information for each dataset
+    dq_master = NULL ,
+
     #' @description Standard R6 Initialize function
     #'
     #' @param params the config yml driven params for initialization
@@ -37,6 +40,24 @@ app_master <- R6::R6Class(
       self$reactive_vals <- shiny::reactiveValues()
     },
 
+    #' @description Gets SmartEDA::ExpData(type = 1) dataframe in lazy maner
+    #'
+    #' @param ds_name the ds_name
+    #' @return  a new `app_master` object
+    get_dq_summary = function(ds_name , max_rows = Inf){
+      the_row <- lazy_update_dq_row(ds_name , self , max_rows)
+      ret <-as.data.frame(the_row$dq_summary$data)
+    },
+
+    #' @description Gets SmartEDA::ExpData(type = 2) dataframe in lazy manner
+    #'
+    #' @param ds_name the ds_name
+    #' @return  a new `app_master` object
+    get_dq_detail = function(ds_name , max_rows = Inf){
+      the_row <- lazy_update_dq_row(ds_name , self , max_rows)
+      ret <-as.data.frame(the_row$dq_detail$data)
+    },
+
     #' Add a row to app_master `
     #'
     #' @param row  new row object created with create_row
@@ -50,6 +71,7 @@ app_master <- R6::R6Class(
     remove_dataset = function(index){
       self$master_data <- self$master_data[-index,]
       self$master_data$srnum <- seq(1:nrow(self$master_data))
+      #TODO - remove the dq also
     },
 
     #' replaces dataset with new row at the same index
@@ -58,7 +80,7 @@ app_master <- R6::R6Class(
     replace_dataset_by_name = function(dataset_name , replace_with){
       index <- which(self$master_data$dataset_names == dataset_name)
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
-      self$master_data$datasets[index,] <- tidyr::nest(replace_with , data = everything())
+      self$master_data$datasets[index,] <- tidyr::nest(replace_with , data =  dplyr::everything())
     },
     #' load dataset config in a consumable fashion
     #' @param params the params
@@ -131,7 +153,7 @@ app_master <- R6::R6Class(
       stopifnot(length(index) == 1) #TODO : Clean handling needed here , message
       ret <- as.data.frame(self$master_data$datasets[index,]$data)
       v <- as.numeric(max_rows)
-      if(is.finite(v) && (v < nrow(ret)) ){
+      if(length(v) > 0 && (v < nrow(ret)) ){
         ret <- dplyr::sample_n(ret , size = max_rows )
       }
       ret

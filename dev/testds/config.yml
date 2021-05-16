@@ -8,6 +8,9 @@
 ## DO NOT Change the following
   dashboard_template: bs4_dash
   template_file: !expr system.file("bs4/bs4_minimal.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+  dummy_test.mod_name: dummy_mod
+  dummy_test.weird_param: dummy
+
 
 # Adjust as per your App but defaults work well.
   sweetmod_config : config.yml
@@ -25,10 +28,6 @@
 
   ds.air_quality.type: built_in
   ds.air_quality.connection: airquality
-
-  ds.bank.type: custom
-  ds.bank.connection: custom_load()
-  ds.bank.subset: 2000
 
 
 # Note you can preload files and targets also by adjusting the following commeted items

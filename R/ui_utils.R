@@ -29,16 +29,11 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names , filte
     ns <- session$ns
     names <- dataset_names
     names(dq_v) <- names
-
     data_r <- reactiveValues(
       name = names[1], ds = control$dataset_by_name(names[1]),
       dq = as.data.frame(dq_v[1]),
-      selections = list(ds_name = names[1], col_selections = list(rep(TRUE, nrow(dq_v[[1]]))))
+      selections = list(ds_name = names[1], col_selections = list(rep(FALSE, nrow(dq_v[[1]]))))
     )
-
-
-    print("data r is set ")
-
     observe({
       sel <- input$dataset_selection
       data_r$name <- ifelse(is.null(sel), names[1], sel)
@@ -54,10 +49,17 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names , filte
 
     output$conditional_checkboxes <- renderUI({
       dq <- data_r$dq
-      print("in chekboxes")
+
       lapply(1:nrow(dq), function(i) {
         ids <- paste0(data_r$name, "_", i)
-        cb <- create_pretty_checkbox_with_tippy(id = ids, dq[i, ], missing_threshhold = 0.0, ns)
+
+        if(identical(dq$Variable_Type[[i]] , "numeric") | identical(dq$Variable_Type[[i]] , "integer") ){
+          cb <- create_pretty_checkbox_with_tippy(id = ids, dq[i, ], missing_threshhold = 0.0, ns)
+        #  print(cb)
+          cb
+        } else{
+           cb <-  shiny::helpText(id = ids, dq$pretty_name[[i]] , value = "FALSE")
+        }
         cb
       })
     })
@@ -94,6 +96,7 @@ create_pretty_checkbox_with_tippy <- function(id, dq, missing_threshhold = 0.0, 
     x > missing_threshhold ~ "high",
     TRUE ~ "low"
   )
+
   if ("high" == missing) {
     ui <- tippy::with_tippy(
       element = shinyWidgets::prettyCheckbox(inputId = ns(id), label = dq$pretty_name, value = FALSE, shape = "curve", status = "danger", inline = TRUE),

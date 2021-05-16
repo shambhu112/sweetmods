@@ -34,6 +34,26 @@ m_success <- function(message){
 }
 
 
+#' creates new dq_master row
+#'
+#' @param srnum the serial number for the row. Index
+#' @param ds_name the unique name for the dataset you wand to refer it with to access it in the application
+#' @param ds the dataset
+#' @return row the row
+#' @export
+new_dqmaster_row <- function(sr_num ,ds_name , ds){
+  eda1 <- SmartEDA::ExpData(ds , type = 1)
+  eda2 <- SmartEDA::ExpData(ds , type = 2)
+  row <-tibble::tibble(
+    "srnum" = sr_num ,
+    "ds_name" = ds_name ,
+    "dq_summary" = tidyr::nest(eda1 , data = dplyr::everything()) ,
+    "dq_detail" =  tidyr::nest(eda2 , data = dplyr::everything())
+  )
+  row
+}
+
+
 #' creates the standardized row for app_master mdata
 #'
 #' create a row that goes into mdata of reactiveValues(rvals)
@@ -44,18 +64,16 @@ m_success <- function(message){
 #' @return row the row
 #' @export
 new_row <- function(sr_num , ds , ds_name ,ds_params){
-
-   pretty_nms <- ifelse(is.null(ds_params$pretty_name) , snakecase::to_snake_case(colnames(ds)) , ds_params$pretty_name)
-
-  #TODO:build a strategy for doing EDA with Lazy Load
-  # eda1 <- SmartEDA::ExpData(ds , type = 1)
-  # eda2 <- SmartEDA::ExpData(ds , type = 2)
-
+      if(is.null(ds_params$pretty_names)){
+            pretty_nms <- snakecase::to_snake_case(colnames(ds))
+      } else{
+          pretty_nms <- ds_params$pretty_names #TODO: this needs to tested if it works
+    }
    row <- tibble::tibble(
       "srnum" = sr_num,
       "connection_str" = ds_params$connection,
       "dataset_names" = ds_name,
-      "datasets" = tidyr::nest(ds , data = everything()) ,
+      "datasets" = tidyr::nest(ds , data = dplyr::everything()) ,
       "original_cols" = list(cname = colnames(ds)),
       "pretty_cols" = list(pnames = pretty_nms),
       "connection_type" = ds_params$type ,
@@ -137,6 +155,27 @@ masterparams_to_mod_params <- function(master_params , registry_df , mod_names){
   mi2
 
 }
+
+lazy_update_dq_row <- function(ds_name , control , max_rows = Inf){
+
+  if(is.null(control$dq_master)){
+    row <- new_dqmaster_row(sr_num = 1 , ds_name = ds_name , ds = control$dataset_by_name(ds_name , max_rows))
+    control$dq_master <- row
+    cli::cli_alert_success("dq for {ds_name} created : Index : 1")
+  }
+  the_row <- control$dq_master[control$dq_master$ds_name == ds_name,]
+  if(nrow(the_row) == 0){
+    index <- nrow(control$dq_master) + 1
+    row <- new_dqmaster_row(sr_num = index ,
+                            ds_name = ds_name ,
+                            ds = control$dataset_by_name(ds_name , max_rows ))
+    control$dq_master <- dplyr::bind_rows(control$dq_master , row)
+    cli::cli_alert_success("dq for {ds_name} created : Index : {index}")
+    the_row <- row
+  }
+  the_row
+}
+
 
 #TODO: Note there is a bug in this method when we have a case like
 # intro_tab.mod_name: dummy_mod
