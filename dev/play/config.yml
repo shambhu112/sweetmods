@@ -61,10 +61,11 @@
 
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
-  intro_tab.mod_name: dummy_mod
-  intro_tab.message: This is a Dummy Mod replace this with your custom mod
+  intro_tab.mod_name: rmd_mod
+  intro_tab.rmd_file: intro.Rmd
+  intro_tab.box_title: Welcome
 
-  core_tab.mod_name: dummy_mod
+  core_tab.mod_name: corr_mod
 
   explore_tab.mod_name: esquisse_mod
 

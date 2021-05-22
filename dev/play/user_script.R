@@ -23,7 +23,6 @@ shinyspring::create_shinyapp(params = params )
 shinyspring::test_config_file(params)
 
 
-
 ## Step 4 : Launch the App
 shiny::runApp()
 
