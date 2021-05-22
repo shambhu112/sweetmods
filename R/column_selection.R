@@ -23,9 +23,10 @@ column_selection_mod_ui <- function(id, dataset_names) {
 #' @param id the id
 #' @param control the controller  \code{app_master}
 #' @param params for the mod
+#' @import shiny
 #' @export
 column_selection_mod_server <- function(id, control, dq_v, dataset_names , filter_types = c("everything")) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     names <- dataset_names
     names(dq_v) <- names

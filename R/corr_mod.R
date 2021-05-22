@@ -8,11 +8,11 @@
 #' @param params for the mod
 #' @export
 corr_mod_onLoad <- function(control , params){
-  library(gt)
-  library(SmartEDA)
-  library(tippy)
-  library(corrmorant)
-  library(corrr)
+ # library(gt)
+#  library(SmartEDA)
+#  library(tippy)
+#  library(corrmorant)
+#  library(corrr)
 }
 
 #' ui_function for corr_mod
@@ -212,6 +212,7 @@ corr_mod_server <- function(id , control , params){
 
 }
 
+
 gt_tbl <- function(data) {
   smd <- as.data.frame(SmartEDA::ExpData(data , type = 1))
   gt::gt(smd)
@@ -243,4 +244,6 @@ create_pretty_checkbox <- function(id , dq , missing_threshhold = 0.0){
   }
   ui
 }
+
+
 

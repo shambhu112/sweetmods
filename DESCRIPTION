@@ -8,25 +8,20 @@ License: MIT + file LICENSE
 Imports: 
     config (>= 0.3),
     cli,
+    corrmorant ,
+    corrr ,
+    esquisse,
+    SmartEDA ,
     dplyr,
-    tibble,
     shiny ,
     tidyr ,
     snakecase,
-    R6 ,
-    tidyselect ,
     readr ,
-    vroom ,
-    shinyjs
+    shinyjs ,
+    shinyspring
 Suggests: 
     testthat (>= 3.0.0),
-    corrmorant , 
-    reactable ,
-    stringr ,
-    SmartEDA ,
     utils ,
-    esquisse ,
-    arrow 
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

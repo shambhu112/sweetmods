@@ -2,47 +2,21 @@
 ## template : bs4Dash
 ## app_type : minimal
 
-library(shiny)
-library(bs4Dash)
-library(thematic)
-library(waiter)
-library(stringr)
-library(dplyr)
-library(sweetmods)
-
-thematic_shiny()
-
+source("on_startup.R")
+library(shinyspring)
 
 
 params <- config::get(file = "config.yml") ## @@sweetmod_config
 controller <- app_master$new(params)
 controller$preload_master_with_config()
-registry <- sweetmods::mod_registry$new(params)
-mod_names <- registry$mods_names()
+registry <- shinyspring::mod_registry$new(params)
+
+
+# Note: This function is to be implemented by app developer in the file on_startup.R
+prep_on_start(controller , registry)
 
 # call on_load function on all modules
-onl <- sapply(mod_names, function(x){
-  p <- registry$params_for_mod(x)
-  package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
-  if("onload_function" %in% names(p)){
-    onload_f <- paste0(package_prefix , p$onload_function , "(controller ,params = p)")
-    eval(parse(text= onload_f))
-    cli::cli_alert_info("Executed onload for {x} : {onload_f}")
-  }
-})
-onl <- NULL
-
-# Function to create the tab item and call the ui_function in module
-create_tab_module <- function(tab_module){
-  p <- registry$params_for_mod(tab_module)
-  ui_function <-  p$ui_function
-  package_prefix <- ifelse("package" %in% names(p) , paste0(p$package , "::") , "" )
- tabItem(
-    tabName = tab_module,
-    eval(parse(text = paste0(package_prefix , ui_function , "(id = '" , tab_module  ,"' , control = controller ,params = p)"  )))
-  )
-}
-
+on_load_for_mods(controller , registry)
 
 
 ## Define UI
@@ -52,8 +26,8 @@ ui <- bs4Dash::dashboardPage(
   help = FALSE,
   fullscreen = TRUE,
   scrollToTop = TRUE,
-  header = dashboardHeader(
-    title = dashboardBrand(
+  header = bs4Dash::dashboardHeader(
+    title = bs4Dash::dashboardBrand(
       title = "Sample App",
       color = "primary", ## @@title_color
       href = "https://www.shinyspring.dev", ## @@ header_href
@@ -68,13 +42,13 @@ ui <- bs4Dash::dashboardPage(
       )
     ) ## close left UI
   ),
-  sidebar = dashboardSidebar(
+  sidebar = bs4Dash::dashboardSidebar(
     fixed = TRUE, ## @@side_bar_fixed
     skin = "light",
     status = "primary",
     id = "sidebar",
 
-    sidebarMenu(
+    bs4Dash::sidebarMenu(
       id = "current_tab",
       flat = FALSE,
       compact = FALSE,
@@ -82,34 +56,34 @@ ui <- bs4Dash::dashboardPage(
       sidebarHeader("Sample App"),
 
 # Whisker:  Menus
-        menuItem(
+        bs4Dash::menuItem(
           "Introduction" ,
           tabName = "intro_tab",
           icon = icon("university")
         ),
-        menuItem(
+        bs4Dash::menuItem(
           "Core Analysis" ,
           tabName = "core_tab",
           icon = icon("indent")
         ),
-        menuItem(
+        bs4Dash::menuItem(
           "Data Exploration" ,
           tabName = "explore_tab",
           icon = icon("chart-bar")
         ),
-        menuItem(
+        bs4Dash::menuItem(
           "Credits" ,
           tabName = "credits_tab",
           icon = icon("heart")
         )
           )
     ),  ## Close of sidebar
-  body = dashboardBody(
+  body = bs4Dash::dashboardBody(
     tabItems(
-      create_tab_module(tab_module = "intro_tab") ,
-      create_tab_module(tab_module = "core_tab") ,
-      create_tab_module(tab_module = "explore_tab") ,
-      create_tab_module(tab_module = "credits_tab")
+      create_tab_module(tab_module = "intro_tab" , registry , controller) ,
+      create_tab_module(tab_module = "core_tab" , registry , controller) ,
+      create_tab_module(tab_module = "explore_tab" , registry , controller) ,
+      create_tab_module(tab_module = "credits_tab" , registry , controller) 
       )
     ) # Close of tab items
 )
@@ -122,11 +96,8 @@ server <- function(input, output , session) {
   for(i in 1:length(mods)){
     id <- mods[i]
     p <- registry$params_for_mod(id)
-    index <- which(names(controller$params) == paste0(id , ".server_function"))
-  if(length(index) > 0 ){
-      server_function <- controller$params[index]
-      eval(parse(text= paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")))
-     }
+    server_function <- registry$mod_params[[id]]$server_function
+    eval(parse(text= paste0(server_function , "(id = '" , id , "' , control = controller , params = p)")))
   }
   }
 

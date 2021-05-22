@@ -1,47 +1,73 @@
-default:
-  sweetmod_version: 0.0.0.9000
+# bs4_standard_mst : Standard bs4_dash configuration.
+# Adjust as per your needs
+# Notes :
+#     1) this yml maps to template here https://github.com/shambhu112/shinyspring/blob/main/inst/bs4/bs4_standard.mst
+#     2) Advanced users  can modify template above and customize the template
+
+ default:
+## DO NOT Change the following
+  dashboard_template: bs4_dash
+  template_file: !expr system.file("bs4/bs4_standard.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+  code_gen_location: '.'
+  dummy_test.mod_name: dummy_mod
+  dummy_test.weird_param: dummy
+
+
+# Adjust as per your App but defaults work well.
+  sweetmod_config : config.yml
   preload_dataset: true
+  builtin_datasets: iris ; mtcars
+  source_file_onstartup: on_startup.R
 
-# datsets
-  ds.mexico.type: csv
-  ds.mexico.connection: CHART4_NM.csv
-  ds.mexico.subset: 100
-
-  ds.misssouri.type: csv
-  ds.misssouri.connection: CHART2_MO_COUNTIES.csv
- #ds.misssouri.pretty_name: c("XX", "YYY")
-
-  ds.lending_club.type: rds
-  ds.lending_club.connection: lending_club.rds
-
-  ds.lending_club_2.type: feather
-  ds.lending_club_2.connection: lending_club.feather
-
+# datsets : This is the approach to pre-load datasets
   ds.iris.type: built_in
   ds.iris.connection: iris
 
-  ds.mtcars.type: built_in
-  ds.mtcars.connection: mtcars
+  ds.air_quality.type: built_in
+  ds.air_quality.connection: airquality
 
-#Mods
-  core_mod.mod_name: dummy_mod
-  core_mod.package: sweetmods
-  core_mod.ui_function: dummy_mod_ui
-  core_mod.server_function: dummy_mod_server
-  core_mod.onload_function: dummy_mod_onLoad
-  core_mod.param1: param 1
-  core_mod.param2: param 2
+
+# Note you can preload files and targets also by adjusting the following commeted items
+
+# Dashboard UI information : You should customize
+  app_title: Sample App
+  footer_left: Built on Shiny Spring
+  footer_right: version 1.0  #app_name
+  sidebar_expand_onhover: FALSE
+  dark_theme: FALSE
+  header_href: https://www.shinyspring.dev
+  header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
+  header_fixed: 'TRUE'
+  title_color: primary
+  app_title_h3: BS4 Dash Minimalistic
+  side_bar_fixed: TRUE
+  side_bar_header: Sample App
+  header_opacity: 0.8
+
+# Authentication : Use Shinymanager based auth or not
+  basic_auth: FALSE
+
+# Menus : You should customize - documentation here $TODO link
+# Note: the ui_function and server_function are from sweetmods or your custom modules
+  menus: [
+    { title: Introduction , name: intro_tab , icon: university , comma: true },
+    { title: Core Analysis , name: core_tab , icon: indent , comma: true },
+    { title: Data Exploration , name: explore_tab , icon: chart-bar , comma: true },
+    { title: Credits , name: credits_tab , icon: heart , comma: false }
+  ]
+
+
+# Sweetmods configurations : : You should customize - documentation here $TODO
+  intro_tab.mod_name: rmd_mod
+  intro_tab.rmd_file: app_intro.Rmd
+  intro_tab.box_title: Welcome to Intro Mod
+
+  core_tab.mod_name: dummy_mod
 
   explore_tab.mod_name: esquisse_mod
-  explore_tab.param1: param 1
-  explore_tab.param2: param 2
 
-  intro_mod.mod_name: rmd_mod
-  intro_mod.knit: false
-  intro_mod.rmd_files: intro.rmd
-  intro_mod.box_title: Users Guid
+  credits_tab.mod_name: dummy_mod
 
-  bank_mod.ui_function: bank_mod_ui
-  bank_mod.server_function: bank_mod_server
-  bank_mod.onload_function: bank_mod_onload
+ dev:
+  code_gen_location: dev/play
 

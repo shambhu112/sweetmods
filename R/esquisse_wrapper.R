@@ -8,8 +8,8 @@
 #' @param  params the params from config file
 #' @export
 esquisse_wrapper_onLoad <- function(control , params){
-  require(esquisse)
-  require(shinyjs)
+#  require(esquisse)
+#  require(shinyjs)
 }
 
 #' esquisse_wrapper UI Function

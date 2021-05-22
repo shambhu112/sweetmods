@@ -20,6 +20,9 @@ file.edit('config.yml')
 ## Step 3 : Create app.R for your application
 params <- config::get(file = "config.yml") # load params
 shinyspring::create_shinyapp(params = params )
+shinyspring::test_config_file(params)
+
+
 
 ## Step 4 : Launch the App
 shiny::runApp()
@@ -39,6 +42,7 @@ file.edit("bs4_custom.mst")
 # Step Create a new shiny app with custom template
 params <- config::get(file = "config.yml") # load params
 shinyspring::create_shinyapp(params , target_file = "myapp.R" , template_file = "bs4_custom.mst")
+shinyspring::test_config_file(params)
 
 
 
