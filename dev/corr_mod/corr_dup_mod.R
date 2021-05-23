@@ -8,9 +8,11 @@
 #' @param params for the mod
 #' @export
 corr_mod_onLoad <- function(control , params){
-  library(gt)
-  library(SmartEDA)
-  library(tippy)
+  # library(gt)
+  #  library(SmartEDA)
+  #  library(tippy)
+  #  library(corrmorant)
+  #  library(corrr)
 }
 
 #' ui_function for corr_mod
@@ -76,15 +78,15 @@ corr_mod_ui <- function(id , control , params ){
         plotOutput(ns("corrr_matrix_plot"))
       ) ,
       tabPanel(
-        "Corrmant",
+        "Corrmorant",
         fluidRow(
           column(3 ,
                  bs4Dash::actionButton(inputId = ns("corrrmant_btn") , label = "Show Matrix" , status = "primary" ),
-                 blockQuote(HTML("Note : Corrmant Charts take some additional time to plot.  Please select <strong> less that 10 columns </strong> ") ,
-                            color = "warning") ,
-                 blockQuote(HTML('For more details on Corrmant chart <a href="https://github.com/r-link/corrmorant" target="_blank"
+                 bs4Dash::blockQuote(HTML("Note : corrmorant Charts take some additional time to plot.  Please select <strong> less that 10 columns </strong> ") ,
+                                     color = "warning") ,
+                 bs4Dash::blockQuote(HTML('For more details on corrmorant package <a href="https://github.com/r-link/corrmorant" target="_blank"
                                  rel="noopener noreferrer">Click Here</a> ') ,
-                            color = "info")
+                                     color = "info")
 
           ) ,
           column(9,
@@ -196,12 +198,9 @@ corr_mod_server <- function(id , control , params){
       cols <- which(sel)
       d <- control$dataset_by_name(selections()$ds_name , row_threshhold)
       d <- d[,cols]
-      d <- corrr::correlate(d[,cols])
+      d <- corrr::correlate(d)
       d <- corrr::rearrange(d)
       d <- corrr::shave(d)
-
-      print("in corr_dup")
-
 
       output$corrr_matrix_plot <- renderPlot({
         plot(corrr::rplot(d , legend = TRUE , shape = 16 ,print_cor = TRUE  ))
@@ -212,6 +211,7 @@ corr_mod_server <- function(id , control , params){
   })
 
 }
+
 
 gt_tbl <- function(data) {
   smd <- as.data.frame(SmartEDA::ExpData(data , type = 1))
@@ -244,4 +244,6 @@ create_pretty_checkbox <- function(id , dq , missing_threshhold = 0.0){
   }
   ui
 }
+
+
 

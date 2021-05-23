@@ -3,12 +3,13 @@
 ## app_type : minimal
 
 source("on_startup.R")
+library(shinyspring)
 
 
 params <- config::get(file = "config.yml") ## @@sweetmod_config
 controller <- app_master$new(params)
 controller$preload_master_with_config()
-registry <- sweetmods::mod_registry$new(params)
+registry <- shinyspring::mod_registry$new(params)
 
 
 # Note: This function is to be implemented by app developer in the file on_startup.R

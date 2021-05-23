@@ -13,7 +13,7 @@ library(sweetmods)
 
 library(bs4Dash)
 
-# ... add more dependencies that neede to be laoded on startup
+#TODO for developer ... add more dependencies that neede to be loaded on startup
 
 prep_on_start <- function(control , registry){
 
