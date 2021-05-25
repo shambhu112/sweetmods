@@ -1,0 +1,38 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# Sweet Modules for Shiny
+
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/sweetmods)](https://CRAN.R-project.org/package=sweetmods)
+<!-- badges: end -->
+
+<!-- description: start -->
+
+This is website for R package \[{sweetmods}\]
+(<https://github.com/shambhu112/sweetmods>).
+
+This documentation is for version 0.0.1.9000. <!-- description: end -->
+\#\# Installation
+
+You can install the released version of sweetmods from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("sweetmods")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("shambhu112/sweetmods")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:

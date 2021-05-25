@@ -43,12 +43,3 @@ devtools::install_github("shambhu112/sweetmods")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
-library(sweetmods)
-
-## Load config for sweetmods and the dependent modules
-params <- config::get("config.yml")
-master <- app_master$new(params)
-
-
-```
