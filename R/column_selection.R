@@ -9,8 +9,22 @@
 column_selection_mod_ui <- function(id, dataset_names) {
   ns <- NS(id)
   tagList(
-    selectizeInput(ns("dataset_selection"), "Select Dataset",  choices = dataset_names,
-                   multiple = FALSE, width = 400, options = NULL),
+    fluidRow( column(6 ,
+                     selectizeInput(ns("dataset_selection"), "Select Dataset",  choices = dataset_names,
+                                    multiple = FALSE, width = 400, options = NULL),
+                    ),
+              column(2 ,
+                     HTML("")),
+              column(4,
+                     HTML("<Strong> Column Names </strong>:"),
+                     shinyWidgets::switchInput(
+                       label = "pretty names",
+                       inputId = ns("col_names"),
+                       labelWidth = "150px"
+                     )
+                  )
+
+    ),
     uiOutput(ns("conditional_checkboxes"))
   )
 
@@ -22,6 +36,7 @@ column_selection_mod_ui <- function(id, dataset_names) {
 #' @description A shiny spring Module UI function
 #' @param id the id
 #' @param control the controller  \code{app_master}
+#' @param  dq_v data quality variables for each dataset
 #' @param params for the mod
 #' @import shiny
 #' @export
@@ -35,11 +50,22 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names , filte
       dq = as.data.frame(dq_v[1]),
       selections = list(ds_name = names[1], col_selections = list(rep(FALSE, nrow(dq_v[[1]]))))
     )
+
     observe({
       sel <- input$dataset_selection
+      cli::cli_alert_info("observer ds {sel}")
+
       data_r$name <- ifelse(is.null(sel), names[1], sel)
       data_r$ds <- control$dataset_by_name(data_r$name)
       data_r$dq <- dq_v[[data_r$name]]
+
+      # Pretty Names or not
+      if(input$col_names){
+        data_r$cnames <- control$prettynames_for_dataset(data_r$name)
+      }else{
+        data_r$cnames <- colnames(data_r$ds)
+      }
+
       cbox_states <- sapply(1:nrow(data_r$dq), function(i) {
         ids <- paste0(data_r$name, "_", i)
         #  cli::cli_alert_info("Selected {input[[ids]]}")
@@ -50,6 +76,7 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names , filte
 
     output$conditional_checkboxes <- renderUI({
       dq <- data_r$dq
+      dq$cnames <- data_r$cnames
 
       lapply(1:nrow(dq), function(i) {
         ids <- paste0(data_r$name, "_", i)
@@ -59,7 +86,7 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names , filte
         #  print(cb)
           cb
         } else{
-           cb <-  shiny::helpText(id = ids, dq$pretty_name[[i]] , value = "FALSE")
+           cb <-  shiny::helpText(id = ids, dq$cnames[[i]] , value = "FALSE")
         }
         cb
       })
@@ -69,7 +96,8 @@ column_selection_mod_server <- function(id, control, dq_v, dataset_names , filte
   })
 }
 
-create_pretty_checkbox <- function(id, dq, missing_threshhold = 0.0, ns) {
+
+create_pretty_checkbox <- function(id, dq,missing_threshhold = 0.0, ns) {
   x <- dq$Per_of_Missing
   missing <- dplyr::case_when(
     x > missing_threshhold ~ "high",
@@ -100,13 +128,13 @@ create_pretty_checkbox_with_tippy <- function(id, dq, missing_threshhold = 0.0, 
 
   if ("high" == missing) {
     ui <- tippy::with_tippy(
-      element = shinyWidgets::prettyCheckbox(inputId = ns(id), label = dq$pretty_name, value = FALSE, shape = "curve", status = "danger", inline = TRUE),
+      element = shinyWidgets::prettyCheckbox(inputId = ns(id), label = dq$cnames, value = FALSE, shape = "curve", status = "danger", inline = TRUE),
       tooltip = glue::glue("<strong> missing {x * 100}% </strong> of values"),
       allowHTML = TRUE
     )
   } else {
     ui <- tippy::with_tippy(
-      element = shinyWidgets::prettyCheckbox(inputId = ns(id), label = dq$pretty_name, value = TRUE, shape = "curve", status = "success", inline = TRUE),
+      element = shinyWidgets::prettyCheckbox(inputId = ns(id), label = dq$cnames, value = TRUE, shape = "curve", status = "success", inline = TRUE),
       tooltip = glue::glue("type: {dq$Variable_Type}"),
       allowHTML = TRUE
     )

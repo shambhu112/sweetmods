@@ -1,0 +1,81 @@
+# bs4_standard_mst : Standard bs4_dash configuration.
+# Adjust as per your needs
+# Notes :
+#     1) this yml maps to template here https://github.com/shambhu112/shinyspring/blob/main/inst/bs4/bs4_standard.mst
+#     2) Advanced users  can modify template above and customize the template
+
+ default:
+## DO NOT Change the following
+  dashboard_template: bs4_dash
+  template_file: !expr system.file("bs4/bs4_standard.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+  code_gen_location: '.'
+  dummy_test.mod_name: dummy_mod
+  dummy_test.weird_param: dummy
+
+
+# Adjust as per your App but defaults work well.
+  sweetmod_config : config.yml
+  preload_dataset: true
+  source_file_onstartup: on_startup.R
+
+# datsets : This is the approach to pre-load datasets
+  ds.iris.type: built_in
+  ds.iris.connection: iris
+  ds.iris.pretty_names: !expr c("Sepal Length" , "Sepal Width" , "Petal Length" , "Petal Width" , "Species")
+
+  ds.mtcars.type: built_in
+  ds.mtcars.connection: mtcars
+
+  ds.air_quality.type: built_in
+  ds.air_quality.connection: airquality
+
+# Dashboard UI information : You should customize
+  app_title: Sample App
+  footer_left: Built on Shiny Spring
+  footer_right: version 1.0  #app_name
+  sidebar_expand_onhover: FALSE
+  dark_theme: FALSE
+  header_href: https://www.shinyspring.dev
+  header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
+  header_fixed: 'TRUE'
+  title_color: primary
+  app_title_h3: BS4 Standard Dash
+  side_bar_fixed: TRUE
+  side_bar_header: Sample App
+  header_opacity: 0.8
+
+# Authentication : Use Shinymanager based auth or not
+  basic_auth: FALSE
+
+# Menus : You should customize - documentation here $TODO link
+# Note: the ui_function and server_function are from sweetmods or your custom modules
+  menus: [
+    { title: Selection , name: selector_tab , icon: university  },
+    { title: Core Analysis , name: core_tab , icon: indent  },
+    { title: Data Exploration ,  icon: chart-bar ,  parent_menu: true ,
+       sub_menu: [
+         {first:  true ,submenu_title: Visualize , submenu_name: explore_tab , submenu_icon: circle-thin } ,
+         {last_submenu:  true , submenu_title: Correlations , submenu_name: corr_tab , submenu_icon: cubes } ,
+       ]
+    },
+    { title: Credits , name: credits_tab , icon: heart , last_menu: true }
+  ]
+
+
+# Sweetmods configurations : : You should customize - documentation here $TODO
+  selector_tab.mod_name: selector_mod
+  selector_tab.ui_function: selector_mod_ui
+  selector_tab.server_function: selector_mod_server
+  selector_tab.onload_function: selector_mod_onLoad
+
+  core_tab.mod_name: dummy_mod
+
+  explore_tab.mod_name: esquisse_mod
+
+  corr_tab.mod_name: corr_mod
+
+  credits_tab.mod_name: dummy_mod
+
+ dev:
+  code_gen_location: dev/play
+

@@ -17,6 +17,8 @@ column_selection_mod_server(
 
 \item{control}{the controller  \code{app_master}}
 
+\item{dq_v}{data quality variables for each dataset}
+
 \item{params}{for the mod}
 }
 \description{
