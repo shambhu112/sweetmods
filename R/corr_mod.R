@@ -38,8 +38,8 @@ corr_mod_ui <- function(id , control , params ){
       id = "selection_box",
       fluidRow(
         column(4 ,
-               bs4Dash::blockQuote(HTML("<strong> Select Columns </strong> that you want to include in your corelation analysis.Columns with Numerics are used for Corelation analysis.
-               Hence showing only numerics. selection you can then created the <strong> Network Graph</strong> or the <strong> Corelation Matrix </strong> in tabs below") ,
+               bs4Dash::blockQuote(HTML("<strong> Select Columns </strong> that you want to include in your corelation analysis.Columns with Numericals are used for Corelation analysis.
+               Hence showing only numeric selections.") ,
                                    color = "teal")
         ),
         column(8 ,

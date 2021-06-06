@@ -1,22 +1,21 @@
-# bs4_minimal_mst : Minimalistic bs4_dash configuration.
+# bs4_standard_mst : Standard bs4_dash configuration.
 # Adjust as per your needs
 # Notes :
-#     1) this yml maps to template here https://github.com/shambhu112/shinyspring/blob/main/inst/bs4/bs4_minimal.mst
-#     2) For advanced users you cna modify template above use it to create your shiny app
+#     1) this yml maps to template here https://github.com/shambhu112/shinyspring/blob/main/inst/bs4/bs4_standard.mst
+#     2) Advanced users  can modify template above and customize the template
 
  default:
 ## DO NOT Change the following
   dashboard_template: bs4_dash
-  template_file: !expr system.file("bs4/bs4_minimal.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+  template_file: !expr system.file("bs4/bs4_standard.mst" , package = "shinyspring")  # Note: Advanced users can define new template
+  code_gen_location: '.'
   dummy_test.mod_name: dummy_mod
   dummy_test.weird_param: dummy
 
 
 # Adjust as per your App but defaults work well.
   sweetmod_config : config.yml
-  code_gen_location: '.'
   preload_dataset: true
-  builtin_datasets: iris ; mtcars
   source_file_onstartup: on_startup.R
 
 # datsets : This is the approach to pre-load datasets
@@ -29,9 +28,6 @@
   ds.air_quality.type: built_in
   ds.air_quality.connection: airquality
 
-
-# Note you can preload files and targets also by adjusting the following commeted items
-
 # Dashboard UI information : You should customize
   app_title: Sample App
   footer_left: Built on Shiny Spring
@@ -42,7 +38,7 @@
   header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
   header_fixed: 'TRUE'
   title_color: primary
-  app_title_h3: BS4 Dash Minimalistic
+  app_title_h3: BS4 Standard Dash
   side_bar_fixed: TRUE
   side_bar_header: Sample App
   header_opacity: 0.8
@@ -53,10 +49,15 @@
 # Menus : You should customize - documentation here $TODO link
 # Note: the ui_function and server_function are from sweetmods or your custom modules
   menus: [
-    { title: Introduction , name: intro_tab , icon: university , comma: true },
-    { title: Core Analysis , name: core_tab , icon: indent , comma: true },
-    { title: Data Exploration , name: explore_tab , icon: chart-bar , comma: true },
-    { title: Credits , name: credits_tab , icon: heart , comma: false }
+    { title: Introduction , name: intro_tab , icon: university  },
+    { title: Core Analysis , name: core_tab , icon: indent  },
+    { title: Data Exploration ,  icon: chart-bar ,  parent_menu: true ,
+       sub_menu: [
+         {first:  true ,submenu_title: Visualize , submenu_name: explore_tab , submenu_icon: circle-thin } ,
+         {last_submenu:  true , submenu_title: Correlations , submenu_name: corr_tab , submenu_icon: cubes } ,
+       ]
+    },
+    { title: Credits , name: credits_tab , icon: heart , last_menu: true }
   ]
 
 
@@ -67,6 +68,8 @@
   core_tab.mod_name: dummy_mod
 
   explore_tab.mod_name: esquisse_mod
+
+  corr_tab.mod_name: corr_mod
 
   credits_tab.mod_name: dummy_mod
 

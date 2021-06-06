@@ -22,6 +22,7 @@
 # datsets : This is the approach to pre-load datasets
   ds.iris.type: built_in
   ds.iris.connection: iris
+  ds.iris.pretty_names: !expr c("Sepal Length(cm)" , "Sepal width(cm)" , "Petal Length" , "Petal Width" , "Species Name")
 
   ds.mtcars.type: built_in
   ds.mtcars.connection: mtcars
