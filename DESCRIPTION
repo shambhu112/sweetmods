@@ -18,7 +18,8 @@ Imports:
     snakecase,
     readr ,
     shinyjs ,
-    shinyspring
+    shinyspring ,
+    gt
 Suggests: 
     testthat (>= 3.0.0),
     utils ,
