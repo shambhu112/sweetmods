@@ -1,3 +1,26 @@
+  app_title: RMD Mod
+  footer_left: Built on Shiny Spring
+  footer_right: version 1.0  #app_name
+  sidebar_expand_onhover: FALSE
+  dark_theme: FALSE
+  header_href: https://www.shinyspring.dev
+  header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
+  header_fixed: 'TRUE'
+  title_color: primary
+  app_title_h3: RMD mod test
+  side_bar_fixed: TRUE
+  side_bar_header: Sample App
+  header_opacity: 0.8
+
+
+menus: [
+    { title: Introduction , name: intro_mod , icon: university , comma: true },
+    { title: Core Analysis , name: core_mod , icon: indent , comma: true },
+    { title: Data Exploration , name: esquiee_mod , icon: chart-bar , comma: true },
+    { title: Credits , name: credits_mod , icon: heart , comma: false }
+  ]
+
+
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
   intro_mod.mod_name: rmd_mod

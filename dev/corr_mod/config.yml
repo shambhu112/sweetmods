@@ -16,13 +16,11 @@
 # Adjust as per your App but defaults work well.
   sweetmod_config : config.yml
   preload_dataset: true
-  builtin_datasets: iris ; mtcars
   source_file_onstartup: on_startup.R
 
 # datsets : This is the approach to pre-load datasets
   ds.iris.type: built_in
   ds.iris.connection: iris
-  ds.iris.pretty_names: !expr c("Sepal Length(cm)" , "Sepal width(cm)" , "Petal Length" , "Petal Width" , "Species Name")
 
   ds.mtcars.type: built_in
   ds.mtcars.connection: mtcars
@@ -31,19 +29,26 @@
   ds.air_quality.connection: airquality
 
 
-# Note you can preload files and targets also by adjusting the following commeted items
+  ds.bankruptcy.type: rds
+  ds.bankruptcy.connection: D:\datasets\bankruptcy\bankruptcy_data.rds
+  ds.bankruptcy.pretty_names: !expr as.character(readr::read_csv("pnames.csv")$pname)
+
+  ds.bankruptcy_dd.type: rds
+  ds.bankruptcy_dd.connection: D:\datasets\bankruptcy\data_dictionary_raw_tbl.rds
+
 
 # Dashboard UI information : You should customize
-  app_title: Corelation Mod
+  app_title: Sample App
   footer_left: Built on Shiny Spring
-  footer_right: version 1.0  #app_name
+  footer_left_url: http://www.shinyspring.dev
+  footer_right: 2021
   sidebar_expand_onhover: FALSE
   dark_theme: FALSE
   header_href: https://www.shinyspring.dev
   header_image: https://storage.googleapis.com/shiny-pics/spring_logo.png
   header_fixed: 'TRUE'
   title_color: primary
-  app_title_h3: Corelation Analysis
+  app_title_h3: BS4 Standard Dash
   side_bar_fixed: TRUE
   side_bar_header: Sample App
   header_opacity: 0.8
@@ -54,23 +59,29 @@
 # Menus : You should customize - documentation here $TODO link
 # Note: the ui_function and server_function are from sweetmods or your custom modules
   menus: [
-    { title: Corelation Analysis , name: corr_tab , icon: indent , comma: true },
-    { title: Data Exploration , name: explore_tab , icon: chart-bar , comma: true },
-    { title: Credits , name: credits_tab , icon: heart , comma: false }
+    { title: Introduction , name: intro_tab , icon: university  },
+    { title: Core Analysis , name: core_tab , icon: indent  },
+    { title: Data Exploration ,  icon: chart-bar ,  parent_menu: true ,
+       sub_menu: [
+         {first:  true ,submenu_title: Visualize , submenu_name: explore_tab , submenu_icon: circle-thin } ,
+         {last_submenu:  true , submenu_title: Correlations , submenu_name: corr_tab , submenu_icon: cubes } ,
+       ]
+    },
+    { title: Credits , name: credits_tab , icon: heart , last_menu: true }
   ]
 
 
 # Sweetmods configurations : : You should customize - documentation here $TODO
-  corr_tab.mod_name: corr_dup_mod
-  corr_tab.ui_function: corr_mod_ui
-  corr_tab.server_function: corr_mod_server
-  corr_tab.onload_function: corr_mod_onLoad
-  corr_tab.max_rows: 10000
+  intro_tab.mod_name: dummy_mod
+  intro_tab.message: This is a Dummy Mod replace this with your custom mod
+
+  core_tab.mod_name: dummy_mod
 
   explore_tab.mod_name: esquisse_mod
 
-  credits_tab.mod_name: dummy_mod
+  corr_tab.mod_name: corr_mod
 
+  credits_tab.mod_name: dummy_mod
 
  dev:
   code_gen_location: dev/play

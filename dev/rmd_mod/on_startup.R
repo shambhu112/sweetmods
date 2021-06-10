@@ -2,14 +2,16 @@
 ## This file is sourced from the shinyapp file (eg: app.R) at startup time.
 ## The developers  needs to update this file for his/her application needs
 
-## Typically you should load all dependent libraries and implement prep_on_start
+## You need to do the following
+## 1. Load all dependent libraries
+## 2. Implement prep_on_start
+## 3. source any other .R files that are needed for your app. Eg: you custom modules.
 
 library(shiny)
 library(thematic)
 library(waiter)
 library(stringr)
 library(dplyr)
-library(sweetmods)
 library(shinyspring)
 
 library(bs4Dash)

@@ -1,12 +1,17 @@
 ## This Shiny App created with Shinyspring - http://www.shinyspring.dev
 ## template : bs4Dash
-## app_type : minimal
+## app_type : standard
 
-source("on_startup.R")
+## Note: Best practice is to never edit this file and always use shinyspring::create_shinyapp in userscript.R to create this file
+## userscript describes and approach to change the template also
+
 library(shinyspring)
 
+source("on_startup.R")
+## Please edit on_startup.R for your app specific loadings and adjustments
 
-params <- config::get(file = "config.yml") ## @@sweetmod_config
+
+params <- config::get(file = "config.yml")
 controller <- app_master$new(params)
 controller$preload_master_with_config()
 registry <- shinyspring::mod_registry$new(params)
@@ -18,17 +23,19 @@ prep_on_start(controller , registry)
 # call on_load function on all modules
 on_load_for_mods(controller , registry)
 
+thematic_shiny()
+
 
 ## Define UI
 ui <- bs4Dash::dashboardPage(
-
+  preloader = list(html = tagList(spin_1(), "Loading ..."), color = "#343a40"),
   dark = FALSE , ## FALSE,
   help = FALSE,
   fullscreen = TRUE,
   scrollToTop = TRUE,
   header = bs4Dash::dashboardHeader(
     title = bs4Dash::dashboardBrand(
-      title = "Corelation Mod",
+      title = "Sample App",
       color = "primary", ## @@title_color
       href = "https://www.shinyspring.dev", ## @@ header_href
       image = "https://storage.googleapis.com/shiny-pics/spring_logo.png", ## @@header_image
@@ -38,7 +45,7 @@ ui <- bs4Dash::dashboardPage(
     leftUi = tagList(
       ## Title Text here
       tags$li(class = "dropdown",
-              tags$h3("Corelation Analysis") ## @@app_title_h3
+              tags$h3("BS4 Standard Dash") ## @@app_title_h3
       )
     ) ## close left UI
   ),
@@ -57,27 +64,54 @@ ui <- bs4Dash::dashboardPage(
 
 # Whisker:  Menus
         bs4Dash::menuItem(
-          "Corelation Analysis" ,
-          tabName = "corr_tab",
+          "Introduction" ,
+           tabName = "intro_tab" , 
+          icon = icon("university")
+        ),
+        bs4Dash::menuItem(
+          "Core Analysis" ,
+           tabName = "core_tab" , 
           icon = icon("indent")
         ),
         bs4Dash::menuItem(
           "Data Exploration" ,
-          tabName = "explore_tab",
+          
           icon = icon("chart-bar")
+              , 
+            bs4Dash::menuSubItem(
+               text = "Visualize" ,
+               tabName = "explore_tab" ,
+               icon = icon("circle-thin")
+             )  , 
+             
+            bs4Dash::menuSubItem(
+               text = "Correlations" ,
+               tabName = "corr_tab" ,
+               icon = icon("cubes")
+             ) 
         ),
         bs4Dash::menuItem(
           "Credits" ,
-          tabName = "credits_tab",
+           tabName = "credits_tab" , 
           icon = icon("heart")
         )
           )
     ),  ## Close of sidebar
+    footer = dashboardFooter(
+    fixed = FALSE,
+    left = a(
+        href = "http://www.shinyspring.dev",
+        target = "_blank", "Built on Shiny Spring"
+      ),
+      right = "2021"
+    ),
   body = bs4Dash::dashboardBody(
     tabItems(
-      create_tab_module(tab_module = "corr_tab" , registry , controller) ,
-      create_tab_module(tab_module = "explore_tab" , registry , controller) ,
-      create_tab_module(tab_module = "credits_tab" , registry , controller) 
+          create_tab_module(tab_module = "intro_tab" , registry , controller) ,
+          create_tab_module(tab_module = "core_tab" , registry , controller) ,
+          create_tab_module(tab_module = "explore_tab" , registry , controller) ,
+          create_tab_module(tab_module = "corr_tab" , registry , controller) ,
+          create_tab_module(tab_module = "credits_tab" , registry , controller) 
       )
     ) # Close of tab items
 )

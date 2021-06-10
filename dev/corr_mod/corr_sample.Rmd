@@ -1,0 +1,87 @@
+---
+title: "cormorant_Sample"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r smaple}
+
+library(shinyspring)
+
+source("on_startup.R")
+## Please edit on_startup.R for your app specific loadings and adjustments
+
+
+params <- config::get(file = "config.yml")
+controller <- app_master$new(params)
+controller$preload_master_with_config()
+registry <- shinyspring::mod_registry$new(params)
+
+
+# Note: This function is to be implemented by app developer in the file on_startup.R
+prep_on_start(controller , registry)
+
+# call on_load function on all modules
+on_load_for_mods(controller , registry)
+
+```
+
+## Corr Plots
+
+```{r pressure, echo=FALSE}
+
+
+b <- controller$dataset_by_name("bankruptcy")
+
+   dataset <- select(b , -class)
+   pd <-  corrr::correlate(dataset ,use = "pairwise.complete.obs")
+   
+   pd[is.na(pd)] <- 0
+   
+   pd <- select(pd , - term)
+   length(pd)
+   
+   mn <- apply(pd, 1, FUN=min)
+   mx <- apply(pd, 1, FUN=max)
+
+   hist(mx)
+   hist(mn)
+   
+   
+   b1 <-b
+   threshhold <- 0.7
+   
+      threshhold <- threshhold +.1
+      min_th_index <- which(mn > (-1 * threshhold))
+      max_th_index <- which(mx < threshhold)
+      discard_cols <- intersect(min_th_index , max_th_index)
+      dcos <- colnames(pd)[discard_cols]
+      b1 <- select(b , -dcos)   
+
+   
+   discard_cols <- intersect(min_th_index , max_th_index)
+   
+   dcos <- colnames(pd)[discard_cols]
+
+   b1 <- select(b , -dcos)   
+
+    bb <- b1[complete.cases(b1),]
+      
+  p <- corrmorant::ggcorrm(bb , rescale = "by_sd") +
+          corrmorant::utri_heatmap(alpha = 0.5) +
+          corrmorant::lotri_heatcircle(alpha = 0.5, col = 1) +
+          corrmorant::utri_corrtext() +
+          corrmorant::dia_names(y_pos = 0.15, size = 3) +
+          corrmorant::dia_density(lower = 0.3, fill = "lightgrey", color = 1) +
+          corrmorant::scale_fill_corr()
+        p
+  
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
